@@ -4,12 +4,14 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
     private Rigidbody rigidBody;
+	Animator anim;
     public float turnSmoothing;                     // A smoothing value for turning the player.
     public float speedDampTime;                     // The damping for the speed parameter.
     private float moveHorizontal, moveVertical;
 
     void Start()
     {
+		anim = GetComponent <Animator> ();
         rigidBody = GetComponent<Rigidbody>();
     }
 
@@ -19,6 +21,8 @@ public class PlayerMovement : MonoBehaviour {
         moveVertical = Input.GetAxis("Vertical");       // Gets the vertical axis
 
         MovementManagement(moveHorizontal, moveVertical);
+		Animating (moveHorizontal, moveVertical);
+
     }
 
     void MovementManagement(float horizontal, float vertical)
@@ -45,5 +49,11 @@ public class PlayerMovement : MonoBehaviour {
         // Change the players rotation to this new rotation.
         rigidBody.MoveRotation(newRotation);
     }
+
+	void Animating(float horizontal, float vertical)
+	{
+		bool walking = horizontal != 0f || vertical != 0f;
+		anim.SetBool ("IsWalking", walking);
+	}
 
 }
