@@ -95,7 +95,7 @@ public class PlayerManager : MonoBehaviour {
 
 		currentHealth = maxHealth;
 
-		state == PlayerStates.AWAKE
+		state == PlayerStates.AWAKE;
 	}
 
 	public void setActive()
