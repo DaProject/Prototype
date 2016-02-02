@@ -5,8 +5,8 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
 	// States of the player
-	[Header("STATES")]
 	public enum PlayerStates {AWAKE, ACTIVE, DAMAGED, DEAD, VICTORY}
+	[Header("STATES")]
 	public PlayerStates state;
 
 	// Health
@@ -36,6 +36,8 @@ public class PlayerManager : MonoBehaviour {
 		damageImage.enabled = false;
 
 		setAwake ();
+
+		currentHealth = maxHealth;
 	
 	}
 	
@@ -87,15 +89,20 @@ public class PlayerManager : MonoBehaviour {
 
 	}
 
+	private void VictoryBehaviour()
+	{
+
+	}
+
 	// Sets
 	public void setAwake()
 	{
 		// Activation of the controls of the player
-		ActivationControlPlayer ();
+		ActivateControlPlayer ();
 
 		currentHealth = maxHealth;
 
-		state == PlayerStates.AWAKE
+		state = PlayerStates.AWAKE;
 	}
 
 	public void setActive()
@@ -103,14 +110,16 @@ public class PlayerManager : MonoBehaviour {
 		state = PlayerStates.ACTIVE;
 	}
 
-	public void setDamaged(float damage)
+	public void setDamaged(int damage)
 	{
 		//Activation of the damage image
 		damageImage.enabled = true;
 
 		temp = tempDamage;
 
-		if (healthSlider <= 0) setDead ();
+		currentHealth -= damage;
+
+		if (healthSlider.value <= 0) setDead ();
 		else state = PlayerStates.DAMAGED;
 	}
 
@@ -135,8 +144,13 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	// Activation of the control's player
-	public void ActivationControlPlayer()
+	public void ActivateControlPlayer()
 	{
+		playerController.enabled = true;
+	}
 
+	public void DeactivateControlPlayer()
+	{
+		playerController.enabled = false;
 	}
 }
