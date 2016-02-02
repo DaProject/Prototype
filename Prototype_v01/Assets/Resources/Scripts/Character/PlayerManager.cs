@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -95,7 +96,7 @@ public class PlayerManager : MonoBehaviour {
 
 		currentHealth = maxHealth;
 
-		state == PlayerStates.AWAKE;
+		state = PlayerStates.AWAKE;
 	}
 
 	public void setActive()
@@ -140,3 +141,4 @@ public class PlayerManager : MonoBehaviour {
 
 	}
 }
+*/
