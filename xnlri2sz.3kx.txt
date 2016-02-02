@@ -1,0 +1,201 @@
+﻿Merge branch 'master' of https://github.com/DaProject/Prototype
+
+# Conflicts:
+#	Prototype_v01/Assets/Scenes/Animation_Attack.unity
+#	Prototype_v01/ProjectSettings/TagManager.asset
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 2 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   New Unity Project/Assets/_vertexPainter.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Editor.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Editor/ShowColliderAlert.cs
+#	new file:   New Unity Project/Assets/_vertexPainter/Editor/ShowColliderAlert.cs.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Editor/VertexPainter2.cs
+#	new file:   New Unity Project/Assets/_vertexPainter/Editor/VertexPainter2.cs.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/README.txt
+#	new file:   New Unity Project/Assets/_vertexPainter/README.txt.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/VertexColorsOnly_3.0.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/VertexColorsOnly_3.0.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormalSpec_2tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormalSpec_2tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormalSpec_3tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormalSpec_3tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormalSpec_4tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormalSpec_4tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormal_2tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormal_2tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormal_3tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormal_3tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormal_4tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_DiffuseNormal_4tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_2tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_2tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_3tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_3tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_4tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_4tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_unLit_2tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_unLit_2tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_unLit_3tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_unLit_3tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_unLit_4tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_Diffuse_unLit_4tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormalSpec_2tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormalSpec_2tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormalSpec_3tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormalSpec_3tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormalSpec_4tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormalSpec_4tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormal_2tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormal_2tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormal_3tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormal_3tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormal_4tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_DiffuseNormal_4tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_Diffuse_2tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_Diffuse_2tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_Diffuse_3tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_Diffuse_3tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_Diffuse_4tex.shader
+#	new file:   New Unity Project/Assets/_vertexPainter/Shaders/vB_map_Diffuse_4tex.shader.meta
+#	new file:   New Unity Project/Assets/_vertexPainter/VertexPainter2_Guide.pdf
+#	new file:   New Unity Project/Assets/_vertexPainter/VertexPainter2_Guide.pdf.meta
+#	new file:   New Unity Project/ProjectSettings/AudioManager.asset
+#	new file:   New Unity Project/ProjectSettings/ClusterInputManager.asset
+#	new file:   New Unity Project/ProjectSettings/DynamicsManager.asset
+#	new file:   New Unity Project/ProjectSettings/EditorBuildSettings.asset
+#	new file:   New Unity Project/ProjectSettings/EditorSettings.asset
+#	new file:   New Unity Project/ProjectSettings/GraphicsSettings.asset
+#	new file:   New Unity Project/ProjectSettings/InputManager.asset
+#	new file:   New Unity Project/ProjectSettings/NavMeshAreas.asset
+#	new file:   New Unity Project/ProjectSettings/NetworkManager.asset
+#	new file:   New Unity Project/ProjectSettings/Physics2DSettings.asset
+#	new file:   New Unity Project/ProjectSettings/ProjectSettings.asset
+#	new file:   New Unity Project/ProjectSettings/ProjectVersion.txt
+#	new file:   New Unity Project/ProjectSettings/QualitySettings.asset
+#	new file:   New Unity Project/ProjectSettings/TagManager.asset
+#	new file:   New Unity Project/ProjectSettings/TimeManager.asset
+#	new file:   New Unity Project/ProjectSettings/UnityAdsSettings.asset
+#	new file:   New Unity Project/ProjectSettings/UnityConnectSettings.asset
+#	new file:   Prototype_v01/Assets/Environment.meta
+#	new file:   Prototype_v01/Assets/Environment/Environment.prefab
+#	new file:   Prototype_v01/Assets/Environment/Environment.prefab.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Props.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Props/M_SatelliteDish_ConceptX.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Props/M_SatelliteDish_ConceptX.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Props/T_SatCom1_D.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Props/T_SatCom1_D.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock1.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock1.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock2.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock2.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock3.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock3.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock4.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock4.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock5.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock5.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock6.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/Rocks/Rock6.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/sand_texture.mat
+#	new file:   Prototype_v01/Assets/Resources/Materials/Environment/sand_texture.mat.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Props.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Props/S_SatelliteDish_ConceptX.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Props/S_SatelliteDish_ConceptX.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1A.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1A.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1B.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1B.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1C.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1C.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1D.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1D.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1E.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock1E.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock2.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock2.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock3.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock3.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock4A.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock4A.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock4B.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock4B.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock5A.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock5A.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock5B.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock5B.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock6A.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock6A.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock6B.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock6B.fbx.meta
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock6C.fbx
+#	new file:   Prototype_v01/Assets/Resources/Models/Environment/Rocks/Rock6C.fbx.meta
+#	modified:   Prototype_v01/Assets/Resources/Scripts/Character/PlayerManager.cs
+#	new file:   Prototype_v01/Assets/Resources/Shaders.meta
+#	new file:   Prototype_v01/Assets/Resources/Shaders/Blend SM2.shader
+#	new file:   Prototype_v01/Assets/Resources/Shaders/Blend SM2.shader.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/NormalMap.png
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/NormalMap.png.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Props.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Props/T_SatelliteDish_ConceptX_D.tga
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Props/T_SatelliteDish_ConceptX_D.tga.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Props/T_SatelliteDish_ConceptX_N.tga
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Props/T_SatelliteDish_ConceptX_N.tga.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock1_nmp.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock1_nmp.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock1_sand.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock1_sand.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock2_nmp.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock2_nmp.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock2_sand.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock2_sand.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock3_nmp.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock3_nmp.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock3_sand.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock3_sand.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock4_nmp.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock4_nmp.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock4_sand.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock4_sand.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock5_nmp.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock5_nmp.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock5_sand.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock5_sand.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock6_nmp.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock6_nmp.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock6_sand.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rock6_sand.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rockdetail2.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rockdetail2.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rockdetail2_nmp.tif
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/Rocks/Rockdetail2_nmp.tif.meta
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/sand_texture.png
+#	new file:   Prototype_v01/Assets/Resources/Textures/Environment/sand_texture.png.meta
+#	modified:   Prototype_v01/Assets/Scenes/Animation_Attack.unity
+#	modified:   Prototype_v01/ProjectSettings/ProjectSettings.asset
+#	modified:   Prototype_v01/ProjectSettings/ProjectVersion.txt
+#	modified:   Prototype_v01/ProjectSettings/TagManager.asset
+#	deleted:    Prototype_v01/ProjectSettings/UnityAnalyticsManager.asset
+#
+
