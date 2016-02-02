@@ -3,14 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-<<<<<<< HEAD
-  - EnemyPumpkin
-  - RightHandAttack1
-=======
-  - Enemy
-  - Environment
->>>>>>> 9e4409c0ddb7a79e90180e695bf77ee71fca03dc
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -20,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - Player
-  - Enemy
-  - Camera
-  - Ground
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
