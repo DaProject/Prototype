@@ -5,14 +5,19 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
 	// States of the player
-	public enum PlayerStates {AWAKE, ACTIVE, DAMAGED, DEAD, VICTORY}
-	[Header("STATES")]
+	public enum PlayerStates {AWAKE, IDLE, DAMAGED, DEAD, VICTORY}
+	[Header("States")]
 	public PlayerStates state;
 
 	// Health
 	[Header("Health")]
 	public int maxHealth;
 	public int currentHealth;
+
+    //Sounds
+    [Header("Sounds")]
+    AudioSource playerAudio;
+    public AudioClip hurtClip;
 
 	// UI Player
 	[Header("UI")]
@@ -24,22 +29,23 @@ public class PlayerManager : MonoBehaviour {
 	public float temp;
 	public float tempDamage;
 
-	// Control player
-	private PlayerController playerController;
+    // Control player
+    [Header("Control")]
+    private PlayerController playerController;
+    private Rigidbody rigidBody;
 
 	// Use this for initialization
 	void Start () {
 
-		playerController = GetComponent<PlayerController> ();
+        playerController = GetComponent<PlayerController>();    // Gets the PlayerController script from the GameObject
+        rigidBody = GetComponent<Rigidbody>();                  // Gets the RigidBody from the GameObject
 
-		// Deactivation of the image of damage
-		damageImage.enabled = false;
+        currentHealth = maxHealth;
 
-		setAwake ();
+		setAwake ();                                            // Call the setAwake function
 
-		currentHealth = maxHealth;
-	
-	}
+        flashColor = new Color(1f, 0f, 0f, 0.1f);               // Sets the color values for the damageImage
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -48,8 +54,8 @@ public class PlayerManager : MonoBehaviour {
 			case PlayerStates.AWAKE:
 				AwakeBehaviour();
 				break;
-			case PlayerStates.ACTIVE:
-				ActiveBehaviour();
+			case PlayerStates.IDLE:
+				IdleBehaviour();
 				break;
 			case PlayerStates.DAMAGED:
 				DamagedBehaviour();
@@ -66,23 +72,19 @@ public class PlayerManager : MonoBehaviour {
 	// Behaviours
 	private void AwakeBehaviour()
 	{
-		// Initialization
-		setActive ();
+		setIdle ();     // Initalization
 	}
-	private void ActiveBehaviour()
-	{
-		
+	private void IdleBehaviour()
+    {
+
 	}
 	private void DamagedBehaviour()
 	{
-		
-		// TEMPORIZADOR HACIA ATRAS
-		temp -= Time.deltaTime;
-		
-		if (temp <= 0) {
-			setActive();
-		}
-		
+		temp -= Time.deltaTime;                                                                             // Backwards counter
+
+        damageImage.color = Color.Lerp(damageImage.color, Color.clear, tempDamage * Time.deltaTime);        // Sets the difumination for the damageImage
+
+        if (temp <= 0) setIdle();                                                                           // If the player has not been attacked for a while, goes back to setIdle function
 	}
 	private void DeadBehaviour()
 	{
@@ -97,60 +99,59 @@ public class PlayerManager : MonoBehaviour {
 	// Sets
 	public void setAwake()
 	{
-		// Activation of the controls of the player
-		ActivateControlPlayer ();
+        ActivationControlPlayer();      // Calls the ActivationControlPlayer function
 
 		currentHealth = maxHealth;
 
-		state = PlayerStates.AWAKE;
+		state = PlayerStates.AWAKE;     // Cals the AWAKE state
 	}
 
-	public void setActive()
-	{
-		state = PlayerStates.ACTIVE;
+	public void setIdle()
+    {
+        damageImage.enabled = false;    // Deactivation of the damageImage
+        state = PlayerStates.IDLE;      // Calls the IDLE state
 	}
 
 	public void setDamaged(int damage)
 	{
-		//Activation of the damage image
-		damageImage.enabled = true;
+        damageImage.enabled = true;             // Activation of the damage image
+        damageImage.color = flashColor;         // Sets the color for the damageImage
 
 		temp = tempDamage;
 
-		currentHealth -= damage;
+		currentHealth -= damage;                // Applies the damage recieved
 
-		if (healthSlider.value <= 0) setDead ();
-		else state = PlayerStates.DAMAGED;
+        playerAudio.Play();
+
+        healthSlider.value = currentHealth;     // Sets the value of the slider from the currentHealth of the player
+
+		if (currentHealth <= 0) setDead ();     // Calls the setDead function if the player has died
+		else state = PlayerStates.DAMAGED;      // If the player is still alive, calls the DAMAGED state
 	}
 
 	public void setDead()
 	{
-		// Deactivation of the control's player
-		DeactivateControlPlayer ();
+        DeactivationControlPlayer();            // Deactivate the controls of the plauer
+		currentHealth = 0;                      // Sets the health to 0
 
-		currentHealth = 0;
-
-		state = PlayerStates.DEAD;
+		state = PlayerStates.DEAD;              // Calls the DEAD state
 	}
 
 	public void setVictory()
 	{
-		//Deactivation of the control's player
-		DeactivateControlPlayer();
-
 		currentHealth = 0;
 
-		state = PlayerStates.VICTORY;
+		state = PlayerStates.VICTORY;           // Calls the VICTORY state
 	}
 
-	// Activation of the control's player
-	public void ActivateControlPlayer()
-	{
-		playerController.enabled = true;
-	}
+    public void ActivationControlPlayer()
+    {
+        playerController.enabled = true;        // Activate the playerController script, so the player can move
+    }
 
-	public void DeactivateControlPlayer()
-	{
-		playerController.enabled = false;
-	}
+    public void DeactivationControlPlayer()
+    {
+        rigidBody.isKinematic = true;           // Sets the rigidbody of the player to kinematic mode, no longer recieves forces
+        playerController.enabled = false;       // Deactivate the playerController script, so the player can not move
+    }
 }

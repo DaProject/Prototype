@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigidBody;
-    private float moveHorizontal, moveVertical;
+    public float moveHorizontal, moveVertical;
     private Vector3 movement;
     public float speed;
 
