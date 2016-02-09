@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Animating(float horizontal, float vertical)
 	{
+        // TODO: not working properly: animation not reactivating after deactivating the playerController
 		bool walking = horizontal != 0f || vertical != 0f;
 		anim.SetBool ("IsWalking", walking);
 	}
