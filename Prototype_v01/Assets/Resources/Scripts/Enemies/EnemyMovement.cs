@@ -25,7 +25,7 @@ public class EnemyMovement : MonoBehaviour {
 
 		//if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
 		//{
-			nav.SetDestination (player.position); //Enemy goes towwards player
+			//nav.SetDestination (player.position); //Enemy goes towwards player
 		//}
 		//else
 		//{

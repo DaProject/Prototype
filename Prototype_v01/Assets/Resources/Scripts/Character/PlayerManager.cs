@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
 	// States of the player
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, DAMAGED, DEAD, VICTORY}
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, DASH, DAMAGED, DEAD, VICTORY}
 	[Header("States")]
 	public PlayerStates state;
 
@@ -19,10 +19,14 @@ public class PlayerManager : MonoBehaviour {
     public int damageDealt;
     public float attackStateCounter;
 
+    // Dash
+    [Header("Dash")]
+    public float speedDash;
+
     //Sounds
     [Header("Sounds")]
-    AudioSource playerAudio;
     public AudioClip hurtClip;
+    AudioSource playerAudio;
 
 	// UI Player
 	[Header("UI")]
@@ -33,6 +37,7 @@ public class PlayerManager : MonoBehaviour {
 	// Timers
 	public float temp;
 	public float tempDamage;
+    public float tempDash;
 
     // Control player
     [Header("Control")]
@@ -64,6 +69,9 @@ public class PlayerManager : MonoBehaviour {
             case PlayerStates.ATTACK_01:
                 Attack01Behaviour();
                 break;
+            case PlayerStates.DASH:
+                DashBehaviour();
+                break;
             case PlayerStates.DAMAGED:
 				DamagedBehaviour();
 				break;
@@ -86,6 +94,8 @@ public class PlayerManager : MonoBehaviour {
     {
         ActivationControlPlayer();                              // Activates the controls of the player, after the previous attack deactivation 
 
+        if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();
+
         if (Input.GetMouseButtonDown(0)) setAttack10();         // Goes to main attack if mouse left button is pressed
         else if (Input.GetMouseButtonDown(1)) setAttack01();    // Goes to off attack if mouse right button is pressed
     }
@@ -102,6 +112,13 @@ public class PlayerManager : MonoBehaviour {
         attackStateCounter -= Time.deltaTime;       // Starts the countdown after the attack has been done
 
         if (attackStateCounter <= 0) setIdle();     // Goes back to setIdle if the player has not attack for a small amount of time
+    }
+
+    private void DashBehaviour()
+    {
+        tempDash -= Time.deltaTime;
+
+        if (tempDash <= 0) setIdle();
     }
 
     private void DamagedBehaviour()
@@ -145,6 +162,8 @@ public class PlayerManager : MonoBehaviour {
     {
         Debug.Log("Idle");
 
+        tempDash = 0.5f;
+
         damageImage.enabled = false;    // Deactivation of the damageImage
 
         state = PlayerStates.IDLE;      // Calls the IDLE state
@@ -169,7 +188,7 @@ public class PlayerManager : MonoBehaviour {
     {
         Debug.Log("Attack01");
 
-        anim.SetTrigger("Attack10");
+        anim.SetTrigger("Attack01");
 
         damageDealt = 5;
 
@@ -178,6 +197,19 @@ public class PlayerManager : MonoBehaviour {
         DeactivationControlPlayer();
 
         state = PlayerStates.ATTACK_01;
+    }
+
+    public void setDash()
+    {
+        Debug.Log("Dash");
+
+        DeactivationControlPlayer();
+
+        anim.SetTrigger("IsDashing");
+
+        rigidBody.AddForce(transform.forward * speedDash);
+
+        state = PlayerStates.DASH;
     }
 
     public void setDamaged(int damage)
@@ -227,7 +259,7 @@ public class PlayerManager : MonoBehaviour {
     public void DeactivationControlPlayer()
     {
         // TODO: Review Activation and Deactivaction. Not working proplerly
-        rigidBody.isKinematic = true;           // Sets the rigidbody of the player to kinematic mode, no longer recieves forces
+        //rigidBody.isKinematic = true;           // Sets the rigidbody of the player to kinematic mode, no longer recieves forces
         playerController.enabled = false;       // Deactivate the playerController script, so the player can not move
     }
 }

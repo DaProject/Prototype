@@ -1683,7 +1683,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 19589000, guid: a7581e39fc891c14f8f3b703bd1d696c, type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9557668, guid: a7581e39fc891c14f8f3b703bd1d696c, type: 2}
       propertyPath: m_Enabled
@@ -1691,7 +1691,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11454862, guid: a7581e39fc891c14f8f3b703bd1d696c, type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11482762, guid: a7581e39fc891c14f8f3b703bd1d696c, type: 2}
       propertyPath: m_Enabled
@@ -2951,12 +2951,14 @@ MonoBehaviour:
   currentHealth: 0
   damageDealt: 0
   attackStateCounter: 0
+  speedDash: 5
   hurtClip: {fileID: 8300000, guid: 2dfc0034f13a6ad4f951c56479f55752, type: 3}
   healthSlider: {fileID: 564697861}
   damageImage: {fileID: 1872364066}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   temp: 0
   tempDamage: 2
+  tempDash: 0
 --- !u!114 &1913590140
 MonoBehaviour:
   m_ObjectHideFlags: 0
