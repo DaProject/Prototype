@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
 	// States of the player
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, DASH, DAMAGED, DEAD, VICTORY}
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SLASH, DASH, DAMAGED, DEAD, VICTORY}
 	[Header("States")]
 	public PlayerStates state;
 
@@ -27,10 +27,11 @@ public class PlayerManager : MonoBehaviour {
     public float speedDampTime;                     // The damping for the speed parameter.
 
     // Damage
-    [Header("Attack")]
+    [Header("Attack % Spells")]
     public int attackDamage;                        // Auxiliar variable that gets the value of the differents attacks. After it is used to apply the damage to the enemy.
     public int attack10;                            // Variable with the damage of the attack10.
     public int attack01;                            // Variable with the damage of the attack01.
+    public int slash;                               // Variable with the damage of the slash;
 
     // Dash
     [Header("Dash")]
@@ -50,9 +51,10 @@ public class PlayerManager : MonoBehaviour {
 	// Timers
 	public float temp;
 	public float tempDamage;                        // Counter that determinates how much time the player has to be in the DAMAGED state.
-    public float tempDash;                          // Counter that determinates how much time the player has to be in the DASH state.
     public float tempAttack10;                      // Counter that reflects how much the animation of the attack10 longs.
     public float tempAttack01;                      // Counter that reflects how much the animation of the attack01 longs.
+    public float tempSlash;                         // Counter that reflects how much the animation of the slash longs.
+    public float tempDash;                          // Counter that determinates how much time the player has to be in the DASH state.
     public float attackStateCounter;                // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
 
     // Control player
@@ -84,6 +86,9 @@ public class PlayerManager : MonoBehaviour {
             case PlayerStates.ATTACK_01:
                 Attack01Behaviour();
                 break;
+            case PlayerStates.SLASH:
+                SlashBehaviour();
+                break;
             case PlayerStates.DASH:
                 DashBehaviour();
                 break;
@@ -113,10 +118,12 @@ public class PlayerManager : MonoBehaviour {
 
         Animating(moveHorizontal, moveVertical);                // Calls the Animating function.
 
-        if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
-
         if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) setSlash();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
     }
 
     private void Attack10Behaviour()
@@ -128,16 +135,23 @@ public class PlayerManager : MonoBehaviour {
 
     private void Attack01Behaviour()
     {
-        attackStateCounter -= Time.deltaTime;                   // Starts the countdown after the attack has been done.
+        attackStateCounter -= Time.deltaTime;
 
-        if (attackStateCounter <= 0) setIdle();                 // Goes back to setIdle if the player has not attack for a small amount of time.
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void SlashBehaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
     }
 
     private void DashBehaviour()
     {
-        tempDash -= Time.deltaTime;                             // Starts the countdown after the dash has been done.
+        tempDash -= Time.deltaTime;
 
-        if (tempDash <= 0) setIdle();                           // Calls the setIdle function if the countdown has reached 0.
+        if (tempDash <= 0) setIdle();
     }
 
     private void DamagedBehaviour()
@@ -211,6 +225,17 @@ public class PlayerManager : MonoBehaviour {
         anim.SetTrigger("Attack01");
 
         state = PlayerStates.ATTACK_01;
+    }
+
+    public void setSlash()
+    {
+        Debug.Log("Slash");
+
+        AttackAction(slash, tempSlash);
+
+        anim.SetTrigger("AttackHab01");
+
+        state = PlayerStates.SLASH;
     }
 
     public void setDash()

@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+
+    // WARNING: NO LONGER USED
+
     private Rigidbody rigidBody;
     public float moveHorizontal, moveVertical;
     private Vector3 movement;

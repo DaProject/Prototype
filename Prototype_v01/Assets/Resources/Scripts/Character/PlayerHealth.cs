@@ -2,10 +2,13 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayerHealth : MonoBehaviour {
+public class PlayerHealth : MonoBehaviour
+{
+
+    // WARNING: NO LONGER USED
 
 
-	public int startingHealth = 100;
+    public int startingHealth = 100;
 	public int currentHealth;
 	public Slider healthSlider;
 	public Image damageImage;

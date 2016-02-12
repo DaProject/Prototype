@@ -2,8 +2,10 @@
 using System.Collections;
 
 public class PlayerDetectEnemies : MonoBehaviour
+
+// WARNING: NO LONGER USED
 {
-	public int health;
+    public int health;
 
 	void OnTriggerEnter (Collider other)
 	{

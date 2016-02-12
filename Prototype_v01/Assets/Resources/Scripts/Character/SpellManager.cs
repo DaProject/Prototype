@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SpellManager : MonoBehaviour {
 
+    // WARNING: NO LONGER USED
+
 	Animator anim;
 
 

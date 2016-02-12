@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Dash : MonoBehaviour {
+public class Dash : MonoBehaviour
+{
 
-	private Rigidbody rigidBody;
+    // WARNING: NO LONGER USED
+
+    private Rigidbody rigidBody;
 	Animator anim;
 
 

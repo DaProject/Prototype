@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
+
+    // WARNING: NO LONGER USED
 
     private Rigidbody rigidBody;
 	Animator anim;
