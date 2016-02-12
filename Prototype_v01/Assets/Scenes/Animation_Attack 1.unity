@@ -3107,7 +3107,7 @@ MonoBehaviour:
   currentHealth: 0
   damageDealt: 0
   attackStateCounter: 0
-  speedDash: 5
+  speedDash: 200
   hurtClip: {fileID: 8300000, guid: 2dfc0034f13a6ad4f951c56479f55752, type: 3}
   healthSlider: {fileID: 564697861}
   damageImage: {fileID: 1872364066}

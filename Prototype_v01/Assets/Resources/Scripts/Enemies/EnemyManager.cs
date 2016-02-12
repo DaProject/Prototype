@@ -132,7 +132,7 @@ public class EnemyManager : MonoBehaviour {
 			Debug.Log ("timer moving reset");
 		}
 
-		if ((playerInRange == false) && (timerMoving <= timeBetweenAttacks))
+		if ((playerInRange == false) && (timerMoving >= timeBetweenAttacks))
 		{
 			setMoving ();
 		}
