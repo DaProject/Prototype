@@ -5,9 +5,9 @@ using System.Collections;
 public class EnemyManager : MonoBehaviour {
 
 	// States of the player
-	public enum PlayerStates {AWAKE, IDLE, ATTACK, DAMAGED, DEAD}
+	public enum EnemyStates {AWAKE, IDLE, MOVING, ATTACK, DAMAGED, DEAD}
 	[Header("States")]
-	public PlayerStates state;
+	public EnemyStates state;
 
 	// Health
 	[Header("Health")]
@@ -18,6 +18,10 @@ public class EnemyManager : MonoBehaviour {
     [Header("Attack")]
     public int damageDealt;
     public float attackStateCounter;
+	bool playerInRange;
+	GameObject player;
+	public float timeBetweenAttacks = 2.2f;
+	public int attackDamage = 10;
 
     //Sounds
     [Header("Sounds")]
@@ -27,11 +31,16 @@ public class EnemyManager : MonoBehaviour {
 	// Timers
 	public float temp;
 	public float tempDamage;
+	public float timerMoving;
+	public float timerAttacking;
 
-    // Control player
+    // Control enemy
     [Header("Control")]
-    private EnemyController EnemyController;
+	Transform playerPosition;
+	NavMeshAgent nav;
+	private EnemyMovement EnemyMovement;
     private Rigidbody rigidBody;
+	PlayerManager playerManager;
 
     // Animations
     Animator anim;
@@ -39,26 +48,37 @@ public class EnemyManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-		setAwake ();                                            // Call the setAwake function
+		setAwake (); 				// Call the setAwake function
+
+		player = GameObject.FindGameObjectWithTag ("Player");
+
+		playerPosition = GameObject.FindGameObjectWithTag ("Player").transform;
+
+		playerManager = player.GetComponent <PlayerManager> ();
+
+		nav = GetComponent <NavMeshAgent> ();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
 		switch (state) {
-			case PlayerStates.AWAKE:
+			case EnemyStates.AWAKE:
 				AwakeBehaviour();
 				break;
-			case PlayerStates.IDLE:
+			case EnemyStates.IDLE:
 				IdleBehaviour();
 				break;
-            case PlayerStates.ATTACK_10:
-                Attack10Behaviour();
+			case EnemyStates.MOVING:
+				MovingBehaviour();
+				break;
+			case EnemyStates.ATTACK:
+                AttackBehaviour();
                 break;
-            case PlayerStates.DAMAGED:
+			case EnemyStates.DAMAGED:
 				DamagedBehaviour();
 				break;
-			case PlayerStates.DEAD:
+			case EnemyStates.DEAD:
 				DeadBehaviour();
 				break;
 		}
@@ -67,21 +87,56 @@ public class EnemyManager : MonoBehaviour {
 	// Behaviours
 	private void AwakeBehaviour()
 	{
-		setIdle ();     // Initalization
+		setMoving ();     // Initalization
 	}
 
 	private void IdleBehaviour()
     {
-        ActivationControlEnemy();                              // Activates the controls of the player, after the previous attack deactivation 
-    }
+		if (playerManager.currentHealth <= 0) 
+		{
+			anim.SetTrigger ("PlayerDead");
+		}
+	}
 
-    private void Attack10Behaviour()
+	private void MovingBehaviour()
+	{
+		nav.SetDestination (playerPosition.position);
+
+		timerAttacking += Time.deltaTime;
+
+		if (timerAttacking >= timeBetweenAttacks && playerInRange /* && enemyHealth.currentHealth > 0*/)
+		{
+			setAttack ();
+		}
+
+		if (playerManager.currentHealth <= 0) 
+		{
+			anim.SetTrigger ("PlayerDead");
+		}
+	}
+
+    private void AttackBehaviour()
     {
-        attackStateCounter -= Time.deltaTime;       // Starts the countdown after the attack has been done
+		if (playerManager.currentHealth <= 0) 
+		{
+			anim.SetTrigger ("PlayerDead");
 
-        if (attackStateCounter <= 0) setIdle();     // Goes back to setIdle if the player has not attack for a small amount of time
+			setIdle ();
+		}
+
+		timerMoving += Time.deltaTime;
+
+		if (timerMoving <= 2.2f) 
+		{
+			timerMoving = 0;
+			Debug.Log ("timer moving reset");
+		}
+
+		if ((playerInRange == false) && (timerMoving <= timeBetweenAttacks))
+		{
+			setMoving ();
+		}
     }
-
     private void DamagedBehaviour()
 	{
 		
@@ -95,33 +150,29 @@ public class EnemyManager : MonoBehaviour {
 	// Sets
 	public void setAwake()
 	{
-       
-		currentHealth = maxHealth;                              // Sets the player health to the value of maxHealth that you indicated
+		currentHealth = maxHealth;                              // Sets the enemy health to the value of maxHealth that you indicated
 
         anim = GetComponent<Animator>();
 
-        state = PlayerStates.AWAKE;                             // Cals the AWAKE state
+		state = EnemyStates.AWAKE;                             // Calls the AWAKE state
 	}
 
 	public void setIdle()
     {
-        Debug.Log("Idle");
-
-        state = PlayerStates.IDLE;      // Calls the IDLE state
+		state = EnemyStates.IDLE;      // Calls the IDLE state
 	}
+	public void setMoving()
+	{
 
+		anim.SetTrigger("PlayerFound");
+
+		state = EnemyStates.MOVING;
+	}
     public void setAttack()
     {
+		anim.SetTrigger("isAttacking");        // Plays the attack animation
 
-        anim.SetTrigger("Attack10");        // Plays the attack animation
-
-        damageDealt = 10;                   // Sets the amount of damage that the player does with this attack
-
-        attackStateCounter = 0.5f;          // Sets the countdown value to return to idle state
-
-        DeactivationControlEnemy();        // Deactivate the controls's player, so the player cannot move while attacking
-
-        state = PlayerStates.ATTACK;     // Goes to the attack10 state
+		state = EnemyStates.ATTACK;     // Goes to the attack state
     }
 
     public void setDamaged(int damage)
@@ -131,31 +182,34 @@ public class EnemyManager : MonoBehaviour {
 
 		currentHealth -= damage;                // Applies the damage recieved
 
-		if (currentHealth <= 0) setDead ();     // Calls the setDead function if the player has died
-		else state = PlayerStates.DAMAGED;      // If the player is still alive, calls the DAMAGED state
+		if (currentHealth <= 0) setDead ();     // Calls the setDead function if the enemy has died
+
+		else state = EnemyStates.DAMAGED;      // If the enemy is still alive, calls the DAMAGED state
 	}
 
 	public void setDead()
 	{
-        DeactivationControlEnemy();            // Deactivate the controls of the plauer
 		currentHealth = 0;                      // Sets the health to 0
 
-        anim.SetTrigger("Die");
+        anim.SetTrigger("Dead");
 
-		state = PlayerStates.DEAD;              // Calls the DEAD state
+		state = EnemyStates.DEAD;              // Calls the DEAD state
 	}
 
-    public void ActivationControlEnemy()
-    {
-        // TODO: Review Activation and Deactivaction. Not working proplerly
-        rigidBody.isKinematic = false;           // Sets the rigidbody of the player to kinematic mode, no longer recieves forces
-        EnemyController.enabled = true;        // Activate the playerController script, so the player can move
-    }
+	void OnTriggerEnter (Collider other)
+	{
+		if (other.gameObject == player) 
+		{
+			playerInRange = true;
+		}
+	}
 
-    public void DeactivationControlEnemy()
-    {
-        // TODO: Review Activation and Deactivaction. Not working proplerly
-        //rigidBody.isKinematic = true;           // Sets the rigidbody of the player to kinematic mode, no longer recieves forces
-        EnemyController.enabled = false;       // Deactivate the playerController script, so the player can not move
-    }
+	void OnTriggerExit (Collider other)
+	{
+		if (other.gameObject == player) 
+		{
+			playerInRange = false;
+		}
+	}
+		
 }

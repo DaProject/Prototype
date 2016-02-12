@@ -160,8 +160,6 @@ public class PlayerManager : MonoBehaviour {
 
 	public void setIdle()
     {
-        Debug.Log("Idle");
-
         tempDash = 0.5f;
 
         damageImage.enabled = false;    // Deactivation of the damageImage
