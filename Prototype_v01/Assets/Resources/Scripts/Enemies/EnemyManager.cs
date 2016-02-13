@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class EnemyManager : MonoBehaviour {
-
+    /*
 	// States of the player
 	public enum EnemyStates {AWAKE, IDLE, MOVING, ATTACK, DAMAGED, DEAD}
 	[Header("States")]
@@ -14,32 +14,33 @@ public class EnemyManager : MonoBehaviour {
 	public int maxHealth;
 	public int currentHealth;
 
+    // Controller
+    [Header("Controller")]
+    NavMeshAgent nav;                               // Gets the navmesh of the enemy
+
     // Damage
     [Header("Attack")]
-    public int damageDealt;
-    public float attackStateCounter;
-	bool playerInRange;
+    public int attackDamage;
+    public int meleeAttackDamage;
+	public bool playerInRange;
 	GameObject player;
-	public float timeBetweenAttacks = 2.2f;
-	public int attackDamage = 10;
 
     //Sounds
     [Header("Sounds")]
     public AudioClip hurtClip;
-    AudioSource playerAudio;
+    AudioSource enemyAudio;
 
 	// Timers
 	public float temp;
 	public float tempDamage;
-	public float timerMoving;
-	public float timerAttacking;
+    public float tempMeleeAttackDamage;
+    public float attackStateCounter;
 
     // Control enemy
     [Header("Control")]
-	Transform playerPosition;
-	NavMeshAgent nav;
-	private EnemyMovement EnemyMovement;
     private Rigidbody rigidBody;
+
+    // Scripts calls
 	PlayerManager playerManager;
 
     // Animations
@@ -49,14 +50,6 @@ public class EnemyManager : MonoBehaviour {
 	void Start ()
     {
 		setAwake (); 				// Call the setAwake function
-
-		player = GameObject.FindGameObjectWithTag ("Player");
-
-		playerPosition = GameObject.FindGameObjectWithTag ("Player").transform;
-
-		playerManager = player.GetComponent <PlayerManager> ();
-
-		nav = GetComponent <NavMeshAgent> ();
     }
 	
 	// Update is called once per frame
@@ -92,50 +85,27 @@ public class EnemyManager : MonoBehaviour {
 
 	private void IdleBehaviour()
     {
-		if (playerManager.currentHealth <= 0) 
-		{
-			anim.SetTrigger ("PlayerDead");
-		}
+		anim.SetTrigger ("PlayerDead");
 	}
 
 	private void MovingBehaviour()
 	{
-		nav.SetDestination (playerPosition.position);
+        MovingAction();
 
-		timerAttacking += Time.deltaTime;
-
-		if (timerAttacking >= timeBetweenAttacks && playerInRange /* && enemyHealth.currentHealth > 0*/)
-		{
-			setAttack ();
-		}
-
-		if (playerManager.currentHealth <= 0) 
-		{
-			anim.SetTrigger ("PlayerDead");
-		}
+        if (playerInRange) setAttack();
 	}
 
     private void AttackBehaviour()
     {
-		if (playerManager.currentHealth <= 0) 
-		{
-			anim.SetTrigger ("PlayerDead");
+		if (playerManager.currentHealth <= 0) setIdle ();               // Checks if the player is already dead, if so, goes to the setIdle function
 
-			setIdle ();
-		}
+		attackStateCounter -= Time.deltaTime;                           // Starts the countdown after the attack has been done
 
-		timerMoving += Time.deltaTime;
-
-		if (timerMoving <= 2.2f) 
-		{
-			timerMoving = 0;
-			Debug.Log ("timer moving reset");
-		}
-
-		if ((playerInRange == false) && (timerMoving >= timeBetweenAttacks))
-		{
-			setMoving ();
-		}
+        if (attackStateCounter <= 0 && playerInRange)
+        {
+            setAttack();
+        }
+        else if (!playerInRange) setMoving();
     }
     private void DamagedBehaviour()
 	{
@@ -145,31 +115,49 @@ public class EnemyManager : MonoBehaviour {
 	{
 
 	}
-
-
+    
 	// Sets
 	public void setAwake()
-	{
-		currentHealth = maxHealth;                              // Sets the enemy health to the value of maxHealth that you indicated
+    {
+        Debug.Log("setAwakeEnemy");
 
-        anim = GetComponent<Animator>();
+        currentHealth = maxHealth;                              // Sets the enemy health to the value of maxHealth that you indicated
 
-		state = EnemyStates.AWAKE;                             // Calls the AWAKE state
+        player = GameObject.FindGameObjectWithTag("Player");    // Finds the gameobject with the tag "Player". Finds the player               // Gets the transform of the player
+
+        playerManager = player.GetComponent<PlayerManager>();   // Gets the script PlayerManager of the player
+
+        nav = GetComponent<NavMeshAgent>();                     // Gets the NavMeshAgent component
+
+        enemyAudio = GetComponent<AudioSource>();               // Gets the AudioSource component
+
+        anim = GetComponent<Animator>();                        // Gets the Animator component
+
+        playerInRange = false;
+
+        state = EnemyStates.AWAKE;                              // Calls the AWAKE state
 	}
 
 	public void setIdle()
     {
-		state = EnemyStates.IDLE;      // Calls the IDLE state
+        Debug.Log("setIdleEnemy");
+
+        anim.SetTrigger("PlayerDead");
+
+        state = EnemyStates.IDLE;      // Calls the IDLE state
 	}
 	public void setMoving()
-	{
+    {
+        Debug.Log("setMoveEnemy");
 
-		anim.SetTrigger("PlayerFound");
-
-		state = EnemyStates.MOVING;
+        state = EnemyStates.MOVING;
 	}
     public void setAttack()
     {
+        Debug.Log("setAttackEnemy");
+
+        AttackAction(meleeAttackDamage, tempMeleeAttackDamage);
+
 		anim.SetTrigger("isAttacking");        // Plays the attack animation
 
 		state = EnemyStates.ATTACK;     // Goes to the attack state
@@ -177,7 +165,6 @@ public class EnemyManager : MonoBehaviour {
 
     public void setDamaged(int damage)
 	{
-
 		temp = tempDamage;
 
 		currentHealth -= damage;                // Applies the damage recieved
@@ -198,18 +185,26 @@ public class EnemyManager : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject == player) 
-		{
-			playerInRange = true;
-		}
+        if (other.tag == "Player") playerInRange = true;
 	}
 
 	void OnTriggerExit (Collider other)
 	{
-		if (other.gameObject == player) 
-		{
-			playerInRange = false;
-		}
-	}
-		
+        if (other.tag == "Player") playerInRange = false;
+    }
+
+    void AttackAction(int damageDealt, float attackDuration)
+    {
+
+        attackDamage = damageDealt;                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void MovingAction()
+    {
+        nav.SetDestination(player.transform.position);
+
+        anim.SetTrigger("PlayerFound");
+    }*/	
 }

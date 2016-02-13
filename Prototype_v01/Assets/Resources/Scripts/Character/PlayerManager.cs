@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviour
+{
 
 	// States of the player
 	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SLASH, DASH, DAMAGED, DEAD, VICTORY}
@@ -49,6 +50,7 @@ public class PlayerManager : MonoBehaviour {
 	public Color flashColor;
 
 	// Timers
+    [Header("Timers")]
 	public float temp;
 	public float tempDamage;                        // Counter that determinates how much time the player has to be in the DAMAGED state.
     public float tempAttack10;                      // Counter that reflects how much the animation of the attack10 longs.
@@ -73,7 +75,8 @@ public class PlayerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-		switch (state) {
+		switch (state)
+        {
 			case PlayerStates.AWAKE:
 				AwakeBehaviour();
 				break;
@@ -180,14 +183,14 @@ public class PlayerManager : MonoBehaviour {
 
 	// Sets
 	public void setAwake()
-	{
+    {
+        currentHealth = maxHealth;                      // Sets the player health to the value of maxHealth that you indicated.
+
         playerAudio = GetComponent<AudioSource>();      // Gets the component AudioSource from the player.
 
         flashColor = new Color(1f, 0f, 0f, 0.1f);       // Sets the color values for the damageImage.
 
         rigidBody = GetComponent<Rigidbody>();          // Gets the RigidBody from the GameObject.
-
-		currentHealth = maxHealth;                      // Sets the player health to the value of maxHealth that you indicated.
 
         anim = GetComponent<Animator>();
 
@@ -283,6 +286,7 @@ public class PlayerManager : MonoBehaviour {
 		state = PlayerStates.VICTORY;                           // Calls the VICTORY state.
 	}
 
+    // Functions 
     public void ControllerAction(int speed)
     {
         moveHorizontal = Input.GetAxis("Horizontal");
@@ -328,7 +332,5 @@ public class PlayerManager : MonoBehaviour {
         attackDamage = damageDealt;                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;        // Sets the amount of time that the player has to be in the attackXX state.
-
-        attackStateCounter = 0.5f;                  // Sets the countdown value to return to idle state.
     }
 }
