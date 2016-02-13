@@ -31,10 +31,11 @@ public class PlayerManager : MonoBehaviour
 
     // Damage
     [Header("Attack % Spells")]
-    public int attackDamage;                        // Auxiliar variable that gets the value of the differents attacks. After it is used to apply the damage to the enemy.
+    public int attackDamage;                        // Auxiliar variable that gets the value of the differents attacks. After, is used to apply the damage to the enemy.
     public int attack10;                            // Variable with the damage of the attack10.
     public int attack01;                            // Variable with the damage of the attack01.
-    public int slash;                               // Variable with the damage of the slash;
+    public int slash;                               // Variable with the damage of the slash.
+    public GameObject sword;                        // Gets the sword gameobject from the plaer.
 
     // Dash
     [Header("Dash")]
@@ -47,9 +48,9 @@ public class PlayerManager : MonoBehaviour
 
 	// UI Player
 	[Header("UI")]
-	public Slider healthSlider;
-	public Image damageImage;
-	public Color flashColor;
+	public Slider healthSlider;                     // It shows the health bar.
+	public Image damageImage;                       // The UI image that shows when the player gets hit.
+	public Color flashColor;                        // The color of the damageImage.
 
 	// Timers
     [Header("Timers")]
@@ -63,10 +64,10 @@ public class PlayerManager : MonoBehaviour
 
     // Control player
     [Header("Control")]
-    private Rigidbody rigidBody;
+    private Rigidbody rigidBody;                    // The rigidbody from the player.
 
     // Animations
-    Animator anim;
+    Animator anim;                                  // The animator component from the player.
 
 	// Use this for initialization
 	void Start ()
@@ -205,6 +206,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Idle");
 
+        rigidBody.isKinematic = false;
+
         tempDash = 0.5f;                                // Resets the tempDash counter.
 
         damageImage.enabled = false;                    // Deactivation of the damageImage.
@@ -215,6 +218,8 @@ public class PlayerManager : MonoBehaviour
     public void setAttack10()
     {
         Debug.Log("Attack10");
+
+        ForcesDeactivation();
 
         AttackAction(attack10, tempAttack10);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
 
@@ -227,6 +232,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Attack01");
 
+        ForcesDeactivation();
+
         AttackAction(attack01, tempAttack01);
 
         anim.SetTrigger("Attack01");
@@ -237,6 +244,8 @@ public class PlayerManager : MonoBehaviour
     public void setSlash()
     {
         Debug.Log("Slash");
+
+        ForcesDeactivation();
 
         AttackAction(slash, tempSlash);
 
@@ -293,11 +302,19 @@ public class PlayerManager : MonoBehaviour
     // Functions 
     public void ControllerAction(int speed)
     {
-        moveHorizontal = Input.GetAxis("Horizontal");
-        moveVertical = Input.GetAxis("Vertical");
+        // TODO: Change the controller behaviour. Use transform.positions insted of rigidbody.velocity.
 
-        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        moveHorizontal = Input.GetAxis("Horizontal");                       // Takes the horizontal axis.
+        moveVertical = Input.GetAxis("Vertical");                           // Takes the vertical axis.
+
+        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);         
         rigidBody.velocity = movement * speed;
+
+        if (moveHorizontal != 0 && moveVertical != 0)
+        {
+            rigidBody.velocity *= 0.8f;
+        }
+
     }
 
     public void MovementManagement(float horizontal, float vertical)
@@ -333,11 +350,13 @@ public class PlayerManager : MonoBehaviour
 
     void AttackAction(int damageDealt, float attackDuration)
     {
-        attackDamage = damageDealt;                 // Sets the amount of damage that the player does with this attack.
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
-        attackStateCounter = attackDuration;        // Sets the amount of time that the player has to be in the attackXX state.
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
     }
 
-
-
+    void ForcesDeactivation()
+    {
+        rigidBody.isKinematic = true;                               // Sets the isKinematic option to true.  
+    }
 }

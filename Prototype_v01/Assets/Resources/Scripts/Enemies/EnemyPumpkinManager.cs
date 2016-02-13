@@ -17,14 +17,14 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     // NavMesh
     [Header("NavMesh")]
-    NavMeshAgent nav;
-    GameObject player;
+    NavMeshAgent nav;                           // NavMesComponent 
+    GameObject player;                          // Player
     
     // Damage
     [Header("Attack")]
-    public int attackDamage;
-    public int attackMelee;
-    public bool playerInRange;
+    public int attackDamage;                    // Auxiliar variable that gets the value of the differents attacks. After it is used to apply the damage to the player.
+    public int attackMelee;                     // Variable with the damage of the enemy attack.
+    public bool playerInRange;                  // Bool that is true when the player is in attack range.
 
     // Sounds
     [Header("Sounds")]
@@ -34,19 +34,19 @@ public class EnemyPumpkinManager : MonoBehaviour
     // Timers
     [Header("Timers")]
     public float temp;
-    public float tempDamage;
-    public float tempAttackMelee;
-    public float attackStateCounter;
+    public float tempDamage;                    // Counter that determinates how much time the enemy has to be in the DAMAGED state.               
+    public float tempAttackMelee;               // Counter that reflects how much the enemy attack longs.
+    public float attackStateCounter;            // Auxiliar variable that says how much time the enemy has to be in the ATTACK state. It gets the value from the counter of the attack.
 
     // Control enemy
     [Header("Control")]
-    private Rigidbody rigidBody;
+    private Rigidbody rigidBody;                // Rigidbody component from the enemy.
 
     // Animations
-    Animator anim;
+    Animator anim;                              // Animator from the enemy.
 
     // Scripts calls
-    PlayerManager playerManager;
+    PlayerManager playerManager;                // PlayerManager script
 
 	// Use this for initialization
 	void Start ()
@@ -88,26 +88,28 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     private void IdleBehaviour()
     {
-        anim.SetTrigger("Idle");
+        anim.SetTrigger("Idle");                            // It triggers the enemy Idle animation.
     }
 
     private void ActiveBehaviour()
     {
-        ControllerAction();
+        ControllerAction();                                 // Calls the ControllerAction function when the enemy has to move.
 
-        if (playerInRange) setAttack();
+        if (playerInRange) setAttack();                     // Calls the setAttack function if the player is in range attack.
     }
 
     private void AttackBehaviour()
     {
-        attackStateCounter -= Time.deltaTime;
+        attackStateCounter -= Time.deltaTime;               // Starts the countdown after the attack has been done.
 
-        if (attackStateCounter <= 0) setActive();
+        if (attackStateCounter <= 0) setActive();           // Goes back to setIdle if the enemy has not attack for a small amount of time.
     }
 
     private void DamagedBehaviour()
     {
+        temp -= Time.deltaTime;
 
+        if (temp <= 0) setIdle();
     }
 
     private void DeadBehaviour()
@@ -120,21 +122,21 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        player = GameObject.FindGameObjectWithTag("Player");    // Finds the gameobject with the tag "Player". Finds the player               // Gets the transform of the player
+        player = GameObject.FindGameObjectWithTag("Player");    // Finds the gameobject with the tag "Player".
 
-        playerManager = player.GetComponent<PlayerManager>();   // Gets the script PlayerManager of the player
+        playerManager = player.GetComponent<PlayerManager>();   // Gets the script PlayerManager of the player.
 
-        nav = GetComponent<NavMeshAgent>();                     // Gets the NavMeshAgent component
+        nav = GetComponent<NavMeshAgent>();                     // Gets the NavMeshAgent component.
 
-        playerInRange = false;
+        playerInRange = false;                                  // Initalize the playerInRange bool to false.
 
-        enemyAudio = GetComponent<AudioSource>();
+        enemyAudio = GetComponent<AudioSource>();               // Gets the AudioSource component from the enemy.
 
-        rigidBody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody>();                  // Gets the rigidbody component from the enemy.
 
-        anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();                        // Gets the animator component from the enemy.
 
-        state = EnemyStates.AWAKE;
+        state = EnemyStates.AWAKE;                              // Goes to the AWAKE state.
     }
 
     public void setIdle()
@@ -144,25 +146,31 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     public void setActive()
     {
-        anim.SetBool("Attack", false);
+        anim.SetBool("Attack", false);                          // Sets the Attack bool for the attack animation to false.
 
-        state = EnemyStates.ACTIVE;
+        state = EnemyStates.ACTIVE;                             // Goes to the ACTIVE state.
     }
 
     public void setAttack()
     {
-        AttackAction(attackMelee, tempAttackMelee);
+        AttackAction(attackMelee, tempAttackMelee);             // Calls the AttackAction function, and give it the damage  fo the attack, and the time that longs.
 
-        anim.SetBool("Attack", true);
+        anim.SetBool("Attack", true);                           // Sets the Attack bool for the attack animation to true.
 
-        anim.SetBool("Run", false);
+        anim.SetBool("Run", false);                             // Sets the Run bool for the run animation to true.
 
-        state = EnemyStates.ATTACK;
+        state = EnemyStates.ATTACK;                             // Goes to the ATTACK state.
     }
 
-    public void setDamaged()
+    public void setDamaged(int damage)
     {
+        temp = tempDamage;
 
+        currentHealth -= damage;                                // Applies the damage recieved
+
+        if (currentHealth <= 0) setDead();                      // Calls the setDead function if the enemy has died
+
+        else state = EnemyStates.DAMAGED;                       // If the enemy is still alive, calls the DAMAGED state
     }
 
     public void setDead()
@@ -172,25 +180,25 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     private void ControllerAction()
     {
-        nav.SetDestination(player.transform.position);
+        nav.SetDestination(player.transform.position);                      // Sets the destination of the navmesh to the actual player position. The enemy is goin to go there.
 
-        anim.SetBool("Run", true);
+        anim.SetBool("Run", true);                                          // Sets the Run bool for the run animation to true.
     }
 
     private void AttackAction(int damageDealt, float attackDuration)
     {
-        attackDamage = damageDealt;
+        attackDamage = damageDealt;                                         // Sets the amount of damage that the enemy does with this attack.
 
-        attackStateCounter = attackDuration;
+        attackStateCounter = attackDuration;                                // Sets the amount of time that the enemy has to be in the attack state.
     }
 
     void  OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player") playerInRange = true;
+        if (other.tag == "Player") playerInRange = true;                    // Sets the playerInRange to true if the player has been detected around the enemy.
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player") playerInRange = false;
+        if (other.tag == "Player") playerInRange = false;                   // Sets the playerInRange to true if the player has exit the area detection of the enemy.
     }
 }

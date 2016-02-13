@@ -84,7 +84,7 @@ NavMeshSettings:
     minRegionArea: 2
     cellSize: 0.16666667
     manualCellSize: 0
-  m_NavMeshData: {fileID: 23800000, guid: 9d1a6ba69b3347b4daba71e1301e07f7, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: d539aaef95ae1344dbadfb851c8bc99e, type: 2}
 --- !u!1 &19008165
 GameObject:
   m_ObjectHideFlags: 0
@@ -4185,7 +4185,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 1
-  m_Color: {r: 1, g: 0.4368512, b: 0.31617647, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -4793,6 +4793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  SlashActive: 0
   maxHealth: 20
   currentHealth: 0
   playerSpeed: 5
@@ -4811,8 +4812,8 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   temp: 0
   tempDamage: 2
-  tempAttack10: 0.5
-  tempAttack01: 1
+  tempAttack10: 0.6
+  tempAttack01: 1.2
   tempSlash: 0
   tempDash: 0
   attackStateCounter: 0
@@ -5355,7 +5356,7 @@ GameObject:
   - 33: {fileID: 2131159214}
   - 64: {fileID: 2131159213}
   - 23: {fileID: 2131159212}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Quad
   m_TagString: Ground
   m_Icon: {fileID: 0}
