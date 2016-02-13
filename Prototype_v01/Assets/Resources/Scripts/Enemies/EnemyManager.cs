@@ -38,6 +38,12 @@ public class EnemyManager : MonoBehaviour {
 
     // Control enemy
     [Header("Control")]
+<<<<<<< HEAD
+=======
+	Transform playerPosition;
+	NavMeshAgent nav;
+	//private EnemyMovement EnemyMovement;
+>>>>>>> origin/master
     private Rigidbody rigidBody;
 
     // Scripts calls
