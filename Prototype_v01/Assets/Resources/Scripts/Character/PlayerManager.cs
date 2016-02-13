@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviour {
 	[Header("States")]
 	public PlayerStates state;
 
+	public bool SlashActive;
+
 	// Health
 	[Header("Health")]
 	public int maxHealth;
@@ -121,7 +123,7 @@ public class PlayerManager : MonoBehaviour {
         if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) setSlash();
+		if (Input.GetKeyDown(KeyCode.Alpha1) && SlashActive) setSlash();
 
         if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
     }
@@ -181,6 +183,8 @@ public class PlayerManager : MonoBehaviour {
 	// Sets
 	public void setAwake()
 	{
+		SlashActive = false;
+
         playerAudio = GetComponent<AudioSource>();      // Gets the component AudioSource from the player.
 
         flashColor = new Color(1f, 0f, 0f, 0.1f);       // Sets the color values for the damageImage.
@@ -331,4 +335,7 @@ public class PlayerManager : MonoBehaviour {
 
         attackStateCounter = 0.5f;                  // Sets the countdown value to return to idle state.
     }
+
+
+
 }

@@ -38,7 +38,7 @@ public class EnemyManager : MonoBehaviour {
     [Header("Control")]
 	Transform playerPosition;
 	NavMeshAgent nav;
-	private EnemyMovement EnemyMovement;
+	//private EnemyMovement EnemyMovement;
     private Rigidbody rigidBody;
 	PlayerManager playerManager;
 
