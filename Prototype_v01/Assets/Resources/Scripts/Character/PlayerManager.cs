@@ -185,13 +185,10 @@ public class PlayerManager : MonoBehaviour
 
 	// Sets
 	public void setAwake()
-<<<<<<< HEAD
-    {
+    { 
         currentHealth = maxHealth;                      // Sets the player health to the value of maxHealth that you indicated.
-=======
-	{
+
 		SlashActive = false;
->>>>>>> origin/master
 
         playerAudio = GetComponent<AudioSource>();      // Gets the component AudioSource from the player.
 
