@@ -145,7 +145,7 @@ public class EnemyPumpkinManager : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();                          // Gets the rigidbody component from the enemy.
         capsuleCollider = GetComponent<CapsuleCollider>();
         sphereCollider = GetComponent<SphereCollider>();
-        leftHandAttack1 = GetComponentInChildren<SphereCollider>();     // Gets the BoxCollider of the leftHandAttack1 children.
+        //leftHandAttack1 = GetComponentInChildren<SphereCollider>();     // Gets the SphereCollider of the leftHandAttack1 children.
 
         anim = GetComponent<Animator>();                                // Gets the animator component from the enemy.
 
@@ -163,6 +163,8 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     public void setActive()
     {
+        leftHandAttack1.enabled = false;
+
         anim.SetBool("Attack", false);                          // Sets the Attack bool for the attack animation to false.
 
         state = EnemyStates.ACTIVE;                             // Goes to the ACTIVE state.
@@ -196,6 +198,7 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         capsuleCollider.enabled = false;
         sphereCollider.enabled = false;
+        leftHandAttack1.enabled = false;
 
         anim.SetTrigger("Die");                                 // Plays the die animation.
 
@@ -211,6 +214,8 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     private void AttackAction(int damageDealt, float attackDuration)
     {
+        Debug.Log("attacking player");
+
         leftHandAttack1.enabled = true;                                     //Sets to true the collider of the leftHandAttack1.
 
         attackDamage = damageDealt;                                         // Sets the amount of damage that the enemy does with this attack.
