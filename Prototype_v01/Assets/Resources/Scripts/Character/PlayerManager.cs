@@ -210,13 +210,9 @@ public class PlayerManager : MonoBehaviour
     { 
         currentHealth = maxHealth;                          // Sets the player health to the value of maxHealth that you indicated.
 
-<<<<<<< HEAD
 		currentDashResistance = maxDashResistance;
 
-		SlashActive = false;
-=======
 		slashActive = false;                                // Sets the slashActive bool to false by default.
->>>>>>> origin/master
 
         capsuleCollider = GetComponent<CapsuleCollider>();
 
@@ -331,11 +327,10 @@ public class PlayerManager : MonoBehaviour
 
         anim.SetTrigger("Die");                                 // Plays the die animation.
 
-<<<<<<< HEAD
         playerAudio.clip = deathClip;                            // Plays the hurt sound when the player dies.
-=======
+
         playerAudio.clip = hurtClip;                            // Plays the hurt sound when you die.
->>>>>>> origin/master
+
         playerAudio.Play();
 
 		state = PlayerStates.DEAD;                              // Calls the DEAD state.
