@@ -38,10 +38,17 @@ public class PlayerManager : MonoBehaviour
     // Dash
     [Header("Dash")]
     public float speedDash;                         // The speed wich the player makes a dash.
+	public int maxDashResistance;
+	public int currentDashResistance;
+	public int resistancePerDash;
+	public Slider DashResistanceSlider;
 
     //Sounds
     [Header("Sounds")]
     public AudioClip hurtClip;
+	public AudioClip lowHpClip;
+	public AudioClip deathClip;
+	public AudioClip swordSwipeClip;
     AudioSource playerAudio;
 
 	// UI Player
@@ -108,6 +115,13 @@ public class PlayerManager : MonoBehaviour
 				VictoryBehaviour();
 				break;
 		}
+
+		if (DashResistanceSlider.value < 100) DashResistanceSlider.value ++; 
+		if (currentHealth <= 10) 
+		{
+			playerAudio.clip = lowHpClip;
+			playerAudio.Play();  
+		}
 	}
 
 	// Behaviours
@@ -129,7 +143,7 @@ public class PlayerManager : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Alpha1) && slashActive) setSlash();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
+		if (Input.GetKeyDown(KeyCode.LeftShift)  && (DashResistanceSlider.value >= resistancePerDash)) setDash();     // Calls the setDash function if left shift key is pressed.
     }
 
     private void Attack10Behaviour()
@@ -194,6 +208,8 @@ public class PlayerManager : MonoBehaviour
 	// Sets
 	public void setAwake()
     { 
+		currentDashResistance = maxDashResistance;
+
         currentHealth = maxHealth;                          // Sets the player health to the value of maxHealth that you indicated.
 
 		slashActive = false;                                // Sets the slashActive bool to false by default.
@@ -240,6 +256,9 @@ public class PlayerManager : MonoBehaviour
 
         anim.SetTrigger("Attack10");                    // Plays the attack10 animation.
 
+		playerAudio.clip = swordSwipeClip;
+		playerAudio.Play();
+
         state = PlayerStates.ATTACK_10;                 // Goes to the attack10 state.
     }
 
@@ -252,6 +271,9 @@ public class PlayerManager : MonoBehaviour
         AttackAction(attack01, tempAttack01);
 
         anim.SetTrigger("Attack01");
+
+		playerAudio.clip = swordSwipeClip;
+		playerAudio.Play();
 
         state = PlayerStates.ATTACK_01;
     }
@@ -273,6 +295,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Dash");
 
+		DashResistanceSlider.value -= resistancePerDash;
+
         anim.SetTrigger("IsDashing");                           // Plays the dash animation.
 
         rigidBody.AddForce(transform.forward * speedDash);      // Adds a force to the rigidbody of the player, in order of doing a dash.
@@ -289,6 +313,7 @@ public class PlayerManager : MonoBehaviour
 
 		currentHealth -= damage;                                // Applies the damage recieved.
 
+		playerAudio.clip = hurtClip;
         playerAudio.Play();                                     // Plays the hurt sound when the player gets hit.
 
         healthSlider.value = currentHealth;                     // Sets the value of the slider from the currentHealth of the player.
@@ -305,7 +330,7 @@ public class PlayerManager : MonoBehaviour
 
         anim.SetTrigger("Die");                                 // Plays the die animation.
 
-        playerAudio.clip = hurtClip;                            // Plays the hurt sound when you die.
+        playerAudio.clip = deathClip;                            // Plays the hurt sound when you die.
         playerAudio.Play();
 
 		state = PlayerStates.DEAD;                              // Calls the DEAD state.

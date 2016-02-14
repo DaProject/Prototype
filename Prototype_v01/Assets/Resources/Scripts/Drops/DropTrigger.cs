@@ -12,7 +12,7 @@ public class DropTrigger : MonoBehaviour {
 	void Update () {
 	}
 
-	public void OnTriggerEnter (Collider other)
+	void OnTriggerEnter (Collider other)
 	{
 		if (other.tag == "Player") 
 		{	
