@@ -41,6 +41,9 @@ public class EnemyPumpkinManager : MonoBehaviour
     // Control enemy
     [Header("Control")]
     private Rigidbody rigidBody;                // Rigidbody component from the enemy.
+    private CapsuleCollider capsuleCollider;    
+    private SphereCollider sphereCollider;
+    public SphereCollider leftHandAttack1;
 
     // Animations
     Animator anim;                              // Animator from the enemy.
@@ -95,6 +98,13 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         ControllerAction();                                 // Calls the ControllerAction function when the enemy has to move.
 
+        if (playerManager.currentHealth == 0)
+        {
+            playerInRange = false;
+
+            setIdle();
+        }
+
         if (playerInRange) setAttack();                     // Calls the setAttack function if the player is in range attack.
     }
 
@@ -122,26 +132,33 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        player = GameObject.FindGameObjectWithTag("Player");    // Finds the gameobject with the tag "Player".
+        player = GameObject.FindGameObjectWithTag("Player");            // Finds the gameobject with the tag "Player".
 
-        playerManager = player.GetComponent<PlayerManager>();   // Gets the script PlayerManager of the player.
+        playerManager = player.GetComponent<PlayerManager>();           // Gets the script PlayerManager of the player.
 
-        nav = GetComponent<NavMeshAgent>();                     // Gets the NavMeshAgent component.
+        nav = GetComponent<NavMeshAgent>();                             // Gets the NavMeshAgent component.
 
-        playerInRange = false;                                  // Initalize the playerInRange bool to false.
+        playerInRange = false;                                          // Initalize the playerInRange bool to false.
 
-        enemyAudio = GetComponent<AudioSource>();               // Gets the AudioSource component from the enemy.
+        enemyAudio = GetComponent<AudioSource>();                       // Gets the AudioSource component from the enemy.
 
-        rigidBody = GetComponent<Rigidbody>();                  // Gets the rigidbody component from the enemy.
+        rigidBody = GetComponent<Rigidbody>();                          // Gets the rigidbody component from the enemy.
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        sphereCollider = GetComponent<SphereCollider>();
+        leftHandAttack1 = GetComponentInChildren<SphereCollider>();     // Gets the BoxCollider of the leftHandAttack1 children.
 
-        anim = GetComponent<Animator>();                        // Gets the animator component from the enemy.
+        anim = GetComponent<Animator>();                                // Gets the animator component from the enemy.
 
-        state = EnemyStates.AWAKE;                              // Goes to the AWAKE state.
+        state = EnemyStates.AWAKE;                                      // Goes to the AWAKE state.
     }
 
     public void setIdle()
     {
+        capsuleCollider.enabled = true;
+        sphereCollider.enabled = true;
+        leftHandAttack1.enabled = false;
 
+        state = EnemyStates.IDLE;
     }
 
     public void setActive()
@@ -175,7 +192,14 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     public void setDead()
     {
+        currentHealth = 0;                                      // Sets the health to 0.
 
+        capsuleCollider.enabled = false;
+        sphereCollider.enabled = false;
+
+        anim.SetTrigger("Die");                                 // Plays the die animation.
+
+        state = EnemyStates.DEAD;                              // Calls the DEAD state.
     }
 
     private void ControllerAction()
@@ -187,6 +211,8 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     private void AttackAction(int damageDealt, float attackDuration)
     {
+        leftHandAttack1.enabled = true;                                     //Sets to true the collider of the leftHandAttack1.
+
         attackDamage = damageDealt;                                         // Sets the amount of damage that the enemy does with this attack.
 
         attackStateCounter = attackDuration;                                // Sets the amount of time that the enemy has to be in the attack state.

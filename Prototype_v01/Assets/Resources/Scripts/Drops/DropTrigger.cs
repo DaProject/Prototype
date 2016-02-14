@@ -16,7 +16,7 @@ public class DropTrigger : MonoBehaviour {
 	{
 		if (other.tag == "Player") 
 		{	
-			other.GetComponent<PlayerManager> ().SlashActive = true;
+			other.GetComponent<PlayerManager> ().slashActive = true;
 
 			Destroy(this.gameObject);
 		}

@@ -10,8 +10,6 @@ public class PlayerManager : MonoBehaviour
 	[Header("States")]
 	public PlayerStates state;
 
-	public bool SlashActive;
-
 	// Health
 	[Header("Health")]
 	public int maxHealth;
@@ -35,7 +33,7 @@ public class PlayerManager : MonoBehaviour
     public int attack10;                            // Variable with the damage of the attack10.
     public int attack01;                            // Variable with the damage of the attack01.
     public int slash;                               // Variable with the damage of the slash.
-    public GameObject sword;                        // Gets the sword gameobject from the plaer.
+    public bool slashActive;                        // Bool that allows to use the slash hability.
 
     // Dash
     [Header("Dash")]
@@ -65,6 +63,8 @@ public class PlayerManager : MonoBehaviour
     // Control player
     [Header("Control")]
     private Rigidbody rigidBody;                    // The rigidbody from the player.
+    private CapsuleCollider capsuleCollider;        // Gets the player collider.
+    public BoxCollider sword;                       // Gets the sword collider from the plaer.
 
     // Animations
     Animator anim;                                  // The animator component from the player.
@@ -127,7 +127,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
 
-		if (Input.GetKeyDown(KeyCode.Alpha1) && SlashActive) setSlash();
+		if (Input.GetKeyDown(KeyCode.Alpha1) && slashActive) setSlash();
 
         if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
     }
@@ -168,6 +168,13 @@ public class PlayerManager : MonoBehaviour
 
         Animating(moveHorizontal, moveVertical);
 
+        if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
+        else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && slashActive) setSlash();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
+
         temp -= Time.deltaTime;                                                                             // Backwards counter
 
         damageImage.color = Color.Lerp(damageImage.color, Color.clear, tempDamage * Time.deltaTime);        // Sets the difumination for the damageImage
@@ -187,26 +194,34 @@ public class PlayerManager : MonoBehaviour
 	// Sets
 	public void setAwake()
     { 
-        currentHealth = maxHealth;                      // Sets the player health to the value of maxHealth that you indicated.
+        currentHealth = maxHealth;                          // Sets the player health to the value of maxHealth that you indicated.
 
-		SlashActive = false;
+		slashActive = false;                                // Sets the slashActive bool to false by default.
 
-        playerAudio = GetComponent<AudioSource>();      // Gets the component AudioSource from the player.
+        capsuleCollider = GetComponent<CapsuleCollider>();
 
-        flashColor = new Color(1f, 0f, 0f, 0.1f);       // Sets the color values for the damageImage.
+        sword = GetComponentInChildren<BoxCollider>();      // Gets the BoxCollider of the PlaceHolder_Sword children.
 
-        rigidBody = GetComponent<Rigidbody>();          // Gets the RigidBody from the GameObject.
+        playerAudio = GetComponent<AudioSource>();          // Gets the component AudioSource from the player.
+
+        flashColor = new Color(1f, 0f, 0f, 0.1f);           // Sets the color values for the damageImage.
+
+        rigidBody = GetComponent<Rigidbody>();              // Gets the RigidBody from the GameObject.
 
         anim = GetComponent<Animator>();
 
-        state = PlayerStates.AWAKE;                     // Cals the AWAKE state.
+        state = PlayerStates.AWAKE;                         // Cals the AWAKE state.
 	}
 
 	public void setIdle()
     {
         Debug.Log("Idle");
 
-        rigidBody.isKinematic = false;
+        capsuleCollider.enabled = true;
+
+        sword.enabled = false;                          // Deactivates the collider of the sword.
+
+        rigidBody.isKinematic = false;                  // Deactivates the isKinematic bool of the rigidbody.
 
         tempDash = 0.5f;                                // Resets the tempDash counter.
 
@@ -286,9 +301,11 @@ public class PlayerManager : MonoBehaviour
 	{
 		currentHealth = 0;                                      // Sets the health to 0.
 
+        capsuleCollider.enabled = false;
+
         anim.SetTrigger("Die");                                 // Plays the die animation.
 
-        playerAudio.clip = hurtClip;                            // Plays the hurt sound when you get hit.
+        playerAudio.clip = hurtClip;                            // Plays the hurt sound when you die.
         playerAudio.Play();
 
 		state = PlayerStates.DEAD;                              // Calls the DEAD state.
@@ -353,6 +370,8 @@ public class PlayerManager : MonoBehaviour
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        sword.enabled = true;                                       // Activates the collider of the sword.
     }
 
     void ForcesDeactivation()
