@@ -252,6 +252,8 @@ public class PlayerManager : MonoBehaviour
 
         ForcesDeactivation();
 
+        //AnimationControllerAction();
+
         AttackAction(attack10, tempAttack10);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
 
         anim.SetTrigger("Attack10");                    // Plays the attack10 animation.
@@ -358,7 +360,12 @@ public class PlayerManager : MonoBehaviour
         }
 
     }
-
+    /*
+    public void AnimationControllerAction()
+    {
+        if (moveHorizontal >= 0) transform.Translate(Vector3.right * 5 * Time.deltaTime);
+    }
+    */
     public void MovementManagement(float horizontal, float vertical)
     {
         //If there is some axis input...
