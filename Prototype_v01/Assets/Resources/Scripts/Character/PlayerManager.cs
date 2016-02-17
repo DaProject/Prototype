@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
 
 	// States of the player
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SLASH, DASH, DAMAGED, DEAD, VICTORY}
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, SLASH, DASH, DAMAGED, DEAD, VICTORY}
 	[Header("States")]
 	public PlayerStates state;
 
@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     public int attack01;                            // Variable with the damage of the attack01.
     public int speedAttack01;
     public int slash;                               // Variable with the damage of the slash.
+    public bool chainMode;                          // Bool that says the attack mode the player is in. Sword or chain.
     public bool slashActive;                        // Bool that allows to use the slash hability.
 
     // Dash
@@ -101,6 +102,30 @@ public class PlayerManager : MonoBehaviour
             case PlayerStates.ATTACK_01:
                 Attack01Behaviour();
                 break;
+            case PlayerStates.SWORD_10:
+                Sword10Behaviour();
+                break;
+            case PlayerStates.SWORD_20:
+                Sword20Behaviour();
+                break;
+            case PlayerStates.SWORD_30:
+                Sword30Behaviour();
+                break;
+            case PlayerStates.SWORD_40:
+                Sword40Behaviour();
+                break;
+            case PlayerStates.CHAIN_01:
+                Chain01Behaviour();
+                break;
+            case PlayerStates.CHAIN_02:
+                Chain02Behaviour();
+                break;
+            case PlayerStates.CHAIN_03:
+                Chain03Behaviour();
+                break;
+            case PlayerStates.CHAIN_04:
+                Chain04Behaviour();
+                break;
             case PlayerStates.SLASH:
                 SlashBehaviour();
                 break;
@@ -140,12 +165,21 @@ public class PlayerManager : MonoBehaviour
 
         Animating(moveHorizontal, moveVertical);                // Calls the Animating function.
 
+        if (Input.GetKeyDown(KeyCode.Q)) chainMode = !chainMode;
+
         if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
 
-		if (Input.GetKeyDown(KeyCode.Alpha1) && slashActive) setSlash();
+		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && !chainMode) setSword30();
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && !chainMode) setSword40();
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && chainMode) setChain02();
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && chainMode) setChain03();
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && chainMode) setChain04();
 
-		if (Input.GetKeyDown(KeyCode.LeftShift)  && (DashResistanceSlider.value >= resistancePerDash)) setDash();     // Calls the setDash function if left shift key is pressed.
+        if (Input.GetKeyDown(KeyCode.LeftShift)  && (DashResistanceSlider.value >= resistancePerDash)) setDash();     // Calls the setDash function if left shift key is pressed.
     }
 
     private void Attack10Behaviour()
@@ -156,6 +190,62 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Attack01Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Sword10Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Sword20Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Sword30Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Sword40Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Chain01Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Chain02Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Chain03Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;
+
+        if (attackStateCounter <= 0) setIdle();
+    }
+
+    private void Chain04Behaviour()
     {
         attackStateCounter -= Time.deltaTime;
 
@@ -215,6 +305,7 @@ public class PlayerManager : MonoBehaviour
         currentHealth = maxHealth;                          // Sets the player health to the value of maxHealth that you indicated.
 
 		slashActive = false;                                // Sets the slashActive bool to false by default.
+        chainMode = false;                                  // Sword mode activade by default.
 
         sphereCollider = GetComponent<SphereCollider>();
 
@@ -284,6 +375,95 @@ public class PlayerManager : MonoBehaviour
 		playerAudio.Play();
 
         state = PlayerStates.ATTACK_01;
+    }
+
+    public void setSword10()
+    {
+        Debug.Log("Sword10");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.SWORD_10;
+    }
+
+    public void setSword20()
+    {
+        Debug.Log("Sword20");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.SWORD_20;
+    }
+
+    public void setSword30()
+    {
+        Debug.Log("Sword30");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.SWORD_30;
+    }
+
+    public void setSword40()
+    {
+        Debug.Log("Sword40");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.SWORD_40;
+
+    }
+
+    public void setChain01()
+    {
+        Debug.Log("Chain01");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.CHAIN_01;
+    }
+
+    public void setChain02()
+    {
+        Debug.Log("Chain02");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.CHAIN_02;
+    }
+
+    public void setChain03()
+    {
+        Debug.Log("Chain03");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.CHAIN_03;
+    }
+
+    public void setChain04()
+    {
+        Debug.Log("Chain04");
+
+        AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
+
+        state = PlayerStates.CHAIN_04;
     }
 
     public void setSlash()
