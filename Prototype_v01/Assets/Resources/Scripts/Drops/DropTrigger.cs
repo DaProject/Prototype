@@ -5,7 +5,7 @@ public class DropTrigger : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
-		Debug.Log ("D");
+		Debug.Log ("Got the Ability Slash!!");
 
 		if (other.tag == "Player") 
 		{	

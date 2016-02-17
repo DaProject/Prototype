@@ -29,7 +29,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     // Sounds
     [Header("Sounds")]
     public AudioClip hurtClip;
-    AudioSource enemyAudio;
+    //AudioSource enemyAudio;
 
     // Timers
     [Header("Timers")]
@@ -40,7 +40,7 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     // Control enemy
     [Header("Control")]
-    private Rigidbody rigidBody;                // Rigidbody component from the enemy.
+    //private Rigidbody rigidBody;                // Rigidbody component from the enemy.
     private CapsuleCollider capsuleCollider;    
     private SphereCollider sphereCollider;
     public SphereCollider leftHandAttack1;
@@ -140,9 +140,9 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         playerInRange = false;                                          // Initalize the playerInRange bool to false.
 
-        enemyAudio = GetComponent<AudioSource>();                       // Gets the AudioSource component from the enemy.
+        //enemyAudio = GetComponent<AudioSource>();                       // Gets the AudioSource component from the enemy.
 
-        rigidBody = GetComponent<Rigidbody>();                          // Gets the rigidbody component from the enemy.
+        //rigidBody = GetComponent<Rigidbody>();                          // Gets the rigidbody component from the enemy.
         capsuleCollider = GetComponent<CapsuleCollider>();
         sphereCollider = GetComponent<SphereCollider>();
         //leftHandAttack1 = GetComponentInChildren<SphereCollider>();     // Gets the SphereCollider of the leftHandAttack1 children.

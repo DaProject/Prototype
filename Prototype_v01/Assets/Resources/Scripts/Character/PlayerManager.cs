@@ -31,7 +31,9 @@ public class PlayerManager : MonoBehaviour
     [Header("Attack % Spells")]
     public int attackDamage;                        // Auxiliar variable that gets the value of the differents attacks. After, is used to apply the damage to the enemy.
     public int attack10;                            // Variable with the damage of the attack10.
+    public int speedAttack10;
     public int attack01;                            // Variable with the damage of the attack01.
+    public int speedAttack01;
     public int slash;                               // Variable with the damage of the slash.
     public bool slashActive;                        // Bool that allows to use the slash hability.
 
@@ -70,7 +72,7 @@ public class PlayerManager : MonoBehaviour
     // Control player
     [Header("Control")]
     private Rigidbody rigidBody;                    // The rigidbody from the player.
-    private CapsuleCollider capsuleCollider;        // Gets the player collider.
+    private SphereCollider sphereCollider;        // Gets the player collider.
     public BoxCollider sword;                       // Gets the sword collider from the plaer.
 
     // Animations
@@ -214,7 +216,7 @@ public class PlayerManager : MonoBehaviour
 
 		slashActive = false;                                // Sets the slashActive bool to false by default.
 
-        capsuleCollider = GetComponent<CapsuleCollider>();
+        sphereCollider = GetComponent<SphereCollider>();
 
         sword = GetComponentInChildren<BoxCollider>();      // Gets the BoxCollider of the PlaceHolder_Sword children.
 
@@ -233,7 +235,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Idle");
 
-        capsuleCollider.enabled = true;
+        sphereCollider.enabled = true;
 
         sword.enabled = false;                          // Deactivates the collider of the sword.
 
@@ -250,9 +252,11 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Attack10");
 
-        ForcesDeactivation();
+        //ForcesDeactivation();
 
         //AnimationControllerAction();
+
+        rigidBody.AddForce(transform.forward * speedAttack10);
 
         AttackAction(attack10, tempAttack10);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
 
@@ -268,9 +272,11 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Attack01");
 
-        ForcesDeactivation();
+        //ForcesDeactivation();
 
         AttackAction(attack01, tempAttack01);
+
+        rigidBody.AddForce(transform.forward * speedAttack01);
 
         anim.SetTrigger("Attack01");
 
@@ -284,7 +290,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Slash");
 
-        ForcesDeactivation();
+        //ForcesDeactivation();
 
         AttackAction(slash, tempSlash);
 
@@ -328,7 +334,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		currentHealth = 0;                                      // Sets the health to 0.
 
-        capsuleCollider.enabled = false;
+        sphereCollider.enabled = false;
 
         anim.SetTrigger("Die");                                 // Plays the die animation.
 
