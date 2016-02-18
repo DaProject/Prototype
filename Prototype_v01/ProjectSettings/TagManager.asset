@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - EnemyMeleeBig
   - Ground
+  - Weapon
   layers:
   - Default
   - TransparentFX

@@ -28,12 +28,28 @@ public class PlayerManager : MonoBehaviour
     public float speedDampTime;                     // The damping for the speed parameter.
 
     // Damage
-    [Header("Attack % Spells")]
+    [Header("Attacks & Habilities")]
     public int attackDamage;                        // Auxiliar variable that gets the value of the differents attacks. After, is used to apply the damage to the enemy.
-    public int attack10;                            // Variable with the damage of the attack10.
-    public int speedAttack10;
-    public int attack01;                            // Variable with the damage of the attack01.
-    public int speedAttack01;
+    public int attack10;                            // Variable with the damage of the attack10 (sword).
+    public int sword10;                             // Variable with the damage of the sword10 (sword hability).
+    public int sword20;                             // Variable with the damage of the sword20 (sword hability).
+    public int sword30;                             // Variable with the damage of the sword30 (sword hability).
+    public int sword40;                             // Variable with the damage of the sword40 (sword hability).
+    public int attack01;                            // Variable with the damage of the attack01 (chain).
+    public int chain01;                             // Variable with the damage of the chain01 (chain hability).
+    public int chain02;                             // Variable with the damage of the chain02 (chain hability).
+    public int chain03;                             // Variable with the damage of the chain03 (chain hability).
+    public int chain04;                             // Variable with the damage of the chain04 (chain hability).
+    public int speedAttack10;                       // The time the animation has to long.
+    public int speedSword10;                        // The time the animation has to long.
+    public int speedSword20;                        // The time the animation has to long.
+    public int speedSword30;                        // The time the animation has to long.
+    public int speedSword40;                        // The time the animation has to long.
+    public int speedAttack01;                       // The time the animation has to long.
+    public int speedChain01;                        // The time the animation has to long.
+    public int speedChain02;                        // The time the animation has to long.
+    public int speedChain03;                        // The time the animation has to long.
+    public int speedChain04;                        // The time the animation has to long.
     public int slash;                               // Variable with the damage of the slash.
     public bool chainMode;                          // Bool that says the attack mode the player is in. Sword or chain.
     public bool slashActive;                        // Bool that allows to use the slash hability.
@@ -62,19 +78,27 @@ public class PlayerManager : MonoBehaviour
 
 	// Timers
     [Header("Timers")]
-	public float temp;
+	private float temp;
 	public float tempDamage;                        // Counter that determinates how much time the player has to be in the DAMAGED state.
     public float tempAttack10;                      // Counter that reflects how much the animation of the attack10 longs.
+    public float tempSword10;                       // Counter that reflects how much the animation of the sword10 logns.
+    public float tempSword20;                       // Counter that reflects how much the animation of the sword20 logns.
+    public float tempSword30;                       // Counter that reflects how much the animation of the sword30 logns.
+    public float tempSword40;                       // Counter that reflects how much the animation of the sword40 logns.
     public float tempAttack01;                      // Counter that reflects how much the animation of the attack01 longs.
+    public float tempChain01;                       // Counter that reflects how much the animation of the chain10 logns.
+    public float tempChain02;                       // Counter that reflects how much the animation of the chain02 logns.
+    public float tempChain03;                       // Counter that reflects how much the animation of the chain03 logns.
+    public float tempChain04;                       // Counter that reflects how much the animation of the chain04 logns.
     public float tempSlash;                         // Counter that reflects how much the animation of the slash longs.
     public float tempDash;                          // Counter that determinates how much time the player has to be in the DASH state.
-    public float attackStateCounter;                // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
+    private float attackStateCounter;               // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
 
     // Control player
     [Header("Control")]
     private Rigidbody rigidBody;                    // The rigidbody from the player.
-    private SphereCollider sphereCollider;        // Gets the player collider.
-    public BoxCollider sword;                       // Gets the sword collider from the plaer.
+    private SphereCollider sphereCollider;          // Gets the player collider.
+    public BoxCollider sword;                       // Gets the sword collider from the player.
 
     // Animations
     Animator anim;                                  // The animator component from the player.
@@ -159,25 +183,28 @@ public class PlayerManager : MonoBehaviour
 
 	private void IdleBehaviour()
     {
-        ControllerAction(playerSpeed);                          // Calls the ControllerAction function, and give it a speed value for the player.
+        ControllerAction(playerSpeed);                                              // Calls the ControllerAction function, and give it a speed value for the player.
 
-        MovementManagement(moveHorizontal, moveVertical);       // Calls the MovementManagement function.
+        MovementManagement(moveHorizontal, moveVertical);                           // Calls the MovementManagement function.
 
-        Animating(moveHorizontal, moveVertical);                // Calls the Animating function.
+        Animating(moveHorizontal, moveVertical);                                    // Calls the Animating function.
 
         if (Input.GetKeyDown(KeyCode.Q)) chainMode = !chainMode;
 
-        if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
-        else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
+        if (Input.GetMouseButtonDown(0)) setAttack10();                             // Calls the setAttack10 function if mouse left button is pressed.
+        else if (Input.GetMouseButtonDown(1)) setAttack01();                        // Calls the setAttack01 function if mouse right button is pressed.
 
-		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && !chainMode) setSword30();
-        else if (Input.GetKeyDown(KeyCode.Alpha4) && !chainMode) setSword40();
-        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && chainMode) setChain02();
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && chainMode) setChain03();
-        else if (Input.GetKeyDown(KeyCode.Alpha4) && chainMode) setChain04();
+		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();       // If the chain mode is active, goes to the setChain01.
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && chainMode) setChain02();       // If the chain mode is active, goes to the setChain02.
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !chainMode) setSword30();           // Cals the setSword30 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && chainMode) setChain03();       // If the chain mode is active, goes to the setChain03.
+
+        if (Input.GetKeyDown(KeyCode.Alpha4) && !chainMode) setSword40();           // Cals the setSword40 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && chainMode) setChain04();       // If the chain mode is active, goes to the setChain04.
 
         if (Input.GetKeyDown(KeyCode.LeftShift)  && (DashResistanceSlider.value >= resistancePerDash)) setDash();     // Calls the setDash function if left shift key is pressed.
     }
@@ -381,9 +408,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword10");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(sword10, tempSword10);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedSword10);
 
         state = PlayerStates.SWORD_10;
     }
@@ -392,9 +419,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword20");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(sword20, tempSword20);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedSword20);
 
         state = PlayerStates.SWORD_20;
     }
@@ -403,9 +430,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword30");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(sword30, tempSword30);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedSword30);
 
         state = PlayerStates.SWORD_30;
     }
@@ -414,9 +441,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword40");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(sword40, tempSword40);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedSword40);
 
         state = PlayerStates.SWORD_40;
 
@@ -426,9 +453,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain01");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(chain01, tempChain01);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedChain01);
 
         state = PlayerStates.CHAIN_01;
     }
@@ -437,9 +464,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain02");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(chain02, tempChain02);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedChain02);
 
         state = PlayerStates.CHAIN_02;
     }
@@ -448,9 +475,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain03");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(chain03, tempChain03);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedChain03);
 
         state = PlayerStates.CHAIN_03;
     }
@@ -459,9 +486,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain04");
 
-        AttackAction(attack01, tempAttack01);
+        AttackAction(chain04, tempChain04);
 
-        rigidBody.AddForce(transform.forward * speedAttack01);
+        rigidBody.AddForce(transform.forward * speedChain04);
 
         state = PlayerStates.CHAIN_04;
     }
@@ -586,6 +613,62 @@ public class PlayerManager : MonoBehaviour
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
 
         sword.enabled = true;                                       // Activates the collider of the sword.
+    }
+
+    void Sword10Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void Sword20Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void Sword30Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void Sword40Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void Chain01Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void Chain02Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void Chain03Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+    }
+
+    void Chain04Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
     }
 
     void ForcesDeactivation()
