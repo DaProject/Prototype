@@ -537,21 +537,17 @@ public class PlayerManager : MonoBehaviour
         moveHorizontal = Input.GetAxis("Horizontal");                       // Takes the horizontal axis.
         moveVertical = Input.GetAxis("Vertical");                           // Takes the vertical axis.
 
-        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);         
+        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+        movement.Normalize();
         rigidBody.velocity = movement * speed;
-
-        if (moveHorizontal != 0 && moveVertical != 0)
-        {
-            rigidBody.velocity *= 0.8f;
-        }
-
     }
-    /*
+    
     public void AnimationControllerAction()
     {
         if (moveHorizontal >= 0) transform.Translate(Vector3.right * 5 * Time.deltaTime);
     }
-    */
+    
     public void MovementManagement(float horizontal, float vertical)
     {
         //If there is some axis input...
