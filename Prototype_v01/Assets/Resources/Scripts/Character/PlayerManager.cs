@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
 
 	// States of the player
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SLASH, DASH, DAMAGED, DEAD, VICTORY}
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SLASH, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
 	[Header("States")]
 	public PlayerStates state;
 
@@ -36,6 +36,8 @@ public class PlayerManager : MonoBehaviour
     public int speedAttack01;
     public int slash;                               // Variable with the damage of the slash.
     public bool slashActive;                        // Bool that allows to use the slash hability.
+    public float timeStunned;
+    public float timeStunnedIni;
 
     // Dash
     [Header("Dash")]
@@ -110,7 +112,10 @@ public class PlayerManager : MonoBehaviour
             case PlayerStates.DAMAGED:
 				DamagedBehaviour();
 				break;
-			case PlayerStates.DEAD:
+            case PlayerStates.STUNNED:
+                StunnedBehaviour();
+                break;
+            case PlayerStates.DEAD:
 				DeadBehaviour();
 				break;
 			case PlayerStates.VICTORY:
@@ -197,7 +202,17 @@ public class PlayerManager : MonoBehaviour
 
         if (temp <= 0) setIdle();                                                                           // If the player has not been attacked for a while, goes back to setIdle function
 	}
-	private void DeadBehaviour()
+
+    private void StunnedBehaviour()
+    {
+        ForcesDeactivation();
+
+        timeStunned -= Time.deltaTime;
+
+        if (timeStunned <= 0) setIdle();
+    }
+
+    private void DeadBehaviour()
 	{
 
 	}
@@ -218,6 +233,8 @@ public class PlayerManager : MonoBehaviour
 
         sphereCollider = GetComponent<SphereCollider>();
 
+        timeStunned = timeStunnedIni;
+
         sword = GetComponentInChildren<BoxCollider>();      // Gets the BoxCollider of the PlaceHolder_Sword children.
 
         playerAudio = GetComponent<AudioSource>();          // Gets the component AudioSource from the player.
@@ -233,7 +250,7 @@ public class PlayerManager : MonoBehaviour
 
 	public void setIdle()
     {
-        Debug.Log("Idle");
+        //Debug.Log("Idle");
 
         sphereCollider.enabled = true;
 
@@ -246,11 +263,13 @@ public class PlayerManager : MonoBehaviour
         damageImage.enabled = false;                    // Deactivation of the damageImage.
 
         state = PlayerStates.IDLE;                      // Calls the IDLE state.
+
+        timeStunned = timeStunnedIni;
 	}
 
     public void setAttack10()
     {
-        Debug.Log("Attack10");
+        //Debug.Log("Attack10");
 
         //ForcesDeactivation();
 
@@ -270,7 +289,7 @@ public class PlayerManager : MonoBehaviour
 
     public void setAttack01()
     {
-        Debug.Log("Attack01");
+        //Debug.Log("Attack01");
 
         //ForcesDeactivation();
 
@@ -288,7 +307,7 @@ public class PlayerManager : MonoBehaviour
 
     public void setSlash()
     {
-        Debug.Log("Slash");
+        //Debug.Log("Slash");
 
         //ForcesDeactivation();
 
@@ -301,7 +320,7 @@ public class PlayerManager : MonoBehaviour
 
     public void setDash()
     {
-        Debug.Log("Dash");
+        //Debug.Log("Dash");
 
 		DashResistanceSlider.value -= resistancePerDash;
 
@@ -330,7 +349,15 @@ public class PlayerManager : MonoBehaviour
 		else state = PlayerStates.DAMAGED;                      // If the player is still alive, calls the DAMAGED state.
 	}
 
-	public void setDead()
+    public void setStunned()
+    {
+        anim.SetTrigger("Stunned");
+
+        state = PlayerStates.STUNNED;
+    }
+
+
+    public void setDead()
 	{
 		currentHealth = 0;                                      // Sets the health to 0.
 
@@ -412,7 +439,7 @@ public class PlayerManager : MonoBehaviour
         sword.enabled = true;                                       // Activates the collider of the sword.
     }
 
-    void ForcesDeactivation()
+    public void ForcesDeactivation()
     {
         rigidBody.isKinematic = true;                               // Sets the isKinematic option to true.  
     }

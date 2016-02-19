@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class LeftHandAttack1 : MonoBehaviour {
-
+    
 	void OnTriggerEnter (Collider other)
 	{
         if (other.tag == "Player")

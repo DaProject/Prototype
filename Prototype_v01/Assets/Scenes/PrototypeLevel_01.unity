@@ -200,7 +200,7 @@ RectTransform:
   - {fileID: 409064785}
   - {fileID: 206984077}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -463,7 +463,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 9502360, guid: 75c9acfcc2e7a8f459294a9c8cf9de07, type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9502360, guid: 75c9acfcc2e7a8f459294a9c8cf9de07, type: 2}
       propertyPath: m_ApplyRootMotion
@@ -471,6 +471,7 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11436340, guid: 75c9acfcc2e7a8f459294a9c8cf9de07, type: 2}
+    - {fileID: 6535988, guid: 75c9acfcc2e7a8f459294a9c8cf9de07, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 75c9acfcc2e7a8f459294a9c8cf9de07, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &189594221
@@ -881,6 +882,48 @@ Transform:
   - {fileID: 1912883314}
   m_Father: {fileID: 1329256125}
   m_RootOrder: 1
+--- !u!1001 &312471673
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 17.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 424444, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6c3d3660386430e45a6a7f953163bdeb, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &316293564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1866,7 +1909,7 @@ Transform:
   - {fileID: 1471502348}
   - {fileID: 1858832993}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
 --- !u!1 &692154468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,7 +2049,7 @@ Transform:
   m_Children:
   - {fileID: 303078091}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!114 &779828002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2239,7 +2282,7 @@ RectTransform:
   - {fileID: 641394046}
   - {fileID: 2078588573}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2577,34 +2620,7 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 155946, guid: 75c9acfcc2e7a8f459294a9c8cf9de07, type: 2}
   m_PrefabInternal: {fileID: 173652870}
---- !u!54 &1217306646
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1217306645}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 106
-  m_CollisionDetection: 2
---- !u!65 &1217306647
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1217306645}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.0000001}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1217306648
+--- !u!114 &1217306646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2615,6 +2631,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d389dc030294446a39b37b90ce9f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &1217306649
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1217306645}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.89
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1218886584
 GameObject:
   m_ObjectHideFlags: 0
@@ -3196,7 +3224,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1665552816
 GameObject:
   m_ObjectHideFlags: 0
@@ -3285,7 +3313,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &1722543626
 GameObject:
   m_ObjectHideFlags: 0
@@ -3940,7 +3968,7 @@ Transform:
   - {fileID: 1755481659}
   - {fileID: 608752857}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!135 &1913590137
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3980,6 +4008,8 @@ MonoBehaviour:
   speedAttack01: 70
   slash: 5
   slashActive: 0
+  timeStunned: 0
+  timeStunnedIni: 1.5
   speedDash: 200
   maxDashResistance: 100
   currentDashResistance: 0
@@ -4012,7 +4042,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4052,7 +4082,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4074,7 +4104,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!54 &1913590143
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4392,7 +4422,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -170.55}
+  m_AnchoredPosition: {x: -272.31, y: -155.84}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2078588574
@@ -4612,4 +4642,4 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
