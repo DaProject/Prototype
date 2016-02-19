@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SwordAttack : MonoBehaviour
+public class Chain01 : MonoBehaviour
 {
     void OnTriggerEnter (Collider other)
     {

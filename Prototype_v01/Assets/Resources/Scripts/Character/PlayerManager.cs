@@ -97,8 +97,10 @@ public class PlayerManager : MonoBehaviour
     // Control player
     [Header("Control")]
     private Rigidbody rigidBody;                    // The rigidbody from the player.
-    private SphereCollider sphereCollider;          // Gets the player collider.
-    public BoxCollider sword;                       // Gets the sword collider from the player.
+	private SphereCollider sphereCollider;          // Gets the player collider.
+	public SphereCollider chain01Collider;			// Gets the chain01Action collider from the chain01Collider child's player.
+	public BoxCollider attackAction;                // Gets the attackAction collider from the AttackAction child's player.
+	public float chain01ColliderRadius;				// Auxiliar variable that sets the radius of the chain01Collider
 
     // Animations
     Animator anim;                                  // The animator component from the player.
@@ -255,6 +257,8 @@ public class PlayerManager : MonoBehaviour
     {
         attackStateCounter -= Time.deltaTime;
 
+		chain01Collider.radius += 10*Time.deltaTime;
+
         if (attackStateCounter <= 0) setIdle();
     }
 
@@ -329,24 +333,24 @@ public class PlayerManager : MonoBehaviour
     { 
 		currentDashResistance = maxDashResistance;
 
-        currentHealth = maxHealth;                          // Sets the player health to the value of maxHealth that you indicated.
+        currentHealth = maxHealth;                          		// Sets the player health to the value of maxHealth that you indicated.
 
-		slashActive = false;                                // Sets the slashActive bool to false by default.
-        chainMode = false;                                  // Sword mode activade by default.
+		slashActive = false;                                		// Sets the slashActive bool to false by default.
+        chainMode = false;                                  		// Sword mode activade by default.
 
         sphereCollider = GetComponent<SphereCollider>();
+		attackAction = GetComponentInChildren<BoxCollider>();      	// Gets the BoxCollider of the PlaceHolder_Sword children.
+		chain01ColliderRadius = chain01Collider.radius;
 
-        sword = GetComponentInChildren<BoxCollider>();      // Gets the BoxCollider of the PlaceHolder_Sword children.
+        playerAudio = GetComponent<AudioSource>();          		// Gets the component AudioSource from the player.
 
-        playerAudio = GetComponent<AudioSource>();          // Gets the component AudioSource from the player.
+        flashColor = new Color(1f, 0f, 0f, 0.1f);           		// Sets the color values for the damageImage.
 
-        flashColor = new Color(1f, 0f, 0f, 0.1f);           // Sets the color values for the damageImage.
-
-        rigidBody = GetComponent<Rigidbody>();              // Gets the RigidBody from the GameObject.
+        rigidBody = GetComponent<Rigidbody>();              		// Gets the RigidBody from the GameObject.
 
         anim = GetComponent<Animator>();
 
-        state = PlayerStates.AWAKE;                         // Cals the AWAKE state.
+        state = PlayerStates.AWAKE;                         		// Cals the AWAKE state.
 	}
 
 	public void setIdle()
@@ -355,7 +359,9 @@ public class PlayerManager : MonoBehaviour
 
         sphereCollider.enabled = true;
 
-        sword.enabled = false;                          // Deactivates the collider of the sword.
+		attackAction.enabled = false;                   // Deactivates the collider of the sword.
+		chain01Collider.enabled = false;
+		chain01Collider.radius = chain01ColliderRadius;
 
         rigidBody.isKinematic = false;                  // Deactivates the isKinematic bool of the rigidbody.
 
@@ -408,7 +414,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword10");
 
-        AttackAction(sword10, tempSword10);
+        Sword10Action(sword10, tempSword10);
 
         rigidBody.AddForce(transform.forward * speedSword10);
 
@@ -419,7 +425,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword20");
 
-        AttackAction(sword20, tempSword20);
+        Sword20Action(sword20, tempSword20);
 
         rigidBody.AddForce(transform.forward * speedSword20);
 
@@ -430,7 +436,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword30");
 
-        AttackAction(sword30, tempSword30);
+        Sword30Action(sword30, tempSword30);
 
         rigidBody.AddForce(transform.forward * speedSword30);
 
@@ -441,7 +447,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword40");
 
-        AttackAction(sword40, tempSword40);
+        Sword40Action(sword40, tempSword40);
 
         rigidBody.AddForce(transform.forward * speedSword40);
 
@@ -453,7 +459,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain01");
 
-        AttackAction(chain01, tempChain01);
+        Chain01Action(chain01, tempChain01);
 
         rigidBody.AddForce(transform.forward * speedChain01);
 
@@ -464,7 +470,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain02");
 
-        AttackAction(chain02, tempChain02);
+        Chain02Action(chain02, tempChain02);
 
         rigidBody.AddForce(transform.forward * speedChain02);
 
@@ -475,7 +481,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain03");
 
-        AttackAction(chain03, tempChain03);
+        Chain03Action(chain03, tempChain03);
 
         rigidBody.AddForce(transform.forward * speedChain03);
 
@@ -486,7 +492,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain04");
 
-        AttackAction(chain04, tempChain04);
+        Chain04Action(chain04, tempChain04);
 
         rigidBody.AddForce(transform.forward * speedChain04);
 
@@ -564,7 +570,7 @@ public class PlayerManager : MonoBehaviour
         moveHorizontal = Input.GetAxis("Horizontal");                       // Takes the horizontal axis.
         moveVertical = Input.GetAxis("Vertical");                           // Takes the vertical axis.
 
-        movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+		movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
         movement.Normalize();
         rigidBody.velocity = movement * speed;
@@ -595,9 +601,12 @@ public class PlayerManager : MonoBehaviour
 
         // Create a reotation that is an increment closer to the target rotation from the player's rotation.
         Quaternion newRotation = Quaternion.Lerp(rigidBody.rotation, targetRotation, turnSmoothing * Time.deltaTime);
+		Quaternion rotPhase = Quaternion.AngleAxis (45.0f, Vector3.up);
+
+		//newRotation *= rotPhase;
 
         // Change the players rotation to this new rotation.
-        rigidBody.MoveRotation(newRotation);
+		rigidBody.MoveRotation(newRotation);
     }
 
     void Animating(float horizontal, float vertical)
@@ -612,7 +621,7 @@ public class PlayerManager : MonoBehaviour
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
 
-        sword.enabled = true;                                       // Activates the collider of the sword.
+		attackAction.enabled = true;                                       // Activates the collider of the sword.
     }
 
     void Sword10Action(int damageDealt, float attackDuration)
@@ -648,6 +657,8 @@ public class PlayerManager : MonoBehaviour
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+		chain01Collider.enabled = true;
     }
 
     void Chain02Action(int damageDealt, float attackDuration)

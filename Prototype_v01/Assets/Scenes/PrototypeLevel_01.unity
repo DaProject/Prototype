@@ -514,7 +514,7 @@ GameObject:
   - 65: {fileID: 201624707}
   - 114: {fileID: 201624706}
   m_Layer: 8
-  m_Name: SwordCollider
+  m_Name: Attack10Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,7 +531,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1913590136}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!114 &201624706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1543,6 +1543,58 @@ Transform:
   - {fileID: 2112239628}
   m_Father: {fileID: 1665552817}
   m_RootOrder: 0
+--- !u!1 &511586287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 511586289}
+  - 135: {fileID: 511586288}
+  - 114: {fileID: 511586290}
+  m_Layer: 8
+  m_Name: Chain01Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &511586288
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 511586287}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 13
+  m_Center: {x: 0, y: 10, z: 0}
+--- !u!4 &511586289
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 511586287}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1913590136}
+  m_RootOrder: 1
+--- !u!114 &511586290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 511586287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc044fc4caf19014eb9c11f75999bc4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &516981902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,7 +1791,7 @@ Transform:
   - {fileID: 1170526269}
   - {fileID: 1978597185}
   m_Father: {fileID: 1913590136}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!1 &641394045
 GameObject:
   m_ObjectHideFlags: 0
@@ -2418,6 +2470,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1493867681}
   m_RootOrder: 0
+--- !u!1 &907544293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 907544294}
+  m_Layer: 8
+  m_Name: Attack01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &907544294
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 907544293}
+  m_LocalRotation: {x: 0, y: 0.25881907, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 13, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1566771541}
+  m_Father: {fileID: 1913590136}
+  m_RootOrder: 3
 --- !u!1 &917431498
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,6 +3199,46 @@ Transform:
   - {fileID: 917431499}
   m_Father: {fileID: 1964584351}
   m_RootOrder: 0
+--- !u!1 &1566771540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1566771541}
+  - 65: {fileID: 1566771542}
+  m_Layer: 8
+  m_Name: Attack01Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1566771541
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1566771540}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 907544294}
+  m_RootOrder: 0
+--- !u!65 &1566771542
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1566771540}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 20}
+  m_Center: {x: 0, y: 0, z: 8.5}
 --- !u!1 &1569525518
 GameObject:
   m_ObjectHideFlags: 0
@@ -3978,7 +4098,9 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 1755481659}
+  - {fileID: 511586289}
   - {fileID: 201624705}
+  - {fileID: 907544294}
   - {fileID: 608752857}
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -4034,7 +4156,7 @@ MonoBehaviour:
   sword30: 0
   sword40: 0
   attack01: 5
-  chain01: 0
+  chain01: 20
   chain02: 0
   chain03: 0
   chain04: 0
@@ -4070,13 +4192,15 @@ MonoBehaviour:
   tempSword30: 0
   tempSword40: 0
   tempAttack01: 1.2
-  tempChain01: 0
+  tempChain01: 1
   tempChain02: 0
   tempChain03: 0
   tempChain04: 0
   tempSlash: 0
   tempDash: 0
-  sword: {fileID: 0}
+  chain01Collider: {fileID: 511586288}
+  attackAction: {fileID: 0}
+  chain01ColliderRadius: 0
 --- !u!82 &1913590142
 AudioSource:
   m_ObjectHideFlags: 0
