@@ -100,11 +100,13 @@ public class PlayerManager : MonoBehaviour
 
     // Control player
     [Header("Control")]
-    private Rigidbody rigidBody;                    // The rigidbody from the player.
-	private SphereCollider sphereCollider;          // Gets the player collider.
+    public GameObject attack01Gameobject;           // Gets the Attack01 gameobject from the Attack01 gameobjects child's player.
 	public SphereCollider chain01Collider;			// Gets the chain01Action collider from the chain01Collider child's player.
 	public BoxCollider attackAction;                // Gets the attackAction collider from the AttackAction child's player.
-	public float chain01ColliderRadius;				// Auxiliar variable that sets the radius of the chain01Collider
+    private Rigidbody rigidBody;                    // The rigidbody from the player.
+    private SphereCollider sphereCollider;          // Gets the player collider.
+    public float chain01ColliderRadius;				// Auxiliar variable that sets the radius of the chain01Collider
+    public float attack01GameobjectRotation;      // Auxiliar variable that sets the rotation of the attack01Gameobject.
 
     // Animations
     Animator anim;                                  // The animator component from the player.
@@ -227,6 +229,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Attack01Behaviour()
     {
+        attack01Gameobject.transform.rotation = Quaternion.Euler(attack01Gameobject.transform.rotation.x, attack01GameobjectRotation -= 1, attack01Gameobject.transform.rotation.z);
+
         attackStateCounter -= Time.deltaTime;
 
         if (attackStateCounter <= 0) setIdle();
@@ -378,17 +382,19 @@ public class PlayerManager : MonoBehaviour
 
         sphereCollider.enabled = true;
 
-		attackAction.enabled = false;                   // Deactivates the collider of the sword.
-		chain01Collider.enabled = false;
-		chain01Collider.radius = chain01ColliderRadius;
+		attackAction.enabled = false;                               // Deactivates the collider of the attack10 attack (sword).
+		chain01Collider.enabled = false;                            // Deactivates the collider of the chain01 hability (chain).
+        attack01Gameobject.SetActive(!attack01Gameobject);          // Deactivates the collider of the attack01 attack (chain).
+        chain01Collider.radius = chain01ColliderRadius;             // Gives the chain01Collider it's previous radius value.
+        attack01GameobjectRotation = attack01Gameobject.transform.rotation.y + 30;
 
-        rigidBody.isKinematic = false;                  // Deactivates the isKinematic bool of the rigidbody.
+        rigidBody.isKinematic = false;                              // Deactivates the isKinematic bool of the rigidbody.
 
-        tempDash = 0.5f;                                // Resets the tempDash counter.
+        tempDash = 0.5f;                                            // Resets the tempDash counter.
 
-        damageImage.enabled = false;                    // Deactivation of the damageImage.
+        damageImage.enabled = false;                                // Deactivation of the damageImage.
 
-        state = PlayerStates.IDLE;                      // Calls the IDLE state.
+        state = PlayerStates.IDLE;                                  // Calls the IDLE state.
 
         timeStunned = timeStunnedIni;
 	}
@@ -403,7 +409,7 @@ public class PlayerManager : MonoBehaviour
 
         rigidBody.AddForce(transform.forward * speedAttack10);
 
-        AttackAction(attack10, tempAttack10);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
+        Attack10Action(attack10, tempAttack10);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
 
         anim.SetTrigger("Attack10");                    // Plays the attack10 animation.
 
@@ -419,7 +425,7 @@ public class PlayerManager : MonoBehaviour
 
         //ForcesDeactivation();
 
-        AttackAction(attack01, tempAttack01);
+        Attack01Action(attack01, tempAttack01);
 
         rigidBody.AddForce(transform.forward * speedAttack01);
 
@@ -526,7 +532,7 @@ public class PlayerManager : MonoBehaviour
 
         //ForcesDeactivation();
 
-        AttackAction(slash, tempSlash);
+        Attack10Action(slash, tempSlash);
 
         anim.SetTrigger("AttackHab01");
 
@@ -644,14 +650,24 @@ public class PlayerManager : MonoBehaviour
         anim.SetBool ("IsWalking", walking);
     }
 
-    void AttackAction(int damageDealt, float attackDuration)
+    void Attack10Action(int damageDealt, float attackDuration)
     {
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
 
-		attackAction.enabled = true;                                       // Activates the collider of the sword.
+		attackAction.enabled = true;                                // Activates the collider of the sword.
     }
+
+    void Attack01Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attack01Gameobject.SetActive(attack01Gameobject);          // Activates the collider of the sword.
+    }
+    
 
     void Sword10Action(int damageDealt, float attackDuration)
     {
