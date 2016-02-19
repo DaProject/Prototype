@@ -6,11 +6,9 @@ public class PlayerManager : MonoBehaviour
 {
 
 	// States of the player
-<<<<<<< HEAD
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, SLASH, DASH, DAMAGED, DEAD, VICTORY}
-=======
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SLASH, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
->>>>>>> origin/master
+
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, SLASH, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
+
 	[Header("States")]
 	public PlayerStates state;
 
@@ -361,13 +359,9 @@ public class PlayerManager : MonoBehaviour
 		attackAction = GetComponentInChildren<BoxCollider>();      	// Gets the BoxCollider of the PlaceHolder_Sword children.
 		chain01ColliderRadius = chain01Collider.radius;
 
-<<<<<<< HEAD
         playerAudio = GetComponent<AudioSource>();          		// Gets the component AudioSource from the player.
-=======
-        timeStunned = timeStunnedIni;
 
-        sword = GetComponentInChildren<BoxCollider>();      // Gets the BoxCollider of the PlaceHolder_Sword children.
->>>>>>> origin/master
+        timeStunned = timeStunnedIni;
 
         flashColor = new Color(1f, 0f, 0f, 0.1f);           		// Sets the color values for the damageImage.
 
