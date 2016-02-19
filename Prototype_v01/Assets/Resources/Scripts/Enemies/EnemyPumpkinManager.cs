@@ -6,7 +6,7 @@ public class EnemyPumpkinManager : MonoBehaviour
 {
     
     // States of the enemy
-    public enum EnemyStates {AWAKE, IDLE, ACTIVE, ATTACK, DAMAGED, DEAD}
+    public enum EnemyStates {AWAKE, IDLE, ACTIVE, ATTACK, STUNATTACK, DAMAGED, DEAD}
     [Header("States")]
     public EnemyStates state;
 
@@ -25,6 +25,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     public int attackDamage;                    // Auxiliar variable that gets the value of the differents attacks. After it is used to apply the damage to the player.
     public int attackMelee;                     // Variable with the damage of the enemy attack.
     public bool playerInRange;                  // Bool that is true when the player is in attack range.
+    
 
     // Sounds
     [Header("Sounds")]
@@ -37,6 +38,17 @@ public class EnemyPumpkinManager : MonoBehaviour
     public float tempDamage;                    // Counter that determinates how much time the enemy has to be in the DAMAGED state.               
     public float tempAttackMelee;               // Counter that reflects how much the enemy attack longs.
     public float attackStateCounter;            // Auxiliar variable that says how much time the enemy has to be in the ATTACK state. It gets the value from the counter of the attack.
+
+    [Header("Stun")]
+    private float onStunTimer;
+    public float onStunTimerIni;
+    public float stunCooldown;
+    public float stunCooldownIni;
+    public float stunOffset;
+    public float stunOffsetIni;
+    public bool playerInRangeForStun;
+    public bool playerStunned;
+
 
     // Control enemy
     [Header("Control")]
@@ -74,6 +86,9 @@ public class EnemyPumpkinManager : MonoBehaviour
             case EnemyStates.ATTACK:
                 AttackBehaviour();
                 break;
+            case EnemyStates.STUNATTACK:
+                StunAttackBehaviour();
+                break;
             case EnemyStates.DAMAGED:
                 DamagedBehaviour();
                 break;
@@ -81,7 +96,10 @@ public class EnemyPumpkinManager : MonoBehaviour
                 DeadBehaviour();
                 break;
         }
-	}
+
+        stunCooldown -= Time.deltaTime;
+        
+    }
 
     // Behaviorus
     private void AwakeBehaviour()
@@ -106,6 +124,10 @@ public class EnemyPumpkinManager : MonoBehaviour
         }
 
         if (playerInRange) setAttack();                     // Calls the setAttack function if the player is in range attack.
+
+        if (playerInRangeForStun && stunCooldown <= 0) setStunAttack();
+
+        playerStunned = false;
     }
 
     private void AttackBehaviour()
@@ -113,6 +135,18 @@ public class EnemyPumpkinManager : MonoBehaviour
         attackStateCounter -= Time.deltaTime;               // Starts the countdown after the attack has been done.
 
         if (attackStateCounter <= 0) setActive();           // Goes back to setIdle if the enemy has not attack for a small amount of time.
+    }
+
+    void StunAttackBehaviour()
+    {   
+        onStunTimer -= Time.deltaTime;
+
+        if (onStunTimer <= 0) setActive();
+
+        stunOffset -= Time.deltaTime;
+
+        if (stunOffset <= 0) playerStunned = true;
+
     }
 
     private void DamagedBehaviour()
@@ -139,6 +173,12 @@ public class EnemyPumpkinManager : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();                             // Gets the NavMeshAgent component.
 
         playerInRange = false;                                          // Initalize the playerInRange bool to false.
+
+        onStunTimer = onStunTimerIni;
+
+        stunCooldown = stunCooldownIni;
+
+        stunOffset = stunOffsetIni;
 
         //enemyAudio = GetComponent<AudioSource>();                       // Gets the AudioSource component from the enemy.
 
@@ -167,6 +207,10 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         anim.SetBool("Attack", false);                          // Sets the Attack bool for the attack animation to false.
 
+        onStunTimer = onStunTimerIni;
+
+        stunOffset = stunOffsetIni;
+
         state = EnemyStates.ACTIVE;                             // Goes to the ACTIVE state.
     }
 
@@ -179,6 +223,15 @@ public class EnemyPumpkinManager : MonoBehaviour
         anim.SetBool("Run", false);                             // Sets the Run bool for the run animation to true.
 
         state = EnemyStates.ATTACK;                             // Goes to the ATTACK state.
+    }
+
+    public void setStunAttack()
+    {
+        anim.SetTrigger("isStunning");
+
+        stunCooldown = stunCooldownIni;
+
+        state = EnemyStates.STUNATTACK;
     }
 
     public void setDamaged(int damage)
@@ -205,7 +258,7 @@ public class EnemyPumpkinManager : MonoBehaviour
         state = EnemyStates.DEAD;                              // Calls the DEAD state.
     }
 
-    private void ControllerAction()
+    public void ControllerAction()
     {
         nav.SetDestination(player.transform.position);                      // Sets the destination of the navmesh to the actual player position. The enemy is goin to go there.
 
