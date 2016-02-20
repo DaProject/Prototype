@@ -153,7 +153,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         temp -= Time.deltaTime;
 
-        if (temp <= 0) setIdle();
+        if (temp <= 0) setActive();
     }
 
     private void DeadBehaviour()
