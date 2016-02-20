@@ -82,7 +82,7 @@ public class PlayerManager : MonoBehaviour
 
 	// Timers
     [Header("Timers")]
-	private float temp;
+	public float temp;
 	public float tempDamage;                        // Counter that determinates how much time the player has to be in the DAMAGED state.
     public float tempAttack10;                      // Counter that reflects how much the animation of the attack10 longs.
     public float tempSword10;                       // Counter that reflects how much the animation of the sword10 logns.
@@ -96,12 +96,14 @@ public class PlayerManager : MonoBehaviour
     public float tempChain04;                       // Counter that reflects how much the animation of the chain04 logns.
     public float tempSlash;                         // Counter that reflects how much the animation of the slash longs.
     public float tempDash;                          // Counter that determinates how much time the player has to be in the DASH state.
-    private float attackStateCounter;               // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
+    public float attackStateCounter;               // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
 
     // Control player
     [Header("Control")]
     public bool godMode;
     public GameObject attack01Gameobject;           // Gets the Attack01 gameobject from the Attack01 gameobjects child's player.
+    public GameObject sword;
+    public Material swordMaterial;
 	public SphereCollider chain01Collider;			// Gets the chain01Action collider from the chain01Collider child's player.
 	public BoxCollider attackAction;                // Gets the attackAction collider from the AttackAction child's player.
     private Rigidbody rigidBody;                    // The rigidbody from the player.
@@ -215,6 +217,19 @@ public class PlayerManager : MonoBehaviour
         Animating(moveHorizontal, moveVertical);                                    // Calls the Animating function.
 
         if (Input.GetKeyDown(KeyCode.Q)) chainMode = !chainMode;
+
+        if (chainMode)
+        {
+            sword.transform.localScale = new Vector3(1, 40, 1);
+            sword.transform.localPosition = new Vector3(0, 20, 0);
+            swordMaterial.color = new Color(255, 0, 0, 255);
+        }
+        else
+        {
+            sword.transform.localScale = new Vector3(1, 12, 1);
+            sword.transform.localPosition = new Vector3(0, 5, 0);
+            swordMaterial.color = new Color(0, 0, 0, 255);
+        }
 
         if (Input.GetMouseButtonDown(0)) setAttack10();                             // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();                        // Calls the setAttack01 function if mouse right button is pressed.
@@ -333,7 +348,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) setAttack10();                             // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();                        // Calls the setAttack01 function if mouse right button is pressed.
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
+		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
         else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();       // If the chain mode is active, goes to the setChain01.
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
@@ -345,11 +360,15 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4) && !chainMode) setSword40();           // Cals the setSword40 function if the 1 keypad is pressed, and if is not in chain mode.
         else if (Input.GetKeyDown(KeyCode.Alpha4) && chainMode) setChain04();       // If the chain mode is active, goes to the setChain04.
 
-        temp -= Time.deltaTime;                                                                             // Backwards counter
+        if (Input.GetKeyDown(KeyCode.LeftShift)  && (DashResistanceSlider.value >= resistancePerDash)) setDash();     // Calls the setDash function if left shift key is pressed.
+
+        temp -= Time.deltaTime;  
+                                                                                   // Backwards counter
+        attackStateCounter -= Time.deltaTime;
 
         damageImage.color = Color.Lerp(damageImage.color, Color.clear, tempDamage * Time.deltaTime);        // Sets the difumination for the damageImage
 
-        if (temp <= 0) setIdle();                                                                           // If the player has not been attacked for a while, goes back to setIdle function
+        if (temp <= 0 || attackStateCounter <= 0) setIdle();                                                                           // If the player has not been attacked for a while, goes back to setIdle function
 	}
 
     private void StunnedBehaviour()

@@ -36,6 +36,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     // Timers
     [Header("Timers")]
     public float temp;
+    public float tempDead;
     public float tempDamage;                    // Counter that determinates how much time the enemy has to be in the DAMAGED state.               
     public float tempAttackMelee;               // Counter that reflects how much the enemy attack longs.
     public float attackStateCounter;            // Auxiliar variable that says how much time the enemy has to be in the ATTACK state. It gets the value from the counter of the attack.
@@ -53,9 +54,9 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     // Control enemy
     [Header("Control")]
-    //private Rigidbody rigidBody;                // Rigidbody component from the enemy.
-    private CapsuleCollider capsuleCollider;    
-    private SphereCollider sphereCollider;
+    public GameObject enemy;
+    public CapsuleCollider capsuleCollider;    
+    public SphereCollider sphereCollider;
     public SphereCollider leftHandAttack1;
 
     // Animations
@@ -161,7 +162,9 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     private void DeadBehaviour()
     {
+        tempDead -= Time.deltaTime;
 
+        if (tempDead <= 0) enemy.SetActive(!enemy.activeSelf);
     }
 
     // Sets
@@ -188,8 +191,8 @@ public class EnemyPumpkinManager : MonoBehaviour
         //enemyAudio = GetComponent<AudioSource>();                       // Gets the AudioSource component from the enemy.
 
         //rigidBody = GetComponent<Rigidbody>();                          // Gets the rigidbody component from the enemy.
-        capsuleCollider = GetComponent<CapsuleCollider>();
-        sphereCollider = GetComponent<SphereCollider>();
+        //capsuleCollider = GetComponent<CapsuleCollider>();
+        //sphereCollider = GetComponent<SphereCollider>();
         //leftHandAttack1 = GetComponentInChildren<SphereCollider>();     // Gets the SphereCollider of the leftHandAttack1 children.
 
         anim = GetComponent<Animator>();                                // Gets the animator component from the enemy.
