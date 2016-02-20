@@ -401,7 +401,7 @@ public class PlayerManager : MonoBehaviour
 
     public void setAttack10()
     {
-        //Debug.Log("Attack10");
+        Debug.Log("Attack10");
 
         //ForcesDeactivation();
 
@@ -421,7 +421,7 @@ public class PlayerManager : MonoBehaviour
 
     public void setAttack01()
     {
-        //Debug.Log("Attack01");
+        Debug.Log("Attack01");
 
         //ForcesDeactivation();
 
@@ -471,6 +471,8 @@ public class PlayerManager : MonoBehaviour
 
         rigidBody.AddForce(transform.forward * speedSword30);
 
+        anim.SetTrigger("Attack01");
+
         state = PlayerStates.SWORD_30;
     }
 
@@ -481,6 +483,8 @@ public class PlayerManager : MonoBehaviour
         Sword40Action(sword40, tempSword40);
 
         rigidBody.AddForce(transform.forward * speedSword40);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.SWORD_40;
 
@@ -494,6 +498,8 @@ public class PlayerManager : MonoBehaviour
 
         rigidBody.AddForce(transform.forward * speedChain01);
 
+        anim.SetTrigger("Attack01");
+
         state = PlayerStates.CHAIN_01;
     }
 
@@ -504,6 +510,8 @@ public class PlayerManager : MonoBehaviour
         Chain02Action(chain02, tempChain02);
 
         rigidBody.AddForce(transform.forward * speedChain02);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.CHAIN_02;
     }
@@ -516,6 +524,8 @@ public class PlayerManager : MonoBehaviour
 
         rigidBody.AddForce(transform.forward * speedChain03);
 
+        anim.SetTrigger("Attack01");
+
         state = PlayerStates.CHAIN_03;
     }
 
@@ -526,6 +536,8 @@ public class PlayerManager : MonoBehaviour
         Chain04Action(chain04, tempChain04);
 
         rigidBody.AddForce(transform.forward * speedChain04);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.CHAIN_04;
     }
