@@ -100,11 +100,13 @@ public class PlayerManager : MonoBehaviour
 
     // Control player
     [Header("Control")]
+    public bool godMode;
     public GameObject attack01Gameobject;           // Gets the Attack01 gameobject from the Attack01 gameobjects child's player.
 	public SphereCollider chain01Collider;			// Gets the chain01Action collider from the chain01Collider child's player.
 	public BoxCollider attackAction;                // Gets the attackAction collider from the AttackAction child's player.
     private Rigidbody rigidBody;                    // The rigidbody from the player.
-    private SphereCollider sphereCollider;          // Gets the player collider.
+    public SphereCollider sphereCollider;          // Gets the player spherecollider.
+    public CapsuleCollider capsuleCollider;        // Gets the player capsulecollider.
     public float chain01ColliderRadius;				// Auxiliar variable that sets the radius of the chain01Collider
     public float attack01GameobjectRotation;      // Auxiliar variable that sets the rotation of the attack01Gameobject.
 
@@ -120,6 +122,18 @@ public class PlayerManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.G)) godMode = !godMode;
+        if (godMode)
+        {
+            sphereCollider.enabled = false;
+            capsuleCollider.enabled = false;
+        }
+        else
+        {
+            sphereCollider.enabled = true;
+            capsuleCollider.enabled = true;
+        }
+
 		switch (state)
         {
 			case PlayerStates.AWAKE:
@@ -316,12 +330,20 @@ public class PlayerManager : MonoBehaviour
 
         Animating(moveHorizontal, moveVertical);
 
-        if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
-        else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
+        if (Input.GetMouseButtonDown(0)) setAttack10();                             // Calls the setAttack10 function if mouse left button is pressed.
+        else if (Input.GetMouseButtonDown(1)) setAttack01();                        // Calls the setAttack01 function if mouse right button is pressed.
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && slashActive) setSlash();
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();       // If the chain mode is active, goes to the setChain01.
 
-        if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && chainMode) setChain02();       // If the chain mode is active, goes to the setChain02.
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !chainMode) setSword30();           // Cals the setSword30 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && chainMode) setChain03();       // If the chain mode is active, goes to the setChain03.
+
+        if (Input.GetKeyDown(KeyCode.Alpha4) && !chainMode) setSword40();           // Cals the setSword40 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && chainMode) setChain04();       // If the chain mode is active, goes to the setChain04.
 
         temp -= Time.deltaTime;                                                                             // Backwards counter
 
@@ -360,7 +382,8 @@ public class PlayerManager : MonoBehaviour
         chainMode = false;                                  		// Sword mode activade by default.
 
         sphereCollider = GetComponent<SphereCollider>();
-		attackAction = GetComponentInChildren<BoxCollider>();      	// Gets the BoxCollider of the PlaceHolder_Sword children.
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        attackAction = GetComponentInChildren<BoxCollider>();      	// Gets the BoxCollider of the PlaceHolder_Sword children.
 		chain01ColliderRadius = chain01Collider.radius;
 
         playerAudio = GetComponent<AudioSource>();          		// Gets the component AudioSource from the player.
@@ -379,8 +402,6 @@ public class PlayerManager : MonoBehaviour
 	public void setIdle()
     {
         //Debug.Log("Idle");
-
-        sphereCollider.enabled = true;
 
 		attackAction.enabled = false;                               // Deactivates the collider of the attack10 attack (sword).
 		chain01Collider.enabled = false;                            // Deactivates the collider of the chain01 hability (chain).
@@ -403,7 +424,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Attack10");
 
-        //ForcesDeactivation();
+        ForcesDeactivation();
 
         //AnimationControllerAction();
 
@@ -423,7 +444,7 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Attack01");
 
-        //ForcesDeactivation();
+        ForcesDeactivation();
 
         Attack01Action(attack01, tempAttack01);
 
@@ -441,6 +462,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword10");
 
+        //ForcesDeactivation();
+
         Sword10Action(sword10, tempSword10);
 
         rigidBody.AddForce(transform.forward * speedSword10);
@@ -453,6 +476,8 @@ public class PlayerManager : MonoBehaviour
     public void setSword20()
     {
         Debug.Log("Sword20");
+
+        ForcesDeactivation();
 
         Sword20Action(sword20, tempSword20);
 
@@ -467,6 +492,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword30");
 
+        ForcesDeactivation();
+
         Sword30Action(sword30, tempSword30);
 
         rigidBody.AddForce(transform.forward * speedSword30);
@@ -479,6 +506,8 @@ public class PlayerManager : MonoBehaviour
     public void setSword40()
     {
         Debug.Log("Sword40");
+
+        ForcesDeactivation();
 
         Sword40Action(sword40, tempSword40);
 
@@ -494,6 +523,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain01");
 
+        ForcesDeactivation();
+
         Chain01Action(chain01, tempChain01);
 
         rigidBody.AddForce(transform.forward * speedChain01);
@@ -506,6 +537,8 @@ public class PlayerManager : MonoBehaviour
     public void setChain02()
     {
         Debug.Log("Chain02");
+
+        ForcesDeactivation();
 
         Chain02Action(chain02, tempChain02);
 
@@ -520,6 +553,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain03");
 
+        ForcesDeactivation();
+
         Chain03Action(chain03, tempChain03);
 
         rigidBody.AddForce(transform.forward * speedChain03);
@@ -532,6 +567,8 @@ public class PlayerManager : MonoBehaviour
     public void setChain04()
     {
         Debug.Log("Chain04");
+
+        ForcesDeactivation();
 
         Chain04Action(chain04, tempChain04);
 
