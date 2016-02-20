@@ -445,6 +445,8 @@ public class PlayerManager : MonoBehaviour
 
         rigidBody.AddForce(transform.forward * speedSword10);
 
+        anim.SetTrigger("Sword10");
+
         state = PlayerStates.SWORD_10;
     }
 
@@ -455,6 +457,8 @@ public class PlayerManager : MonoBehaviour
         Sword20Action(sword20, tempSword20);
 
         rigidBody.AddForce(transform.forward * speedSword20);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.SWORD_20;
     }
@@ -636,7 +640,7 @@ public class PlayerManager : MonoBehaviour
 
         // Create a reotation that is an increment closer to the target rotation from the player's rotation.
         Quaternion newRotation = Quaternion.Lerp(rigidBody.rotation, targetRotation, turnSmoothing * Time.deltaTime);
-		Quaternion rotPhase = Quaternion.AngleAxis (45.0f, Vector3.up);
+		//Quaternion rotPhase = Quaternion.AngleAxis (45.0f, Vector3.up);
 
 		//newRotation *= rotPhase;
 
@@ -674,6 +678,8 @@ public class PlayerManager : MonoBehaviour
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attackAction.enabled = true;                                // Activates the collider of the sword.
     }
 
     void Sword20Action(int damageDealt, float attackDuration)
@@ -681,6 +687,8 @@ public class PlayerManager : MonoBehaviour
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attackAction.enabled = true;                                // Activates the collider of the sword.
     }
 
     void Sword30Action(int damageDealt, float attackDuration)

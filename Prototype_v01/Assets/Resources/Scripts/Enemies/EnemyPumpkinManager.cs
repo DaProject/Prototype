@@ -25,6 +25,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     public int attackDamage;                    // Auxiliar variable that gets the value of the differents attacks. After it is used to apply the damage to the player.
     public int attackMelee;                     // Variable with the damage of the enemy attack.
     public bool playerInRange;                  // Bool that is true when the player is in attack range.
+    public bool playerAttacked;
     
 
     // Sounds
@@ -125,6 +126,8 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         if (playerInRange) setAttack();                     // Calls the setAttack function if the player is in range attack.
 
+        playerAttacked = false;
+
         if (playerInRangeForStun && stunCooldown <= 0) setStunAttack();
 
         playerStunned = false;
@@ -173,6 +176,8 @@ public class EnemyPumpkinManager : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();                             // Gets the NavMeshAgent component.
 
         playerInRange = false;                                          // Initalize the playerInRange bool to false.
+
+        playerAttacked = true;
 
         onStunTimer = onStunTimerIni;
 
@@ -276,13 +281,14 @@ public class EnemyPumpkinManager : MonoBehaviour
         attackStateCounter = attackDuration;                                // Sets the amount of time that the enemy has to be in the attack state.
     }
 
-    void  OnTriggerEnter(Collider other)
+    void  OnTriggerStay(Collider other)
     {
         if (other.tag == "Player") playerInRange = true;                    // Sets the playerInRange to true if the player has been detected around the enemy.
     }
 
     void OnTriggerExit(Collider other)
     {
+        Debug.Log("player lost");
         if (other.tag == "Player") playerInRange = false;                   // Sets the playerInRange to true if the player has exit the area detection of the enemy.
     }
 }
