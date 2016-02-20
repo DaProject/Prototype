@@ -12,9 +12,9 @@ GameObject:
   - 23: {fileID: 2377604}
   - 95: {fileID: 9502360}
   - 65: {fileID: 6535988}
-  - 114: {fileID: 11436340}
+  - 114: {fileID: 11448282}
   m_Layer: 12
-  m_Name: Slash_Drop
+  m_Name: Sword20_Drop
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11436340
+--- !u!114 &11448282
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 155946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d389dc030294446a39b37b90ce9f1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c70fdabc1b9640b4db173f23b5a19d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &100100000
@@ -127,6 +127,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Name
+      value: Sword20_Drop
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 
 	// States of the player
 
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, SLASH, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
 
 	[Header("States")]
 	public PlayerStates state;
@@ -52,9 +52,10 @@ public class PlayerManager : MonoBehaviour
     public int speedChain02;                        // The time the animation has to long.
     public int speedChain03;                        // The time the animation has to long.
     public int speedChain04;                        // The time the animation has to long.
-    public int slash;                               // Variable with the damage of the slash.
     public bool chainMode;                          // Bool that says the attack mode the player is in. Sword or chain.
-    public bool slashActive;                        // Bool that allows to use the slash hability.
+    public bool sword10Active;                      // Bool that allows to use the sword10 ability.
+    public bool sword20Active;                      // Bool that allows to use the sword20 ability.
+    public bool chain10Active;                      // Bool that allows to use the chain10 ability.
     public float timeStunned;
     public float timeStunnedIni;
 
@@ -174,9 +175,6 @@ public class PlayerManager : MonoBehaviour
             case PlayerStates.CHAIN_04:
                 Chain04Behaviour();
                 break;
-            case PlayerStates.SLASH:
-                SlashBehaviour();
-                break;
             case PlayerStates.DASH:
                 DashBehaviour();
                 break;
@@ -234,10 +232,10 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) setAttack10();                             // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();                        // Calls the setAttack01 function if mouse right button is pressed.
 
-		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
-        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();       // If the chain mode is active, goes to the setChain01.
+		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode  && sword10Active) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode && chain10Active) setChain01();       // If the chain mode is active, goes to the setChain01.
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode && sword20Active) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
         else if (Input.GetKeyDown(KeyCode.Alpha2) && chainMode) setChain02();       // If the chain mode is active, goes to the setChain02.
 
         if (Input.GetKeyDown(KeyCode.Alpha3) && !chainMode) setSword30();           // Cals the setSword30 function if the 1 keypad is pressed, and if is not in chain mode.
@@ -322,14 +320,7 @@ public class PlayerManager : MonoBehaviour
 
         if (attackStateCounter <= 0) setIdle();
     }
-
-    private void SlashBehaviour()
-    {
-        attackStateCounter -= Time.deltaTime;
-
-        if (attackStateCounter <= 0) setIdle();
-    }
-
+    
     private void DashBehaviour()
     {
         tempDash -= Time.deltaTime;
@@ -397,7 +388,9 @@ public class PlayerManager : MonoBehaviour
 
         currentHealth = maxHealth;                          		// Sets the player health to the value of maxHealth that you indicated.
 
-		slashActive = false;                                		// Sets the slashActive bool to false by default.
+		sword10Active = false;                                		// Sets the sword10Active bool to false by default.
+        sword20Active = false;                                		// Sets the sword20Active bool to false by default.
+        chain10Active = false;                                		// Sets the chain10Active bool to false by default.
         chainMode = false;                                  		// Sword mode activade by default.
 
         sphereCollider = GetComponent<SphereCollider>();
@@ -596,19 +589,6 @@ public class PlayerManager : MonoBehaviour
         anim.SetTrigger("Attack01");
 
         state = PlayerStates.CHAIN_04;
-    }
-
-    public void setSlash()
-    {
-        //Debug.Log("Slash");
-
-        //ForcesDeactivation();
-
-        Attack10Action(slash, tempSlash);
-
-        anim.SetTrigger("AttackHab01");
-
-        state = PlayerStates.SLASH;
     }
 
     public void setDash()

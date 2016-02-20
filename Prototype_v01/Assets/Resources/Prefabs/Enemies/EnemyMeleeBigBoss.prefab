@@ -301,6 +301,7 @@ GameObject:
   - 195: {fileID: 19506964}
   - 95: {fileID: 9579892}
   - 114: {fileID: 11407318}
+  - 114: {fileID: 11462316}
   m_Layer: 9
   m_Name: EnemyMeleeBigBoss
   m_TagString: Enemy
@@ -2081,6 +2082,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPumpkinManager: {fileID: 0}
+--- !u!114 &11462316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb983e185db77f34d86ad6c21a484d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drop: {fileID: 155946, guid: 01ea6b5c5c10b1540a969c23a37e59f4, type: 2}
+  trans: {fileID: 424444}
 --- !u!114 &11465564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2294,6 +2308,14 @@ Prefab:
       propertyPath: tempDead
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: drop
+      value: 
+      objectReference: {fileID: 155946, guid: 01ea6b5c5c10b1540a969c23a37e59f4, type: 2}
+    - target: {fileID: 0}
+      propertyPath: trans
+      value: 
+      objectReference: {fileID: 424444}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 131830}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DropTrigger : MonoBehaviour
+public class DropSword10Trigger : MonoBehaviour
 {
 	void OnTriggerEnter (Collider other)
 	{
@@ -9,7 +9,7 @@ public class DropTrigger : MonoBehaviour
         {
             Debug.Log("Got the Ability Slash!!");
 
-            other.GetComponent<PlayerManager> ().slashActive = true;
+            other.GetComponent<PlayerManager>().sword10Active = true;
 
 			Destroy(this.gameObject);
 		}
