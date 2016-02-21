@@ -137,7 +137,7 @@ ModelImporter:
     400126: mixamorig:Spine
     400128: mixamorig:Spine1
     400130: mixamorig:Spine2
-    7400000: Combo 01 03
+    7400000: PlayerAttack30
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -161,7 +161,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Combo 01 03
+      name: PlayerAttack30
       takeName: Take 001
       firstFrame: 32
       lastFrame: 53

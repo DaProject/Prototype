@@ -200,7 +200,7 @@ RectTransform:
   - {fileID: 409064785}
   - {fileID: 206984077}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -575,12 +575,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2108068956}
-        m_MethodName: 
+      - m_Target: {fileID: 2108068957}
+        m_MethodName: Reset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2011,7 +2011,7 @@ Transform:
   m_Children:
   - {fileID: 1471502348}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
 --- !u!1 &692154468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2151,7 +2151,7 @@ Transform:
   m_Children:
   - {fileID: 303078091}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!114 &779828002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2497,7 +2497,7 @@ RectTransform:
   - {fileID: 387114185}
   - {fileID: 817956640}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2775,6 +2775,48 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2084526301}
   m_RootOrder: 0
+--- !u!1001 &1045669629
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.372
+      objectReference: {fileID: 0}
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.135
+      objectReference: {fileID: 0}
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -11.534
+      objectReference: {fileID: 0}
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 490828, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1047362214
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,7 +3062,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1376225555}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 58939136}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1376225555
@@ -3603,7 +3656,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &1665552816
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,7 +3745,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1722543626
 GameObject:
   m_ObjectHideFlags: 0
@@ -4456,7 +4509,7 @@ Transform:
   - {fileID: 907544294}
   - {fileID: 608752857}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!135 &1913590137
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4495,7 +4548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  maxHealth: 2000
+  maxHealth: 10
   currentHealth: 0
   playerSpeed: 5
   moveHorizontal: 0
@@ -4503,7 +4556,9 @@ MonoBehaviour:
   turnSmoothing: 6
   speedDampTime: 1
   attackDamage: 0
-  attack10: 40
+  attack10: 20
+  attack20: 30
+  attack30: 40
   sword10: 30
   sword20: 10
   sword30: 10
@@ -4513,7 +4568,9 @@ MonoBehaviour:
   chain02: 10
   chain03: 10
   chain04: 10
-  speedAttack10: 0
+  speedAttack10: 10
+  speedAttack20: 10
+  speedAttack30: 10
   speedSword10: 300
   speedSword20: 0
   speedSword30: 0
@@ -4523,9 +4580,10 @@ MonoBehaviour:
   speedChain02: 0
   speedChain03: 0
   speedChain04: 0
-  slash: 0
   chainMode: 0
-  slashActive: 0
+  sword10Active: 0
+  sword20Active: 0
+  chain10Active: 0
   timeStunned: 0
   timeStunnedIni: 1.5
   speedDash: 200
@@ -4541,8 +4599,11 @@ MonoBehaviour:
   damageImage: {fileID: 1872364066}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   temp: 0
+  tempDead: 2
   tempDamage: 10
   tempAttack10: 0.6
+  tempAttack20: 0.6
+  tempAttack30: 0.6
   tempSword10: 1
   tempSword20: 1.5
   tempSword30: 1
@@ -4565,6 +4626,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   chain01ColliderRadius: 0
   attack01GameobjectRotation: 0
+  resetScene: {fileID: 2108068957}
 --- !u!82 &1913590142
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5250,4 +5312,4 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4

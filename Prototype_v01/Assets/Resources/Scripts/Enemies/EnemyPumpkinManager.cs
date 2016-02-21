@@ -18,7 +18,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     // NavMesh
     [Header("NavMesh")]
     NavMeshAgent nav;                           // NavMesComponent 
-    GameObject player;                          // Player
+    public GameObject player;                          // Player
     
     // Damage
     [Header("Attack")]
@@ -63,7 +63,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     Animator anim;                              // Animator from the enemy.
 
     // Scripts calls
-    PlayerManager playerManager;                // PlayerManager script
+    public PlayerManager playerManager;                // PlayerManager script
 
 	// Use this for initialization
 	void Start ()
@@ -117,14 +117,14 @@ public class EnemyPumpkinManager : MonoBehaviour
     private void ActiveBehaviour()
     {
         ControllerAction();                                 // Calls the ControllerAction function when the enemy has to move.
-
+        
         if (playerManager.currentHealth == 0)
         {
             playerInRange = false;
 
             setIdle();
         }
-
+        
         if (playerInRange) setAttack();                     // Calls the setAttack function if the player is in range attack.
 
         playerAttacked = false;
@@ -138,7 +138,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         attackStateCounter -= Time.deltaTime;               // Starts the countdown after the attack has been done.
 
-        if (attackStateCounter <= 0) setActive();           // Goes back to setIdle if the enemy has not attack for a small amount of time.
+        if (attackStateCounter <= 0) setActive();           // Goes back to setActive if the enemy has not attack for a small amount of time.
     }
 
     void StunAttackBehaviour()

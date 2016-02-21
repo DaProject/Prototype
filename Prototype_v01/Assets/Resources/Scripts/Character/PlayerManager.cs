@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 
 	// States of the player
 
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_20, ATTACK_30, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
 
 	[Header("States")]
 	public PlayerStates state;
@@ -33,6 +33,8 @@ public class PlayerManager : MonoBehaviour
     [Header("Attacks & Habilities")]
     public int attackDamage;                        // Auxiliar variable that gets the value of the differents attacks. After, is used to apply the damage to the enemy.
     public int attack10;                            // Variable with the damage of the attack10 (sword).
+    public int attack20;                            // Variable with the damage of the attack20 (sword).
+    public int attack30;                            // Variable with the damage of the attack30 (sword).
     public int sword10;                             // Variable with the damage of the sword10 (sword hability).
     public int sword20;                             // Variable with the damage of the sword20 (sword hability).
     public int sword30;                             // Variable with the damage of the sword30 (sword hability).
@@ -43,6 +45,8 @@ public class PlayerManager : MonoBehaviour
     public int chain03;                             // Variable with the damage of the chain03 (chain hability).
     public int chain04;                             // Variable with the damage of the chain04 (chain hability).
     public int speedAttack10;                       // The time the animation has to long.
+    public int speedAttack20;                       // The time the animation has to long.
+    public int speedAttack30;                       // The time the animation has to long.
     public int speedSword10;                        // The time the animation has to long.
     public int speedSword20;                        // The time the animation has to long.
     public int speedSword30;                        // The time the animation has to long.
@@ -84,8 +88,11 @@ public class PlayerManager : MonoBehaviour
 	// Timers
     [Header("Timers")]
 	public float temp;
+    public float tempDead;
 	public float tempDamage;                        // Counter that determinates how much time the player has to be in the DAMAGED state.
     public float tempAttack10;                      // Counter that reflects how much the animation of the attack10 longs.
+    public float tempAttack20;                      // Counter that reflects how much the animation of the attack10 longs.
+    public float tempAttack30;                      // Counter that reflects how much the animation of the attack10 longs.
     public float tempSword10;                       // Counter that reflects how much the animation of the sword10 logns.
     public float tempSword20;                       // Counter that reflects how much the animation of the sword20 logns.
     public float tempSword30;                       // Counter that reflects how much the animation of the sword30 logns.
@@ -108,13 +115,15 @@ public class PlayerManager : MonoBehaviour
 	public SphereCollider chain01Collider;			// Gets the chain01Action collider from the chain01Collider child's player.
 	public BoxCollider attackAction;                // Gets the attackAction collider from the AttackAction child's player.
     private Rigidbody rigidBody;                    // The rigidbody from the player.
-    public SphereCollider sphereCollider;          // Gets the player spherecollider.
-    public CapsuleCollider capsuleCollider;        // Gets the player capsulecollider.
-    public float chain01ColliderRadius;				// Auxiliar variable that sets the radius of the chain01Collider
-    public float attack01GameobjectRotation;      // Auxiliar variable that sets the rotation of the attack01Gameobject.
+    public SphereCollider sphereCollider;           // Gets the player spherecollider.
+    public CapsuleCollider capsuleCollider;         // Gets the player capsulecollider.
+    public float chain01ColliderRadius;			    // Auxiliar variable that sets the radius of the chain01Collider
+    public float attack01GameobjectRotation;        // Auxiliar variable that sets the rotation of the attack01Gameobject.
 
     // Animations
     Animator anim;                                  // The animator component from the player.
+
+    public ResetScene resetScene;
 
 	// Use this for initialization
 	void Start ()
@@ -147,6 +156,12 @@ public class PlayerManager : MonoBehaviour
 				break;
             case PlayerStates.ATTACK_10:
                 Attack10Behaviour();
+                break;
+            case PlayerStates.ATTACK_20:
+                Attack20Behaviour();
+                break;
+            case PlayerStates.ATTACK_30:
+                Attack30Behaviour();
                 break;
             case PlayerStates.ATTACK_01:
                 Attack01Behaviour();
@@ -248,6 +263,22 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Attack10Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;                   // Starts the countdown after the attack has been done.
+
+        if (attackStateCounter <= 0) setIdle();                 // Goes back to setIdle if the player has not attack for a small amount of time.
+        else if (Input.GetMouseButtonDown(0)) setAttack20();
+    }
+
+    private void Attack20Behaviour()
+    {
+        attackStateCounter -= Time.deltaTime;                   // Starts the countdown after the attack has been done.
+
+        if (attackStateCounter <= 0) setIdle();                 // Goes back to setIdle if the player has not attack for a small amount of time.
+        else if (Input.GetMouseButtonDown(0)) setAttack30();
+    }
+
+    private void Attack30Behaviour()
     {
         attackStateCounter -= Time.deltaTime;                   // Starts the countdown after the attack has been done.
 
@@ -373,7 +404,9 @@ public class PlayerManager : MonoBehaviour
 
     private void DeadBehaviour()
 	{
+        tempDead -= Time.deltaTime;
 
+        if (tempDead <= 0) resetScene.Reset();
 	}
 
 	private void VictoryBehaviour()
@@ -436,9 +469,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Attack10");
 
-        ForcesDeactivation();
+        //ForcesDeactivation();
 
-        //AnimationControllerAction();
+        AnimationControllerAction();
 
         rigidBody.AddForce(transform.forward * speedAttack10);
 
@@ -450,6 +483,46 @@ public class PlayerManager : MonoBehaviour
 		playerAudio.Play();
 
         state = PlayerStates.ATTACK_10;                 // Goes to the attack10 state.
+    }
+
+    public void setAttack20()
+    {
+        Debug.Log("Attack20");
+
+        //ForcesDeactivation();
+
+        AnimationControllerAction();
+
+        rigidBody.AddForce(transform.forward * speedAttack20);
+
+        Attack20Action(attack20, tempAttack20);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
+
+        anim.SetTrigger("Attack20");                    // Plays the attack10 animation.
+
+        //playerAudio.clip = swordSwipeClip;
+        //playerAudio.Play();
+
+        state = PlayerStates.ATTACK_20;                 // Goes to the attack10 state.
+    }
+
+    public void setAttack30()
+    {
+        Debug.Log("Attack30");
+
+        //ForcesDeactivation();
+
+        AnimationControllerAction();
+
+        rigidBody.AddForce(transform.forward * speedAttack30);
+
+        Attack20Action(attack30, tempAttack30);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
+
+        anim.SetTrigger("Attack30");                    // Plays the attack10 animation.
+
+        //playerAudio.clip = swordSwipeClip;
+        //playerAudio.Play();
+
+        state = PlayerStates.ATTACK_30;                 // Goes to the attack10 state.
     }
 
     public void setAttack01()
@@ -709,6 +782,24 @@ public class PlayerManager : MonoBehaviour
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
 
 		attackAction.enabled = true;                                // Activates the collider of the sword.
+    }
+
+    void Attack20Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attackAction.enabled = true;                                // Activates the collider of the sword.
+    }
+
+    void Attack30Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attackAction.enabled = true;                                // Activates the collider of the sword.
     }
 
     void Attack01Action(int damageDealt, float attackDuration)
