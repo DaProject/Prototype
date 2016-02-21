@@ -18,7 +18,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     // NavMesh
     [Header("NavMesh")]
     NavMeshAgent nav;                           // NavMesComponent 
-    public GameObject player;                          // Player
+    GameObject player;                          // Player
     
     // Damage
     [Header("Attack")]
@@ -63,7 +63,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     Animator anim;                              // Animator from the enemy.
 
     // Scripts calls
-    public PlayerManager playerManager;                // PlayerManager script
+    PlayerManager playerManager;                // PlayerManager script
 
 	// Use this for initialization
 	void Start ()

@@ -233,14 +233,14 @@ public class PlayerManager : MonoBehaviour
 
         if (chainMode)
         {
-            sword.transform.localScale = new Vector3(1, 40, 1);
-            sword.transform.localPosition = new Vector3(0, 20, 0);
+            //sword.transform.localScale = new Vector3(1, 40, 1);
+            //sword.transform.localPosition = new Vector3(0, 20, 0);
             swordMaterial.color = new Color(255, 0, 0, 255);
         }
         else
         {
-            sword.transform.localScale = new Vector3(1, 12, 1);
-            sword.transform.localPosition = new Vector3(0, 5, 0);
+            //sword.transform.localScale = new Vector3(1, 12, 1);
+            //sword.transform.localPosition = new Vector3(0, 5, 0);
             swordMaterial.color = new Color(0, 0, 0, 255);
         }
 
@@ -356,6 +356,9 @@ public class PlayerManager : MonoBehaviour
     {
         tempDash -= Time.deltaTime;
 
+        sphereCollider.enabled = false;
+        capsuleCollider.enabled = false;
+        
         if (tempDash <= 0) setIdle();
     }
 
@@ -448,6 +451,8 @@ public class PlayerManager : MonoBehaviour
     {
         //Debug.Log("Idle");
 
+        sphereCollider.enabled = true;
+        capsuleCollider.enabled = true;
 		attackAction.enabled = false;                               // Deactivates the collider of the attack10 attack (sword).
 		chain01Collider.enabled = false;                            // Deactivates the collider of the chain01 hability (chain).
         attack01Gameobject.SetActive(!attack01Gameobject);          // Deactivates the collider of the attack01 attack (chain).
@@ -668,7 +673,7 @@ public class PlayerManager : MonoBehaviour
     {
         //Debug.Log("Dash");
 
-		DashResistanceSlider.value -= resistancePerDash;
+        DashResistanceSlider.value -= resistancePerDash;
 
         anim.SetTrigger("IsDashing");                           // Plays the dash animation.
 
@@ -686,8 +691,8 @@ public class PlayerManager : MonoBehaviour
 
 		currentHealth -= damage;                                // Applies the damage recieved.
 
-		playerAudio.clip = hurtClip;
-        playerAudio.Play();                                     // Plays the hurt sound when the player gets hit.
+		//playerAudio.clip = hurtClip;
+        //playerAudio.Play();                                     // Plays the hurt sound when the player gets hit.
 
         healthSlider.value = currentHealth;                     // Sets the value of the slider from the currentHealth of the player.
 
