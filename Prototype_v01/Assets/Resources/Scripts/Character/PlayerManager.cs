@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 
 	// States of the player
 
-	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, SLASH, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
+	public enum PlayerStates {AWAKE, IDLE, ATTACK_10, ATTACK_01, SWORD_10, SWORD_20, SWORD_30, SWORD_40, CHAIN_01, CHAIN_02, CHAIN_03, CHAIN_04, DASH, DAMAGED, STUNNED, DEAD, VICTORY}
 
 	[Header("States")]
 	public PlayerStates state;
@@ -52,9 +52,10 @@ public class PlayerManager : MonoBehaviour
     public int speedChain02;                        // The time the animation has to long.
     public int speedChain03;                        // The time the animation has to long.
     public int speedChain04;                        // The time the animation has to long.
-    public int slash;                               // Variable with the damage of the slash.
     public bool chainMode;                          // Bool that says the attack mode the player is in. Sword or chain.
-    public bool slashActive;                        // Bool that allows to use the slash hability.
+    public bool sword10Active;                      // Bool that allows to use the sword10 ability.
+    public bool sword20Active;                      // Bool that allows to use the sword20 ability.
+    public bool chain10Active;                      // Bool that allows to use the chain10 ability.
     public float timeStunned;
     public float timeStunnedIni;
 
@@ -82,7 +83,7 @@ public class PlayerManager : MonoBehaviour
 
 	// Timers
     [Header("Timers")]
-	private float temp;
+	public float temp;
 	public float tempDamage;                        // Counter that determinates how much time the player has to be in the DAMAGED state.
     public float tempAttack10;                      // Counter that reflects how much the animation of the attack10 longs.
     public float tempSword10;                       // Counter that reflects how much the animation of the sword10 logns.
@@ -96,15 +97,21 @@ public class PlayerManager : MonoBehaviour
     public float tempChain04;                       // Counter that reflects how much the animation of the chain04 logns.
     public float tempSlash;                         // Counter that reflects how much the animation of the slash longs.
     public float tempDash;                          // Counter that determinates how much time the player has to be in the DASH state.
-    private float attackStateCounter;               // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
+    public float attackStateCounter;               // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
 
     // Control player
     [Header("Control")]
-    private Rigidbody rigidBody;                    // The rigidbody from the player.
-	private SphereCollider sphereCollider;          // Gets the player collider.
+    public bool godMode;
+    public GameObject attack01Gameobject;           // Gets the Attack01 gameobject from the Attack01 gameobjects child's player.
+    public GameObject sword;
+    public Material swordMaterial;
 	public SphereCollider chain01Collider;			// Gets the chain01Action collider from the chain01Collider child's player.
 	public BoxCollider attackAction;                // Gets the attackAction collider from the AttackAction child's player.
-	public float chain01ColliderRadius;				// Auxiliar variable that sets the radius of the chain01Collider
+    private Rigidbody rigidBody;                    // The rigidbody from the player.
+    public SphereCollider sphereCollider;          // Gets the player spherecollider.
+    public CapsuleCollider capsuleCollider;        // Gets the player capsulecollider.
+    public float chain01ColliderRadius;				// Auxiliar variable that sets the radius of the chain01Collider
+    public float attack01GameobjectRotation;      // Auxiliar variable that sets the rotation of the attack01Gameobject.
 
     // Animations
     Animator anim;                                  // The animator component from the player.
@@ -118,6 +125,18 @@ public class PlayerManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.G)) godMode = !godMode;
+        if (godMode)
+        {
+            sphereCollider.enabled = false;
+            capsuleCollider.enabled = false;
+        }
+        else
+        {
+            sphereCollider.enabled = true;
+            capsuleCollider.enabled = true;
+        }
+
 		switch (state)
         {
 			case PlayerStates.AWAKE:
@@ -155,9 +174,6 @@ public class PlayerManager : MonoBehaviour
                 break;
             case PlayerStates.CHAIN_04:
                 Chain04Behaviour();
-                break;
-            case PlayerStates.SLASH:
-                SlashBehaviour();
                 break;
             case PlayerStates.DASH:
                 DashBehaviour();
@@ -200,13 +216,26 @@ public class PlayerManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q)) chainMode = !chainMode;
 
+        if (chainMode)
+        {
+            sword.transform.localScale = new Vector3(1, 40, 1);
+            sword.transform.localPosition = new Vector3(0, 20, 0);
+            swordMaterial.color = new Color(255, 0, 0, 255);
+        }
+        else
+        {
+            sword.transform.localScale = new Vector3(1, 12, 1);
+            sword.transform.localPosition = new Vector3(0, 5, 0);
+            swordMaterial.color = new Color(0, 0, 0, 255);
+        }
+
         if (Input.GetMouseButtonDown(0)) setAttack10();                             // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();                        // Calls the setAttack01 function if mouse right button is pressed.
 
-		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
-        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();       // If the chain mode is active, goes to the setChain01.
+		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode  && sword10Active) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode && chain10Active) setChain01();       // If the chain mode is active, goes to the setChain01.
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode && sword20Active) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
         else if (Input.GetKeyDown(KeyCode.Alpha2) && chainMode) setChain02();       // If the chain mode is active, goes to the setChain02.
 
         if (Input.GetKeyDown(KeyCode.Alpha3) && !chainMode) setSword30();           // Cals the setSword30 function if the 1 keypad is pressed, and if is not in chain mode.
@@ -227,6 +256,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Attack01Behaviour()
     {
+        attack01Gameobject.transform.rotation = Quaternion.Euler(attack01Gameobject.transform.rotation.x, attack01GameobjectRotation -= 1, attack01Gameobject.transform.rotation.z);
+
         attackStateCounter -= Time.deltaTime;
 
         if (attackStateCounter <= 0) setIdle();
@@ -289,14 +320,7 @@ public class PlayerManager : MonoBehaviour
 
         if (attackStateCounter <= 0) setIdle();
     }
-
-    private void SlashBehaviour()
-    {
-        attackStateCounter -= Time.deltaTime;
-
-        if (attackStateCounter <= 0) setIdle();
-    }
-
+    
     private void DashBehaviour()
     {
         tempDash -= Time.deltaTime;
@@ -312,18 +336,30 @@ public class PlayerManager : MonoBehaviour
 
         Animating(moveHorizontal, moveVertical);
 
-        if (Input.GetMouseButtonDown(0)) setAttack10();         // Calls the setAttack10 function if mouse left button is pressed.
-        else if (Input.GetMouseButtonDown(1)) setAttack01();    // Calls the setAttack01 function if mouse right button is pressed.
+        if (Input.GetMouseButtonDown(0)) setAttack10();                             // Calls the setAttack10 function if mouse left button is pressed.
+        else if (Input.GetMouseButtonDown(1)) setAttack01();                        // Calls the setAttack01 function if mouse right button is pressed.
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && slashActive) setSlash();
+		if (Input.GetKeyDown(KeyCode.Alpha1) && !chainMode) setSword10();           // Cals the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && chainMode) setChain01();       // If the chain mode is active, goes to the setChain01.
 
-        if (Input.GetKeyDown(KeyCode.LeftShift)) setDash();     // Calls the setDash function if left shift key is pressed.
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !chainMode) setSword20();           // Cals the setSword20 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && chainMode) setChain02();       // If the chain mode is active, goes to the setChain02.
 
-        temp -= Time.deltaTime;                                                                             // Backwards counter
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !chainMode) setSword30();           // Cals the setSword30 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && chainMode) setChain03();       // If the chain mode is active, goes to the setChain03.
+
+        if (Input.GetKeyDown(KeyCode.Alpha4) && !chainMode) setSword40();           // Cals the setSword40 function if the 1 keypad is pressed, and if is not in chain mode.
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && chainMode) setChain04();       // If the chain mode is active, goes to the setChain04.
+
+        if (Input.GetKeyDown(KeyCode.LeftShift)  && (DashResistanceSlider.value >= resistancePerDash)) setDash();     // Calls the setDash function if left shift key is pressed.
+
+        temp -= Time.deltaTime;  
+                                                                                   // Backwards counter
+        attackStateCounter -= Time.deltaTime;
 
         damageImage.color = Color.Lerp(damageImage.color, Color.clear, tempDamage * Time.deltaTime);        // Sets the difumination for the damageImage
 
-        if (temp <= 0) setIdle();                                                                           // If the player has not been attacked for a while, goes back to setIdle function
+        if (temp <= 0 || attackStateCounter <= 0) setIdle();                                                                           // If the player has not been attacked for a while, goes back to setIdle function
 	}
 
     private void StunnedBehaviour()
@@ -352,11 +388,14 @@ public class PlayerManager : MonoBehaviour
 
         currentHealth = maxHealth;                          		// Sets the player health to the value of maxHealth that you indicated.
 
-		slashActive = false;                                		// Sets the slashActive bool to false by default.
+		sword10Active = false;                                		// Sets the sword10Active bool to false by default.
+        sword20Active = false;                                		// Sets the sword20Active bool to false by default.
+        chain10Active = false;                                		// Sets the chain10Active bool to false by default.
         chainMode = false;                                  		// Sword mode activade by default.
 
         sphereCollider = GetComponent<SphereCollider>();
-		attackAction = GetComponentInChildren<BoxCollider>();      	// Gets the BoxCollider of the PlaceHolder_Sword children.
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        attackAction = GetComponentInChildren<BoxCollider>();      	// Gets the BoxCollider of the PlaceHolder_Sword children.
 		chain01ColliderRadius = chain01Collider.radius;
 
         playerAudio = GetComponent<AudioSource>();          		// Gets the component AudioSource from the player.
@@ -376,34 +415,34 @@ public class PlayerManager : MonoBehaviour
     {
         //Debug.Log("Idle");
 
-        sphereCollider.enabled = true;
+		attackAction.enabled = false;                               // Deactivates the collider of the attack10 attack (sword).
+		chain01Collider.enabled = false;                            // Deactivates the collider of the chain01 hability (chain).
+        attack01Gameobject.SetActive(!attack01Gameobject);          // Deactivates the collider of the attack01 attack (chain).
+        chain01Collider.radius = chain01ColliderRadius;             // Gives the chain01Collider it's previous radius value.
+        attack01GameobjectRotation = attack01Gameobject.transform.rotation.y + 30;
 
-		attackAction.enabled = false;                   // Deactivates the collider of the sword.
-		chain01Collider.enabled = false;
-		chain01Collider.radius = chain01ColliderRadius;
+        rigidBody.isKinematic = false;                              // Deactivates the isKinematic bool of the rigidbody.
 
-        rigidBody.isKinematic = false;                  // Deactivates the isKinematic bool of the rigidbody.
+        tempDash = 0.5f;                                            // Resets the tempDash counter.
 
-        tempDash = 0.5f;                                // Resets the tempDash counter.
+        damageImage.enabled = false;                                // Deactivation of the damageImage.
 
-        damageImage.enabled = false;                    // Deactivation of the damageImage.
-
-        state = PlayerStates.IDLE;                      // Calls the IDLE state.
+        state = PlayerStates.IDLE;                                  // Calls the IDLE state.
 
         timeStunned = timeStunnedIni;
 	}
 
     public void setAttack10()
     {
-        //Debug.Log("Attack10");
+        Debug.Log("Attack10");
 
-        //ForcesDeactivation();
+        ForcesDeactivation();
 
         //AnimationControllerAction();
 
         rigidBody.AddForce(transform.forward * speedAttack10);
 
-        AttackAction(attack10, tempAttack10);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
+        Attack10Action(attack10, tempAttack10);           // Calls the AttackAction function, and give it the attack10 variable, and the tempAttack10 variable.
 
         anim.SetTrigger("Attack10");                    // Plays the attack10 animation.
 
@@ -415,11 +454,11 @@ public class PlayerManager : MonoBehaviour
 
     public void setAttack01()
     {
-        //Debug.Log("Attack01");
+        Debug.Log("Attack01");
 
-        //ForcesDeactivation();
+        ForcesDeactivation();
 
-        AttackAction(attack01, tempAttack01);
+        Attack01Action(attack01, tempAttack01);
 
         rigidBody.AddForce(transform.forward * speedAttack01);
 
@@ -435,9 +474,13 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword10");
 
+        //ForcesDeactivation();
+
         Sword10Action(sword10, tempSword10);
 
         rigidBody.AddForce(transform.forward * speedSword10);
+
+        anim.SetTrigger("Sword10");
 
         state = PlayerStates.SWORD_10;
     }
@@ -446,9 +489,13 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword20");
 
+        ForcesDeactivation();
+
         Sword20Action(sword20, tempSword20);
 
         rigidBody.AddForce(transform.forward * speedSword20);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.SWORD_20;
     }
@@ -457,9 +504,13 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword30");
 
+        ForcesDeactivation();
+
         Sword30Action(sword30, tempSword30);
 
         rigidBody.AddForce(transform.forward * speedSword30);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.SWORD_30;
     }
@@ -468,9 +519,13 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Sword40");
 
+        ForcesDeactivation();
+
         Sword40Action(sword40, tempSword40);
 
         rigidBody.AddForce(transform.forward * speedSword40);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.SWORD_40;
 
@@ -480,9 +535,13 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain01");
 
+        ForcesDeactivation();
+
         Chain01Action(chain01, tempChain01);
 
         rigidBody.AddForce(transform.forward * speedChain01);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.CHAIN_01;
     }
@@ -491,9 +550,13 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain02");
 
+        ForcesDeactivation();
+
         Chain02Action(chain02, tempChain02);
 
         rigidBody.AddForce(transform.forward * speedChain02);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.CHAIN_02;
     }
@@ -502,9 +565,13 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain03");
 
+        ForcesDeactivation();
+
         Chain03Action(chain03, tempChain03);
 
         rigidBody.AddForce(transform.forward * speedChain03);
+
+        anim.SetTrigger("Attack01");
 
         state = PlayerStates.CHAIN_03;
     }
@@ -513,24 +580,15 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Chain04");
 
+        ForcesDeactivation();
+
         Chain04Action(chain04, tempChain04);
 
         rigidBody.AddForce(transform.forward * speedChain04);
 
+        anim.SetTrigger("Attack01");
+
         state = PlayerStates.CHAIN_04;
-    }
-
-    public void setSlash()
-    {
-        //Debug.Log("Slash");
-
-        //ForcesDeactivation();
-
-        AttackAction(slash, tempSlash);
-
-        anim.SetTrigger("AttackHab01");
-
-        state = PlayerStates.SLASH;
     }
 
     public void setDash()
@@ -630,7 +688,7 @@ public class PlayerManager : MonoBehaviour
 
         // Create a reotation that is an increment closer to the target rotation from the player's rotation.
         Quaternion newRotation = Quaternion.Lerp(rigidBody.rotation, targetRotation, turnSmoothing * Time.deltaTime);
-		Quaternion rotPhase = Quaternion.AngleAxis (45.0f, Vector3.up);
+		//Quaternion rotPhase = Quaternion.AngleAxis (45.0f, Vector3.up);
 
 		//newRotation *= rotPhase;
 
@@ -644,20 +702,32 @@ public class PlayerManager : MonoBehaviour
         anim.SetBool ("IsWalking", walking);
     }
 
-    void AttackAction(int damageDealt, float attackDuration)
+    void Attack10Action(int damageDealt, float attackDuration)
     {
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
 
-		attackAction.enabled = true;                                       // Activates the collider of the sword.
+		attackAction.enabled = true;                                // Activates the collider of the sword.
     }
+
+    void Attack01Action(int damageDealt, float attackDuration)
+    {
+        attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
+
+        attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attack01Gameobject.SetActive(attack01Gameobject);          // Activates the collider of the sword.
+    }
+    
 
     void Sword10Action(int damageDealt, float attackDuration)
     {
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attackAction.enabled = true;                                // Activates the collider of the sword.
     }
 
     void Sword20Action(int damageDealt, float attackDuration)
@@ -665,6 +735,8 @@ public class PlayerManager : MonoBehaviour
         attackDamage = damageDealt;                                 // Sets the amount of damage that the player does with this attack.
 
         attackStateCounter = attackDuration;                        // Sets the amount of time that the player has to be in the attackXX state.
+
+        attackAction.enabled = true;                                // Activates the collider of the sword.
     }
 
     void Sword30Action(int damageDealt, float attackDuration)

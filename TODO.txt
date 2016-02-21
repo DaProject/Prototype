@@ -1,0 +1,7 @@
+- Fer el que jugar roti i miri en la posicio que has clickat amb el ratoli.
+- Implementar l'stun el enemyboss correctament dins el enemymanager.
+- Ordenar l'script del enemymanager, i posar comentaris.
+- Millorar el control del player.
+- No poder moure't quan el player estar atacant, pero que sí es desplaci al fer l'animació d'atac.
+- Crear una animacio de getDamaged, tan pel player com per l'enemy. Falta feedback de quan fas mal, i de quan t'en fan.
+- Crear totes les animacions del player, i de l'enemic.

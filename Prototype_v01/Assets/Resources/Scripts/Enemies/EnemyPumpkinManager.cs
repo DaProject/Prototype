@@ -25,6 +25,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     public int attackDamage;                    // Auxiliar variable that gets the value of the differents attacks. After it is used to apply the damage to the player.
     public int attackMelee;                     // Variable with the damage of the enemy attack.
     public bool playerInRange;                  // Bool that is true when the player is in attack range.
+    public bool playerAttacked;
     
 
     // Sounds
@@ -35,6 +36,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     // Timers
     [Header("Timers")]
     public float temp;
+    public float tempDead;
     public float tempDamage;                    // Counter that determinates how much time the enemy has to be in the DAMAGED state.               
     public float tempAttackMelee;               // Counter that reflects how much the enemy attack longs.
     public float attackStateCounter;            // Auxiliar variable that says how much time the enemy has to be in the ATTACK state. It gets the value from the counter of the attack.
@@ -52,9 +54,9 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     // Control enemy
     [Header("Control")]
-    //private Rigidbody rigidBody;                // Rigidbody component from the enemy.
-    private CapsuleCollider capsuleCollider;    
-    private SphereCollider sphereCollider;
+    public GameObject enemy;
+    public CapsuleCollider capsuleCollider;    
+    public SphereCollider sphereCollider;
     public SphereCollider leftHandAttack1;
 
     // Animations
@@ -125,6 +127,8 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         if (playerInRange) setAttack();                     // Calls the setAttack function if the player is in range attack.
 
+        playerAttacked = false;
+
         if (playerInRangeForStun && stunCooldown <= 0) setStunAttack();
 
         playerStunned = false;
@@ -158,7 +162,9 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     private void DeadBehaviour()
     {
+        tempDead -= Time.deltaTime;
 
+        if (tempDead <= 0) enemy.SetActive(!enemy.activeSelf);
     }
 
     // Sets
@@ -174,6 +180,8 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         playerInRange = false;                                          // Initalize the playerInRange bool to false.
 
+        playerAttacked = true;
+
         onStunTimer = onStunTimerIni;
 
         stunCooldown = stunCooldownIni;
@@ -183,8 +191,8 @@ public class EnemyPumpkinManager : MonoBehaviour
         //enemyAudio = GetComponent<AudioSource>();                       // Gets the AudioSource component from the enemy.
 
         //rigidBody = GetComponent<Rigidbody>();                          // Gets the rigidbody component from the enemy.
-        capsuleCollider = GetComponent<CapsuleCollider>();
-        sphereCollider = GetComponent<SphereCollider>();
+        //capsuleCollider = GetComponent<CapsuleCollider>();
+        //sphereCollider = GetComponent<SphereCollider>();
         //leftHandAttack1 = GetComponentInChildren<SphereCollider>();     // Gets the SphereCollider of the leftHandAttack1 children.
 
         anim = GetComponent<Animator>();                                // Gets the animator component from the enemy.
@@ -276,13 +284,14 @@ public class EnemyPumpkinManager : MonoBehaviour
         attackStateCounter = attackDuration;                                // Sets the amount of time that the enemy has to be in the attack state.
     }
 
-    void  OnTriggerEnter(Collider other)
+    void  OnTriggerStay(Collider other)
     {
         if (other.tag == "Player") playerInRange = true;                    // Sets the playerInRange to true if the player has been detected around the enemy.
     }
 
     void OnTriggerExit(Collider other)
     {
+        Debug.Log("player lost");
         if (other.tag == "Player") playerInRange = false;                   // Sets the playerInRange to true if the player has exit the area detection of the enemy.
     }
 }

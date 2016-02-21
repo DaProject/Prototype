@@ -295,13 +295,13 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 424444}
-  - 54: {fileID: 5428272}
   - 82: {fileID: 8244654}
   - 136: {fileID: 13692140}
   - 135: {fileID: 13504138}
   - 195: {fileID: 19506964}
   - 95: {fileID: 9579892}
   - 114: {fileID: 11407318}
+  - 114: {fileID: 11462316}
   m_Layer: 9
   m_Name: EnemyMeleeBigBoss
   m_TagString: Enemy
@@ -1944,21 +1944,6 @@ Transform:
   - {fileID: 403362}
   m_Father: {fileID: 463712}
   m_RootOrder: 0
---- !u!54 &5428272
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131830}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.5
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!82 &8244654
 AudioSource:
   m_ObjectHideFlags: 1
@@ -2062,13 +2047,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  maxHealth: 200
+  maxHealth: 20
   currentHealth: 0
   attackDamage: 0
   attackMelee: 10
   playerInRange: 0
+  playerAttacked: 0
   hurtClip: {fileID: 0}
   temp: 0
+  tempDead: 3
   tempDamage: 0.2
   tempAttackMelee: 2
   attackStateCounter: 0
@@ -2079,6 +2066,9 @@ MonoBehaviour:
   stunOffsetIni: 1.5
   playerInRangeForStun: 0
   playerStunned: 0
+  enemy: {fileID: 131830}
+  capsuleCollider: {fileID: 13692140}
+  sphereCollider: {fileID: 13504138}
   leftHandAttack1: {fileID: 13558806}
 --- !u!114 &11413350
 MonoBehaviour:
@@ -2091,6 +2081,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e429ace1371cf84da380f7589b8ede8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPumpkinManager: {fileID: 0}
+--- !u!114 &11462316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb983e185db77f34d86ad6c21a484d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drop: {fileID: 155946, guid: 01ea6b5c5c10b1540a969c23a37e59f4, type: 2}
+  trans: {fileID: 424444}
 --- !u!114 &11465564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2279,7 +2283,39 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: capsuleCollider
+      value: 
+      objectReference: {fileID: 13692140}
+    - target: {fileID: 0}
+      propertyPath: sphereCollider
+      value: 
+      objectReference: {fileID: 13504138}
+    - target: {fileID: 0}
+      propertyPath: rigidBody
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 131830}
+    - target: {fileID: 0}
+      propertyPath: tempDead
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: drop
+      value: 
+      objectReference: {fileID: 155946, guid: 01ea6b5c5c10b1540a969c23a37e59f4, type: 2}
+    - target: {fileID: 0}
+      propertyPath: trans
+      value: 
+      objectReference: {fileID: 424444}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 131830}
