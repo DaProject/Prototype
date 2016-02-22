@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class ResetScene : MonoBehaviour
-{
-	// Update is called once per frame
-	void Update ()
-    {
+public class ResetScene : MonoBehaviour {
 
-        if (Input.GetKeyDown(KeyCode.R)) Reset();
+	// Use this for initialization
+	void Start () {
 	
 	}
+	
+	// Update is called once per frame
+	void Update () {
 
-    public void Reset()
-    {
-        SceneManager.LoadScene("PrototypeLevel_01");
-    }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Application.LoadLevel("PrototypeLevel_01");
+        }
+	
+	}
 }

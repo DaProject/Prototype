@@ -2020,7 +2020,7 @@ MonoBehaviour:
   maxHealth: 20
   currentHealth: 0
   attackDamage: 0
-  attackMelee: 5
+  attackMelee: 2
   playerInRange: 0
   playerAttacked: 0
   hurtClip: {fileID: 0}
@@ -2259,10 +2259,6 @@ Prefab:
       propertyPath: drop
       value: 
       objectReference: {fileID: 155946, guid: 22f2a90a37dbecd42954979ba54c2ee7, type: 2}
-    - target: {fileID: 0}
-      propertyPath: attackMelee
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 126160}

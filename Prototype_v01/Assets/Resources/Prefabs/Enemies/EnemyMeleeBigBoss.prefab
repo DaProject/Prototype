@@ -2047,10 +2047,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  maxHealth: 600
+  maxHealth: 20
   currentHealth: 0
   attackDamage: 0
-  attackMelee: 40
+  attackMelee: 10
   playerInRange: 0
   playerAttacked: 0
   hurtClip: {fileID: 0}
@@ -2286,7 +2286,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 600
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: capsuleCollider
@@ -2316,10 +2316,6 @@ Prefab:
       propertyPath: trans
       value: 
       objectReference: {fileID: 424444}
-    - target: {fileID: 0}
-      propertyPath: attackMelee
-      value: 40
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 131830}
