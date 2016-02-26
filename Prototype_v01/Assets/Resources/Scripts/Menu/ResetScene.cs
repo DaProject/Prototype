@@ -13,8 +13,13 @@ public class ResetScene : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Application.LoadLevel("PrototypeLevel_01");
+            Reset();
         }
 	
 	}
+
+    public void Reset()
+    {
+        Application.LoadLevel("PrototypeLevel_01");
+    }
 }

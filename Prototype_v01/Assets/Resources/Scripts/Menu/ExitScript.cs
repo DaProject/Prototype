@@ -9,9 +9,13 @@ public class ExitScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-		Debug.Log ("Exit");
-		Application.Quit();
+	void Update ()
+    {
+        Exit();
 	}
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }

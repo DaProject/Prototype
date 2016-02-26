@@ -2042,10 +2042,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  maxHealth: 20
+  maxHealth: 50
   currentHealth: 0
   attackDamage: 0
-  attackMelee: 5
+  attackMelee: 20
   playerInRange: 0
   playerAttacked: 0
   hurtClip: {fileID: 0}
@@ -2233,7 +2233,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: drop
@@ -2274,6 +2274,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: tempDead
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackMelee
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
