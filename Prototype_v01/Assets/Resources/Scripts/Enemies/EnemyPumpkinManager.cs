@@ -25,9 +25,8 @@ public class EnemyPumpkinManager : MonoBehaviour
     public int attackDamage;                    // Auxiliar variable that gets the value of the differents attacks. After it is used to apply the damage to the player.
     public int attackMelee;                     // Variable with the damage of the enemy attack.
     public bool playerInRange;                  // Bool that is true when the player is in attack range.
-    public bool playerAttacked;
+    public bool playerAttacked;                 // Bool created in order to control how many times the enemy does damage with the same attack.
     
-
     // Sounds
     [Header("Sounds")]
     public AudioClip hurtClip;
@@ -42,22 +41,22 @@ public class EnemyPumpkinManager : MonoBehaviour
     public float attackStateCounter;            // Auxiliar variable that says how much time the enemy has to be in the ATTACK state. It gets the value from the counter of the attack.
 
     [Header("Stun")]
-    private float onStunTimer;
     public float onStunTimerIni;
-    public float stunCooldown;
-    public float stunCooldownIni;
-    public float stunOffset;
-    public float stunOffsetIni;
-    public bool playerInRangeForStun;
-    public bool playerStunned;
+    public float stunCooldown;                  // Counter that says what is que cooldown for the stun.
+    public float stunCooldownIni;               // Auxiliar variable that stores the stunCooldown. Used for reseting.
+    public float stunOffset;                    // Counter that control when the enemy actually stuns the player. Used to avoid stunning the player for the very beggining of the stun.
+    public float stunOffsetIni;                 // Auxiliar variable that stores the stunOffset. Used for reseting.
+    public bool playerInRangeForStun;           // Bool that says if the player is in range for stun or not.
+    public bool playerStunned;                  // Boll that says if the enemy has finished his stun.
+    private float onStunTimer;
 
 
     // Control enemy
     [Header("Control")]
     public GameObject enemy;
-    public CapsuleCollider capsuleCollider;    
-    public SphereCollider sphereCollider;
-    public SphereCollider leftHandAttack1;
+    public CapsuleCollider capsuleCollider;     // Capsule collider of the enemy.    
+    public SphereCollider sphereCollider;       // Sphere collider of the enemy.
+    public SphereCollider leftHandAttack1;      // Sphere collider of the left hand of the enemy. Used to detect if the attack has connected with the player.
 
     // Animations
     Animator anim;                              // Animator from the enemy.
@@ -111,45 +110,45 @@ public class EnemyPumpkinManager : MonoBehaviour
 
     private void IdleBehaviour()
     {
-        anim.SetTrigger("Idle");                            // It triggers the enemy Idle animation.
+        anim.SetTrigger("Idle");                                                // It triggers the enemy Idle animation.
     }
 
     private void ActiveBehaviour()
     {
-        ControllerAction();                                 // Calls the ControllerAction function when the enemy has to move.
+        ControllerAction();                                                     // Calls the ControllerAction function when the enemy has to move.
 
-        if (playerManager.currentHealth == 0)
+        if (playerManager.currentHealth == 0)                                   // Checks when the player dies. Goes to setIdle and stops attacking and stunning him.
         {
             playerInRange = false;
 
             setIdle();
         }
 
-        if (playerInRange) setAttack();                     // Calls the setAttack function if the player is in range attack.
-
         playerAttacked = false;
 
-        if (playerInRangeForStun && stunCooldown <= 0) setStunAttack();
-
         playerStunned = false;
+
+        if (playerInRange) setAttack();                                         // Calls the setAttack function if the player is in range to attack.
+
+        if (playerInRangeForStun && stunCooldown <= 0) setStunAttack();         // Calls the setStunAttack when the player is in range to attack, and the cooldown has refreshed.
     }
 
     private void AttackBehaviour()
     {
-        attackStateCounter -= Time.deltaTime;               // Starts the countdown after the attack has been done.
+        attackStateCounter -= Time.deltaTime;                                   // Starts the countdown after the attack has been done.
 
-        if (attackStateCounter <= 0) setActive();           // Goes back to setIdle if the enemy has not attack for a small amount of time.
+        if (attackStateCounter <= 0) setActive();                               // Goes back to setIdle if the enemy has not attack for a small amount of time.
     }
 
     void StunAttackBehaviour()
     {   
         onStunTimer -= Time.deltaTime;
 
-        if (onStunTimer <= 0) setActive();
-
         stunOffset -= Time.deltaTime;
 
-        if (stunOffset <= 0) playerStunned = true;
+        if (onStunTimer <= 0) setActive();                                      // Calls the setActive when the enemy has finished his stun.
+
+        if (stunOffset <= 0) playerStunned = true;                              // Activates the playerStunned when the enemy has finished his stun.
 
     }
 
@@ -164,7 +163,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         tempDead -= Time.deltaTime;
 
-        if (tempDead <= 0) enemy.SetActive(!enemy.activeSelf);
+        if (tempDead <= 0) enemy.SetActive(!enemy.activeSelf);                  // The enemy deactivates himself when he dies.
     }
 
     // Sets
@@ -172,39 +171,39 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        player = GameObject.FindGameObjectWithTag("Player");            // Finds the gameobject with the tag "Player".
+        player = GameObject.FindGameObjectWithTag("Player");                    // Finds the gameobject with the tag "Player".
 
-        playerManager = player.GetComponent<PlayerManager>();           // Gets the script PlayerManager of the player.
+        playerManager = player.GetComponent<PlayerManager>();                   // Gets the script PlayerManager of the player.
 
-        nav = GetComponent<NavMeshAgent>();                             // Gets the NavMeshAgent component.
+        nav = GetComponent<NavMeshAgent>();                                     // Gets the NavMeshAgent component.
 
-        playerInRange = false;                                          // Initalize the playerInRange bool to false.
+        playerInRange = false;                                                  // Initalize the playerInRange bool to false.
 
-        playerAttacked = true;
+        playerAttacked = false;                                                 // Initialize the playerAttacked bool to false.
 
-        onStunTimer = onStunTimerIni;
+        onStunTimer = onStunTimerIni;                                           // Initialize the onStunTimer.
 
-        stunCooldown = stunCooldownIni;
+        stunCooldown = stunCooldownIni;                                         // Initialize the stunCooldown.
 
-        stunOffset = stunOffsetIni;
+        stunOffset = stunOffsetIni;                                             // Initialize the stunOffset.
+        
+        //enemyAudio = GetComponent<AudioSource>();                             // Gets the AudioSource component from the enemy.
 
-        //enemyAudio = GetComponent<AudioSource>();                       // Gets the AudioSource component from the enemy.
-
-        //rigidBody = GetComponent<Rigidbody>();                          // Gets the rigidbody component from the enemy.
+        //rigidBody = GetComponent<Rigidbody>();                                // Gets the rigidbody component from the enemy.
         //capsuleCollider = GetComponent<CapsuleCollider>();
         //sphereCollider = GetComponent<SphereCollider>();
-        //leftHandAttack1 = GetComponentInChildren<SphereCollider>();     // Gets the SphereCollider of the leftHandAttack1 children.
+        //leftHandAttack1 = GetComponentInChildren<SphereCollider>();           // Gets the SphereCollider of the leftHandAttack1 children.
 
-        anim = GetComponent<Animator>();                                // Gets the animator component from the enemy.
+        anim = GetComponent<Animator>();                                        // Gets the animator component from the enemy.
 
-        state = EnemyStates.AWAKE;                                      // Goes to the AWAKE state.
+        state = EnemyStates.AWAKE;                                              // Goes to the AWAKE state.
     }
 
     public void setIdle()
     {
-        capsuleCollider.enabled = true;
-        sphereCollider.enabled = true;
-        leftHandAttack1.enabled = false;
+        capsuleCollider.enabled = true;                         // Activates the capsuleCollider. It keeps activated by default.
+        sphereCollider.enabled = true;                          // Activates the sphereCollider. It keeps activated by default.
+        leftHandAttack1.enabled = false;                        // Deactivates the leftHandAttack coollider. It keeps deactivated by default.
 
         state = EnemyStates.IDLE;
     }
@@ -237,6 +236,8 @@ public class EnemyPumpkinManager : MonoBehaviour
     {
         anim.SetTrigger("isStunning");
 
+        leftHandAttack1.enabled = false;                        // Deactivates the leftHandAttack1 collider, since it keeps activated if the enemy doesn't go to the activeState. This can happen if the player is always in range to stun.
+
         stunCooldown = stunCooldownIni;
 
         state = EnemyStates.STUNATTACK;
@@ -263,7 +264,7 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         anim.SetTrigger("Die");                                 // Plays the die animation.
 
-        state = EnemyStates.DEAD;                              // Calls the DEAD state.
+        state = EnemyStates.DEAD;                               // Calls the DEAD state.
     }
 
     public void ControllerAction()

@@ -10,6 +10,7 @@ public class DropChain10Trigger : MonoBehaviour
             Debug.Log("Got the Ability Slash!!");
 
             other.GetComponent<PlayerManager>().chain10Active = true;
+            other.GetComponent<PlayerManager>().chain10Sprite.enabled = true;
 
             Destroy(this.gameObject);
 		}

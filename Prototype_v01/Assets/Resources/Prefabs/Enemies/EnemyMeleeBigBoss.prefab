@@ -2047,7 +2047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  maxHealth: 100
+  maxHealth: 20
   currentHealth: 0
   attackDamage: 0
   attackMelee: 40
@@ -2286,7 +2286,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 100
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: capsuleCollider

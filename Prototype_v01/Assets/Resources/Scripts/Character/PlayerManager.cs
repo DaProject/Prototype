@@ -83,6 +83,11 @@ public class PlayerManager : MonoBehaviour
 	[Header("UI")]
 	public Slider healthSlider;                     // It shows the health bar.
 	public Image damageImage;                       // The UI image that shows when the player gets hit.
+    public Image swordSprite;
+    public Image chainSprite;
+    public Image sword10Sprite;
+    public Image sword20Sprite;
+    public Image chain10Sprite;
 	public Color flashColor;                        // The color of the damageImage.
 
 	// Timers
@@ -228,21 +233,27 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) rotateRight();
         if (Input.GetKey(KeyCode.A)) rotateLeft();
 
+        if (currentHealth <= 0) setDead();                                                                              // Avoids getting stucked in IdleBehaviour when the player is already dead, and the enemyBoss does his stun.
+
         //ControllerAction(playerSpeed);                                                                                // Calls the ControllerAction function, and give it a speed value for the player.
 
-        //MovementManagement(moveHorizontal, moveVertical);                                                               // Calls the MovementManagement function.
+        //MovementManagement(moveHorizontal, moveVertical);                                                             // Calls the MovementManagement function.
 
-        //Animating(moveHorizontal, moveVertical);                                                                        // Calls the Animating function.
+        //Animating(moveHorizontal, moveVertical);                                                                      // Calls the Animating function.
 
         if (Input.GetKeyDown(KeyCode.Q)) chainMode = !chainMode;                                                        // Changes between chainmode and swordmode when Q key is pressed.
 
         if (chainMode)
         {
-            swordMaterial.color = new Color(0, 255, 0, 255);                                                            // Changes the color of the sword when chainmode.
+            swordMaterial.color = new Color(0, 255, 0, 255);
+            swordSprite.enabled = false;
+            chainSprite.enabled = true;                                                           // Changes the color of the sword when chainmode.
         }
         else
         {
-            swordMaterial.color = new Color(0, 0, 0, 255);                                                              // Changes the color of the word when swordmode.
+            swordMaterial.color = new Color(0, 0, 0, 255);
+            swordSprite.enabled = true;
+            chainSprite.enabled = false;                                                             // Changes the color of the word when swordmode.
         }
 
         if (Input.GetMouseButtonDown(0)) setAttack10();                                                                 // Calls the setAttack10 function if mouse left button is pressed.
@@ -393,7 +404,7 @@ public class PlayerManager : MonoBehaviour
 
     private void StunnedBehaviour()
     {
-        ForcesDeactivation();
+        //ForcesDeactivation();
 
         timeStunned -= Time.deltaTime;
 
@@ -434,6 +445,11 @@ public class PlayerManager : MonoBehaviour
         timeStunned = timeStunnedIni;
 
         flashColor = new Color(1f, 0f, 0f, 0.1f);           		        // Sets the color values for the damageImage.
+        swordSprite.enabled = true;
+        chainSprite.enabled = false;
+        sword10Sprite.enabled = false;
+        sword20Sprite.enabled = false;
+        chain10Sprite.enabled = false;
 
         rigidBody = GetComponent<Rigidbody>();              		        // Gets the RigidBody from the GameObject.
 
