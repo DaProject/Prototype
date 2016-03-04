@@ -9,8 +9,8 @@ public class DropSword20Trigger : MonoBehaviour
         {
             Debug.Log("Got the Ability Slash!!");
 
-            other.GetComponent<PlayerManager>().sword20Active = true;
-            other.GetComponent<PlayerManager>().sword20Sprite.enabled = true;
+            //other.GetComponent<PlayerManager>().sword20Active = true;
+            //other.GetComponent<PlayerManager>().sword20Sprite.enabled = true;
 
             Destroy(this.gameObject);
 		}
