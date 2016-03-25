@@ -8,3 +8,4 @@
 - Millorar el control del player.
 - Ordenar l'script del enemymanager, i posar comentaris.
 - UI per mostrar si estas usant l'espasa o la cadena.
+- Attac01 no funciona.

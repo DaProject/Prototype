@@ -2017,7 +2017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  maxHealth: 20
+  maxHealth: 500
   currentHealth: 0
   attackDamage: 0
   attackMelee: 5
@@ -2028,6 +2028,7 @@ MonoBehaviour:
   tempDead: 3
   tempDamage: 2
   tempAttackMelee: 0.5
+  tempStunned: 50
   attackStateCounter: 0
   onStunTimerIni: 0
   stunCooldown: 0
@@ -2262,6 +2263,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: attackMelee
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: tempStunned
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

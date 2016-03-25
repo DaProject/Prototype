@@ -6,7 +6,7 @@ public class EnemyPumpkinManager : MonoBehaviour
 {
     
     // States of the enemy
-    public enum EnemyStates {AWAKE, IDLE, ACTIVE, ATTACK, STUNATTACK, DAMAGED, DEAD}
+    public enum EnemyStates {AWAKE, IDLE, ACTIVE, ATTACK, STUNATTACK, DAMAGED, STUNNED, DEAD}
     [Header("States")]
     public EnemyStates state;
 
@@ -38,6 +38,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     public float tempDead;
     public float tempDamage;                    // Counter that determinates how much time the enemy has to be in the DAMAGED state.               
     public float tempAttackMelee;               // Counter that reflects how much the enemy attack longs.
+    public float tempStunned;
     public float attackStateCounter;            // Auxiliar variable that says how much time the enemy has to be in the ATTACK state. It gets the value from the counter of the attack.
 
     [Header("Stun")]
@@ -92,6 +93,9 @@ public class EnemyPumpkinManager : MonoBehaviour
                 break;
             case EnemyStates.DAMAGED:
                 DamagedBehaviour();
+                break;
+            case EnemyStates.STUNNED:
+                StunnedBehaviour();
                 break;
             case EnemyStates.DEAD:
                 DeadBehaviour();
@@ -153,6 +157,13 @@ public class EnemyPumpkinManager : MonoBehaviour
     }
 
     private void DamagedBehaviour()
+    {
+        temp -= Time.deltaTime;
+
+        if (temp <= 0) setActive();
+    }
+
+    private void StunnedBehaviour()
     {
         temp -= Time.deltaTime;
 
@@ -252,6 +263,16 @@ public class EnemyPumpkinManager : MonoBehaviour
         if (currentHealth <= 0) setDead();                      // Calls the setDead function if the enemy has died
 
         else state = EnemyStates.DAMAGED;                       // If the enemy is still alive, calls the DAMAGED state
+    }
+
+    public void setStunned()
+    {
+        // TODO: implement the animation
+        Debug.Log("Enemy stunned :(");
+
+        temp = tempStunned;
+
+        state = EnemyStates.STUNNED;
     }
 
     public void setDead()

@@ -6,5 +6,5 @@
 - UI per mostrar el CD de les habilitats.
 - Valors de mal del player.
 - Valors de mal de l'enemic.
-- Attac01 no funciona.
 - Quan el jugador torna a la seva posició, despres de realitzar attack01 (o potser altres), es situa sobre l'enemic.
+- Revisar els comentaris del codi.
