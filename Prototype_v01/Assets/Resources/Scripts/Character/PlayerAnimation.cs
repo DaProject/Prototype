@@ -29,6 +29,46 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Attack10Animation()
     {
+        anim.SetTrigger("Attack10");
+
+        playerManager.attackStateCounter = tempAttack10;
+
         Debug.Log("playing Attack10Animation");
+    }
+
+    public void Attack01Animation()
+    {
+        anim.SetTrigger("Attack01");
+
+        playerManager.attackStateCounter = tempAttack01;
+
+        Debug.Log("playing Attack01Animation");
+    }
+
+    public void Sword10Animation()
+    {
+        anim.SetTrigger("Sword10");
+
+        playerManager.attackStateCounter = tempSword10;
+
+        Debug.Log("playing Sword10Animation");
+    }
+
+    public void Chain01Animation()
+    {
+        anim.SetTrigger("Chain01");
+
+        playerManager.attackStateCounter = tempChain01;
+
+        Debug.Log("playing Chain01Animation");
+    }
+
+    public void DashAnimation()
+    {
+        //anim.SetTrigger("Dash");
+
+        playerManager.attackStateCounter = tempDash;
+
+        Debug.Log("playing DashAnimation");
     }
 }

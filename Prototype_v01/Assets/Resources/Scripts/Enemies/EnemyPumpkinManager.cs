@@ -63,7 +63,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     Animator anim;                              // Animator from the enemy.
 
     // Scripts calls
-    PlayerManager playerManager;                // PlayerManager script
+    PlayerManagerBackup playerManager;                // PlayerManager script
 
 	// Use this for initialization
 	void Start ()
@@ -184,7 +184,7 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");                    // Finds the gameobject with the tag "Player".
 
-        playerManager = player.GetComponent<PlayerManager>();                   // Gets the script PlayerManager of the player.
+        playerManager = player.GetComponent<PlayerManagerBackup>();                   // Gets the script PlayerManager of the player.
 
         nav = GetComponent<NavMeshAgent>();                                     // Gets the NavMeshAgent component.
 

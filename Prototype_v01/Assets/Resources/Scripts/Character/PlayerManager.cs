@@ -163,7 +163,7 @@ public class PlayerManager : MonoBehaviour
 	private void IdleBehaviour()
     {
         //TODO: Re-do the animation behaviour
-        /*
+        
         if (Input.GetKey(KeyCode.W))
         {
             playerController.MoveForward(playerController.playerSpeed);
@@ -178,12 +178,13 @@ public class PlayerManager : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.S)) anim.SetBool("IsWalking", false);
         if (Input.GetKey(KeyCode.D)) playerController.RotateRight();
         if (Input.GetKey(KeyCode.A)) playerController.RotateLeft();
-        */
+        /*
         playerController.ControllerAction(playerController.playerSpeed);
 
         playerController.MovementManagement(moveHorizontal, moveVertical);
 
         playerController.Animating(moveHorizontal, moveVertical);
+        */
         if (currentHealth <= 0) setDead();
 
         if(attackStateCounter >= 0)
@@ -210,7 +211,7 @@ public class PlayerManager : MonoBehaviour
 
     private void DamagedBehaviour()
     {
-        /*
+        
         if (Input.GetKey(KeyCode.W))
         {
             playerController.MoveForward(playerController.playerSpeed);
@@ -225,13 +226,13 @@ public class PlayerManager : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.S)) anim.SetBool("IsWalking", false);
         if (Input.GetKey(KeyCode.D)) playerController.RotateRight();
         if (Input.GetKey(KeyCode.A)) playerController.RotateLeft();
-        */
+        /*
         playerController.ControllerAction(playerController.playerSpeed);
 
         playerController.MovementManagement(moveHorizontal, moveVertical);
 
         playerController.Animating(moveHorizontal, moveVertical);
-
+        */
         if (attackStateCounter >= 0)
         {
             attackStateCounter -= Time.deltaTime;

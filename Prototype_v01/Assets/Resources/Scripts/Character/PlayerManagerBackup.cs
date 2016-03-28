@@ -94,6 +94,7 @@ public class PlayerManagerBackup : MonoBehaviour
     public float tempSlash;                         // Counter that reflects how much the animation of the slash longs.
     public float tempDash;                          // Counter that determinates how much time the player has to be in the DASH state.
     public float tempSword10Stun;                   // Counter that determinates when the sword10 attack is going to stun the enemies.
+    public float tempSword10StunAux;
     public float attackStateCounter;                // Auxiliar variable that says how much time the player has to be in the ATTACKXX state. It gets the value from the different counters of each attack.
 
     // Control player
@@ -108,7 +109,8 @@ public class PlayerManagerBackup : MonoBehaviour
     public CapsuleCollider capsuleCollider;         // Gets the player capsulecollider.
     public bool godMode;
     public float attack01ColliderRadius;			// Auxiliar variable that sets the radius of the attack01Collider
-    private Rigidbody rigidBody;                    // The rigidbody from the player.
+    public Rigidbody rigidBody;                    // The rigidbody from the player.
+    public CameraShake cameraShake;
 
 
     ChainAnimTrigger chainTransition;
@@ -195,7 +197,7 @@ public class PlayerManagerBackup : MonoBehaviour
 			playerAudio.clip = lowHpClip;
 			playerAudio.Play();  
 		}
-	}
+    }
 
 	// Behaviours
 	private void AwakeBehaviour()
@@ -216,6 +218,7 @@ public class PlayerManagerBackup : MonoBehaviour
             moveBackward(playerSpeed);
             anim.SetBool("IsWalking", true);
         }
+
         else if (Input.GetKeyUp(KeyCode.S)) anim.SetBool("IsWalking", false);
         if (Input.GetKey(KeyCode.D)) rotateRight();
         if (Input.GetKey(KeyCode.A)) rotateLeft();
@@ -233,6 +236,8 @@ public class PlayerManagerBackup : MonoBehaviour
 
     private void Attack10Behaviour()
     {
+        cameraShake.ShakeFunction();
+
         attackStateCounter -= Time.deltaTime;           // Starts the countdown after the attack has been done.
 
         if (attackStateCounter <= 0) setIdle();         // Goes back to setIdle if the player has not attack for a small amount of time.
@@ -240,6 +245,8 @@ public class PlayerManagerBackup : MonoBehaviour
     
     private void Attack01Behaviour()
     {
+        cameraShake.ShakeFunction();
+
         attackStateCounter -= Time.deltaTime;
 
         attack01Collider.radius += 10 * Time.deltaTime;        // Makes the attack01Collider get bigger during the attack01Behaviour.
@@ -251,14 +258,11 @@ public class PlayerManagerBackup : MonoBehaviour
     
     private void Sword10Behaviour()
     {
-        temp -= Time.deltaTime;
         attackStateCounter -= Time.deltaTime;
 
-        if (temp <= 0)
-        {
-            Debug.Log("sword10Collider activated");
-            sword10Collider.enabled = true;
-        }
+        Debug.Log("sword10Collider activated");
+        sword10Collider.enabled = true;
+
         if (attackStateCounter <= 0) setIdle();
     }
 
@@ -446,7 +450,7 @@ public class PlayerManagerBackup : MonoBehaviour
     {
         Debug.Log("Sword10");
 
-        temp = tempSword10Stun;
+        tempSword10Stun = tempSword10StunAux;
 
         Sword10Action(sword10, tempSword10);
 

@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;                         // The speed of the player.
     public float playerDisplacementSpeed;
     public float playerRotation;
+    public float playerRotationAux;
     public float moveHorizontal;                    // Variable that gets the horizontal axis value.
     public float moveVertical;                      // Variable that gets the vertical axis value.
     private Vector3 movement;                       // Vector 3 with the values of the movement.
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public float distanceAttack01;
     public float distanceSword10;
     public float distanceChain01;
+    public float distanceDash;
 
     // Use this for initialization
     void Start ()
@@ -45,7 +47,7 @@ public class PlayerController : MonoBehaviour
     {
 	
 	}
-    /*
+    
     public void MoveForward(float speed)
     {
         transform.localPosition += transform.forward * speed * Time.deltaTime;
@@ -65,13 +67,13 @@ public class PlayerController : MonoBehaviour
     {
         transform.localRotation = Quaternion.Euler(transform.localRotation.x, playerRotation -= playerRotationAux, transform.localRotation.z);
     }
-    */
+    
     public float AnimationDisplacement(float finalPosition, float time)
     {
         Debug.Log("calculating playerDisplacementSpeed");
         return finalPosition / time;
     }
-
+    /*
     public void ControllerAction(float speed)
     {
         // TODO: Change the controller behaviour. Use transform.positions insted of rigidbody.velocity.
@@ -115,5 +117,5 @@ public class PlayerController : MonoBehaviour
         bool walking = horizontal != 0f || vertical != 0f;
         playerAnimation.anim.SetBool("IsWalking", walking);
     }
-
+    */
 }

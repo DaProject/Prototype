@@ -8,3 +8,5 @@
 - Valors de mal de l'enemic.
 - Quan el jugador torna a la seva posició, despres de realitzar attack01 (o potser altres), es situa sobre l'enemic.
 - Revisar els comentaris del codi.
+- Moure el player per forces, una altre vegada.
+- Revisar la AnimationDisplacement(), normalitzar els vectors.
