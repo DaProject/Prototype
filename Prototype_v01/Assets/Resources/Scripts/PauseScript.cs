@@ -14,14 +14,23 @@ public class PauseScript : MonoBehaviour
         {
             pauseMenu.SetActive(true);
             isEnabled = true;
+            Time.timeScale = 0.0f;
+            Debug.Log("Paused");
         }
 
-        // disable pause menu
+        // Disable pause menu
         else if (Input.GetKeyDown(KeyCode.Escape) && isEnabled)
         {
-            pauseMenu.SetActive(false);
-            isEnabled = false;
+            Unpause();
         }
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = 1.0f;
+        pauseMenu.SetActive(false);
+        isEnabled = false;
+        Debug.Log("Unpaused");
     }
 
 }

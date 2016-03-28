@@ -8,6 +8,7 @@ TagManager:
   - EnemyMeleeBig
   - Ground
   - Weapon
+  - Score
   layers:
   - Default
   - TransparentFX

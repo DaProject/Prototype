@@ -87,6 +87,8 @@ public class PlayerManagerBackup : MonoBehaviour
 	public float tempDamage;                        // Counter that determinates how much time the player has to be in the DAMAGED state.
     public float tempAttack10;                      // Counter that reflects how much the animation of the attack10 longs.
     public float tempSword10;                       // Counter that reflects how much the animation of the sword10 longs.
+    private float sword10CD;
+    public float sword10CDAux;
     public float tempSword20;                       // Counter that reflects how much the animation of the sword20 longs.
     public float tempAttack01;                      // Counter that reflects how much the animation of the attack01 longs.
     public float tempChain01;                       // Counter that reflects how much the animation of the chain10 longs.
@@ -111,6 +113,25 @@ public class PlayerManagerBackup : MonoBehaviour
     public float attack01ColliderRadius;			// Auxiliar variable that sets the radius of the attack01Collider
     public Rigidbody rigidBody;                    // The rigidbody from the player.
     public CameraShake cameraShake;
+    public GameObject pointsText;
+    public PointCounter score;
+    public Text newAbility;
+    
+    public bool fadeAlpha = false;
+    public float fadeCounter = 0.0f;
+    public float alphaValue;
+    private float sword10ColorGValue;
+    public float sword10ColorGValueAux;
+    private float sword10ColorBValue;
+    public float sword10ColorBValueAux;
+
+    //Lost&Victory
+    [Header("Lost&Victory")]
+    public Image blackScreen;
+    public float counterMenu;
+    public float counterMenuAux;
+    public Text victoryText;
+    public Text lostText;
 
 
     ChainAnimTrigger chainTransition;
@@ -197,6 +218,20 @@ public class PlayerManagerBackup : MonoBehaviour
 			playerAudio.clip = lowHpClip;
 			playerAudio.Play();  
 		}
+
+        if (score.pointsCounter >= 100)
+        {
+            sword10Active = true;
+            sword10Sprite.enabled = true;
+            if(alphaValue >= 0) newAbility.color = new Color(0.0f, 0.0f, 0.0f, alphaValue -= 0.2f * Time.deltaTime);
+        }
+
+        if (sword10CD >= 0)
+        {
+            sword10CD -= 1 * Time.deltaTime;
+            sword10Sprite.color = new Color(1.0f, sword10ColorGValue += 1 / sword10CDAux * Time.deltaTime, sword10ColorBValue += 1 / sword10CDAux * Time.deltaTime);
+        }
+        else if (sword10CD <= 0) sword10Sprite.color = new Color(1.0f, 1.0f, 1.0f);
     }
 
 	// Behaviours
@@ -228,7 +263,7 @@ public class PlayerManagerBackup : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) setAttack10();                                                                 // Calls the setAttack10 function if mouse left button is pressed.
         else if (Input.GetMouseButtonDown(1)) setAttack01();                                                            // Calls the setAttack01 function if mouse right button is pressed.
 
-		if (Input.GetKeyDown(KeyCode.Alpha1) && sword10Active) setSword10();                                            // Calls the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
+		if (Input.GetKeyDown(KeyCode.Alpha1) && sword10Active && sword10CD <= 0) setSword10();                                            // Calls the setSword10 function if the 1 keypad is pressed, and if is not in chain mode.
         else if (Input.GetKeyDown(KeyCode.Alpha2) && chain10Active) setChain01();                                       // If the chain mode is active, goes to the setChain01.
 
         if (Input.GetKeyDown(KeyCode.LeftShift)  && (DashResistanceSlider.value >= resistancePerDash)) setDash();       // Calls the setDash function if left shift key is pressed.
@@ -339,13 +374,31 @@ public class PlayerManagerBackup : MonoBehaviour
 
     private void DeadBehaviour()
 	{
+        //counterMenuAux = Time.realtimeSinceStartup * Time.deltaTime;
         // TODO: What happens when the player die.
-	}
+        if (Time.realtimeSinceStartup - counterMenu <= 5)
+        {
+            blackScreen.enabled = true;
+            lostText.enabled = true;
+            Time.timeScale = 0.0f;
+        }
+        else Application.LoadLevel(0);
+    }
 
 	private void VictoryBehaviour()
 	{
+        //counterMenuAux = Time.realtimeSinceStartup;
         // TODO: WHat happens when the player wins.
-	}
+        if (Time.realtimeSinceStartup - counterMenu <= 5)
+        {
+            blackScreen.enabled = true;
+            victoryText.enabled = true;
+            Time.timeScale = 0.0f;
+        }
+        else Application.LoadLevel(0);
+
+        Debug.LogFormat("time.time{0} - counterMenu: {1}", Time.realtimeSinceStartup, counterMenu);
+    }
 
 	// Sets
 	public void setAwake()
@@ -375,12 +428,21 @@ public class PlayerManagerBackup : MonoBehaviour
         sword10Sprite.enabled = false;
         sword20Sprite.enabled = false;
         chain10Sprite.enabled = false;
+        newAbility.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        
+        pointsText = GameObject.FindGameObjectWithTag("Score");
+        score = pointsText.GetComponent<PointCounter>();
 
         rigidBody = GetComponent<Rigidbody>();              		        // Gets the RigidBody from the GameObject.
 
         anim = GetComponent<Animator>();
 
         swordMaterial = GetComponent<Renderer>().material;
+
+        blackScreen.enabled = false;
+        counterMenu = counterMenuAux;
+        victoryText.enabled = false;
+        lostText.enabled = false;
 
         state = PlayerStates.AWAKE;                         		        // Cals the AWAKE state.
 	}
@@ -453,6 +515,11 @@ public class PlayerManagerBackup : MonoBehaviour
         tempSword10Stun = tempSword10StunAux;
 
         Sword10Action(sword10, tempSword10);
+
+        sword10CD = sword10CDAux;
+
+        sword10ColorGValue = sword10ColorGValueAux;
+        sword10ColorBValue = sword10ColorBValueAux;
 
         rigidBody.AddForce(transform.forward * speedSword10);
 
@@ -560,12 +627,17 @@ public class PlayerManagerBackup : MonoBehaviour
         playerAudio.clip = deathClip;                           // Plays the hurt sound when you die.
         playerAudio.Play();
 
-		state = PlayerStates.DEAD;                              // Calls the DEAD state.
+        counterMenu = Time.realtimeSinceStartup;
+        Debug.Log("dead");
+
+        state = PlayerStates.DEAD;                              // Calls the DEAD state.
 	}
 
 	public void setVictory()
 	{
-		state = PlayerStates.VICTORY;                           // Calls the VICTORY state.
+        counterMenu = Time.realtimeSinceStartup;
+        Debug.Log("winning");
+        state = PlayerStates.VICTORY;                           // Calls the VICTORY state.
 	}
 
     // Functions 

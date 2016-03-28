@@ -14,6 +14,7 @@ public class EnemyPumpkinManager : MonoBehaviour
     [Header("Health")]
     public int maxHealth;
     public int currentHealth;
+    public int points;
 
     // NavMesh
     [Header("NavMesh")]
@@ -58,6 +59,8 @@ public class EnemyPumpkinManager : MonoBehaviour
     public CapsuleCollider capsuleCollider;     // Capsule collider of the enemy.    
     public SphereCollider sphereCollider;       // Sphere collider of the enemy.
     public SphereCollider leftHandAttack1;      // Sphere collider of the left hand of the enemy. Used to detect if the attack has connected with the player.
+    public GameObject pointsText;
+    public PointCounter score;
 
     // Animations
     Animator anim;                              // Animator from the enemy.
@@ -184,7 +187,9 @@ public class EnemyPumpkinManager : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");                    // Finds the gameobject with the tag "Player".
 
-        playerManager = player.GetComponent<PlayerManagerBackup>();                   // Gets the script PlayerManager of the player.
+        playerManager = player.GetComponent<PlayerManagerBackup>();             // Gets the script PlayerManager of the player.
+        pointsText = GameObject.FindGameObjectWithTag("Score");
+        score = pointsText.GetComponent<PointCounter>();
 
         nav = GetComponent<NavMeshAgent>();                                     // Gets the NavMeshAgent component.
 
@@ -282,6 +287,8 @@ public class EnemyPumpkinManager : MonoBehaviour
         capsuleCollider.enabled = false;
         sphereCollider.enabled = false;
         leftHandAttack1.enabled = false;
+
+        score.pointsCounter += points;
 
         anim.SetTrigger("Die");                                 // Plays the die animation.
 
