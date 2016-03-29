@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ResetScene : MonoBehaviour {
+public class ResetScene : MonoBehaviour
+{
+    public PauseScript pauseScript;
+    public int currentLevel;
 
 	// Use this for initialization
 	void Start () {
@@ -13,13 +16,14 @@ public class ResetScene : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Reset();
+            Reset(currentLevel);
         }
 	
 	}
 
-    public void Reset()
+    public void Reset(int level)
     {
-        Application.LoadLevel("PrototypeLevel_01");
+        pauseScript.Unpause();
+        Application.LoadLevel(level);
     }
 }

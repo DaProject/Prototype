@@ -577,11 +577,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2108068957}
         m_MethodName: Reset
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -987,6 +987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd1162474510574a94c4f61abe94d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseScript: {fileID: 904792102}
 --- !u!4 &358537591
 Transform:
   m_ObjectHideFlags: 0
@@ -3146,9 +3147,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 58939136}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 904792102}
+        m_MethodName: Unpause
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6267,35 +6268,11 @@ MonoBehaviour:
   state: 0
   maxHealth: 500
   currentHealth: 0
-  playerSpeed: 5
   moveHorizontal: 0
   moveVertical: 0
   turnSmoothing: 6
   speedDampTime: 1
-  attackDamage: 0
-  attack10: 40
-  sword10: 30
-  sword20: 10
-  sword30: 10
-  sword40: 10
-  attack01: 20
-  chain01: 20
-  chain02: 10
-  chain03: 10
-  chain04: 10
-  speedAttack10: 0
-  speedSword10: 300
-  speedSword20: 0
-  speedSword30: 0
-  speedSword40: 0
-  speedAttack01: 0
-  speedChain01: 0
-  speedChain02: 0
-  speedChain03: 0
-  speedChain04: 0
-  chainMode: 0
   sword10Active: 0
-  sword20Active: 0
   chain10Active: 0
   timeStunned: 0
   timeStunnedIni: 1.5
@@ -6310,32 +6287,25 @@ MonoBehaviour:
   swordSwipeClip: {fileID: 8300000, guid: 932112675a1c3b64885dfd1e6513ad54, type: 3}
   healthSlider: {fileID: 564697861}
   damageImage: {fileID: 1872364066}
+  swordSprite: {fileID: 0}
+  chainSprite: {fileID: 0}
+  sword10Sprite: {fileID: 0}
+  sword20Sprite: {fileID: 0}
+  chain10Sprite: {fileID: 0}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   temp: 0
   tempDamage: 10
-  tempAttack10: 0.6
-  tempSword10: 1
-  tempSword20: 1.5
-  tempSword30: 1
-  tempSword40: 1
-  tempAttack01: 1.2
-  tempChain01: 1
-  tempChain02: 1
-  tempChain03: 1
-  tempChain04: 1
-  tempSlash: 1
-  tempDash: 2
   attackStateCounter: 0
-  godMode: 0
-  attack01Gameobject: {fileID: 907544293}
   sword: {fileID: 239711918}
   swordMaterial: {fileID: 2100000, guid: ea65b45a5adb7444c81e846666c4ebfc, type: 2}
+  attack10Collider: {fileID: 0}
+  sword10Collider: {fileID: 0}
   chain01Collider: {fileID: 511586288}
-  attackAction: {fileID: 0}
-  sphereCollider: {fileID: 0}
-  capsuleCollider: {fileID: 0}
-  chain01ColliderRadius: 0
-  attack01GameobjectRotation: 0
+  attack01Collider: {fileID: 0}
+  playerSphereCollider: {fileID: 0}
+  playerCapsuleCollider: {fileID: 0}
+  godMode: 0
+  attack01ColliderRadius: 0
 --- !u!82 &1913590142
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6907,6 +6877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f7ade24ed81c44ab9ab42a4d82ddba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseScript: {fileID: 904792102}
+  currentLevel: 2
 --- !u!4 &2108068958
 Transform:
   m_ObjectHideFlags: 0
